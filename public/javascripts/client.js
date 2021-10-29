@@ -1,3 +1,22 @@
+/* Search bar */
+// let searchText = document.getElementById("inputSearch");
+// let searchBtn = document.getElementById("btnSearch");
+// let temp = document.querySelector("#temp");
+// searchBtn.addEventListener("click", () => {
+//   const tagStr = searchText.textContent || searchText.innerText;
+//   const filerList = new Set();
+//   const tags = tagStr.split(" ");
+//   for (let tag of tags){
+//     filerList.add(tag);
+//     console.log(tag);
+
+//   }
+//   temp.innerText = tagStr;
+//   console.log(filerList);
+// });
+
+
+/* Quotes */
 const quotesDiv = document.querySelector("#quotes");
 
 function createHTMLElement(type, classes, theInnerText){
