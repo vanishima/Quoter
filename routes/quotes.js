@@ -39,4 +39,13 @@ router.get("/", (req, res) => {
   res.json(quotesStub);
 });
 
+router.get("/search", (req, res) => {
+  const tag = req.body;
+  console.log("search " + tag);
+});
+
 module.exports = router;
+
+
+
+
