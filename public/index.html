@@ -9,30 +9,43 @@
 <body>
   <div class="container">
     
-    <nav>
-      
-    </nav>
+    <h1>Quoter</h1>
 
     <main>
       
       <div class="row">
         <div class="col-8">
-          <h1>Quoter</h1>
+          <nav>
+            <h2>Public Quotes</h2>
+            <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
+              <div class="btn-group mr-2" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-secondary">Most Recent</button>
+                <button type="button" class="btn btn-secondary">Closest</button>
+              </div>
+              
+              <div class="input-group rounded">
+                <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                aria-describedby="search-addon" />
+                <span class="input-group-text border-0" id="search-addon">
+                  <i class="fas fa-search"></i>
+                </span>
+              </div>
+            </div>
+            
+          </nav>
+          
           <div id="quotes" class="row"></div>
         </div>
 
         <div class="col-4">
-          <h3>Create Quote</h2>
+          <h3>Login/Create Account</h2>
           <form action="/quotes/create" method="POST">
             <div class="row">
               <label class="form-label"
-                  >Text: <input type="form-control" required="true" name="name"
+                  >Username: <input type="form-control" required="true" name="name"
                 /></label>
                 <label class="form-label"
-                  >Author: <input type="form-control" required="true" name="name"
-                /></label>
-                <label class="form-label"
-                  >Text: <input type="form-control" required="true" name="name"
+                  >Password: <input type="form-control" required="true" name="name"
                 /></label>
               </div>
               <button type="submit" class="btn btn-primary">Create</button>

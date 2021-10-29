@@ -1,31 +1,47 @@
 const quotesDiv = document.querySelector("#quotes");
 
+function createHTMLElement(type, classes, theInnerText){
+  const ele = document.createElement(type);
+  if (classes.length > 0){
+    ele.className = classes;
+  }
+  if (theInnerText.length > 0){
+    ele.innerText = theInnerText;
+  }
+  return ele;
+}
+
 async function redrawQuotes(quotes){
   for (let q of quotes){
-    // create a quote div
-    const divQ = document.createElement("div");
-    divQ.className = "col-4 quote";
+    // create a quote card
+    const divQ = createHTMLElement("div", "card", "");
+    const cardBody =  createHTMLElement("div", "card-body row", "");
 
-    const divText = document.createElement("div");
-    divText.className = "quote-text";
-    divText.innerText = q.text;
+    const blockQuote = createHTMLElement("blockquote", "blockquote col-11", "");
+    const pText = createHTMLElement("p", "", q.text);
+    const footer = createHTMLElement("footer", "blockquote-footer", q.author + ", ");
+    const cite = createHTMLElement("cite", "", q.source);
+    cite.title = "Source Title";
 
-    const divAuthor = document.createElement("div");
-    divAuthor.className = "quote-author";
-    divAuthor.innerText = q.author;
+    const divBtn = createHTMLElement("div", "col-1 quote-action-bar", "");
+    const btnFav = createHTMLElement("a", "quote-action-button", "");
+    const imgFav = createHTMLElement("img", "quote-action-icon", "");
+    imgFav.src = "../images/icon/iconmonstr-heart-thin-240.png";
+    imgFav.alt = "like-button";
+    btnFav.appendChild(imgFav);
+    divBtn.appendChild(btnFav);
 
-    const divAction = document.createElement("div");
-    divAction.className = "quote-action row";
-    const btnFav = document.createElement("button");
-    btnFav.className = "btn btn-primary";
-    btnFav.innerText = "fav";
+    footer.appendChild(cite);
+    if (q.srcDate){
+      footer.innerHTML += " (" + q.srcDate +")";
+    }
 
-    divAction.appendChild(btnFav);
+    blockQuote.appendChild(pText);
+    blockQuote.appendChild(footer);
 
-    divQ.appendChild(divText);
-    divQ.appendChild(divAuthor);
-    divQ.appendChild(divAction);
-
+    cardBody.appendChild(blockQuote);
+    cardBody.appendChild(divBtn);
+    divQ.appendChild(cardBody);
     quotesDiv.appendChild(divQ);
   }
 }

@@ -6,3 +6,21 @@ body {
 a {
   color: #00B7FF;
 }
+
+div.quote-action-bar{
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+a.quote-action-button{
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+img.quote-action-icon {
+  object-fit: contain;
+  width: 25px;
+  opacity: 50%;
+}
