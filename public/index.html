@@ -63,13 +63,6 @@
                     <span class="bi-search"></span>
                   </button>
                 </div>
-                <!-- action="/quotes/search/" method="GET" -->
-                <!-- <form class="col-auto right-end row">
-                <div class="col-auto">
-                  <label><input type="text" class="form-control" id="search-input" placeholder="Search.."></label>
-                </div>
-                <button id="search-button" type="submit" class="btn btn-primary col-auto"><span class="bi-search"></span></button>
-              </form> -->
               </div>
             </nav>
 
@@ -87,6 +80,8 @@
             >
               Log in
             </button>
+
+            <!-- CREATE QUOTE -->
             <h3>Create Quote</h3>
             <form action="/quotes/create" method="POST">
               <div class="form-group row mb-2">
@@ -97,6 +92,7 @@
                     class="form-control"
                     rows="3"
                     required="true"
+                    name="text"
                   ></textarea>
                 </div>
               </div>
@@ -104,33 +100,38 @@
               <div class="form-group row mb-2">
                 <label class="col-sm-2" for="">Author</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" required="true" />
+                  <input type="text" class="form-control" required="true" name="author"/>
                 </div>
               </div>
 
               <div class="form-group row mb-2">
                 <label class="col-sm-2" for="">Source</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" />
+                  <input type="text" class="form-control" name="source"/>
                 </div>
               </div>
 
               <div class="form-group row mb-2">
                 <label class="col-sm-2" for="">Year</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" />
+                  <input type="text" class="form-control" name="year"/>
                 </div>
               </div>
 
               <div class="form-group row mb-2">
                 <label class="col-sm-2" for="">Tags</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" />
+                  <input type="text" class="form-control" name="tags"/>
                 </div>
               </div>
 
               <div class="form-group row mb-2">
-                <button id="btnCreateQuote" type="submit" class="btn btn-light" style="width: 60%; margin: auto;">
+                <button
+                  id="btnCreateQuote"
+                  type="submit"
+                  class="btn btn-light"
+                  style="width: 60%; margin: auto"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -154,7 +155,11 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h1 class="modal-title">Login</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                ></button>
               </div>
               <div class="modal-body">
                 <form role="form" method="POST" action="">

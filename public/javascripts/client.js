@@ -34,10 +34,14 @@ async function redrawQuotes(quotes) {
     const footer = createHTMLElement(
       "footer",
       "blockquote-footer",
-      q.author + ", "
+      q.author
     );
-    const cite = createHTMLElement("cite", "", q.source);
-    cite.title = "Source Title";
+
+    if (q.source.length > 0){
+      const cite = createHTMLElement("cite", "", ", " + q.source);
+      cite.title = "Source Title";
+      footer.appendChild(cite);
+    }
 
     const divBtn = createHTMLElement("div", "col-1 quote-action-bar", "");
     const btnFav = createHTMLElement("a", "quote-action-button", "");
@@ -51,9 +55,9 @@ async function redrawQuotes(quotes) {
 
     divBtn.appendChild(btnFav);
 
-    footer.appendChild(cite);
-    if (q.srcDate) {
-      footer.innerHTML += " (" + q.srcDate + ")";
+    
+    if (q.srcYear) {
+      footer.innerHTML += " (" + q.srcYear + ")";
     }
 
     blockQuote.appendChild(pText);
