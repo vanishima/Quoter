@@ -7,6 +7,8 @@ searchButton.addEventListener("click", () => {
   reloadQuotes(filter);
 });
 
+/* Create Quote */
+
 /* Quotes */
 const quotesDiv = document.querySelector("#quotes");
 

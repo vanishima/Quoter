@@ -25,6 +25,11 @@ img.quote-action-icon {
   opacity: 50%;
 }
 
-#btnCreateQuote:hover{
-  background: red;
+#btnCreateQuote{
+  background: skyblue;
+  margin: auto;
+}
+
+#btnCreateQuote:hover {
+  opacity: 80%;
 }

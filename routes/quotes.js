@@ -64,6 +64,16 @@ router.get("/search", (req, res) => {
   res.json(quotesStub);
 });
 
+/* CREATE NEW QUOTE */
+router.get("/create", (req, res) => {
+  const quote = req.body;
+  console.log("create quote", quote);
+
+  // insert quote into array
+  // quotesStub.push();
+  res.redirect("/");
+});
+
 module.exports = router;
 
 
