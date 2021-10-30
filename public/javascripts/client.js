@@ -59,11 +59,11 @@ async function redrawQuotes(quotes) {
 
     /* Quote Footer */
     const footerTags = createHTMLElement("div", "greyText smallText left tags", "");
-    footerTags.innerHTML = q.tags.join(", ");
+    footerTags.innerHTML =  q.tags; // q.tags.join(", ");
     quoteFooter.appendChild(footerTags);
 
     const footerRight = createHTMLElement("div", "right", "");
-    const footerLikes = createHTMLElement("a", "likes", `${q.likes} Likes`);
+    const footerLikes = createHTMLElement("p", "likes smallText", `${q.likes} Likes`);
     quoteFooter.appendChild(footerRight);
     footerRight.appendChild(footerLikes);
 

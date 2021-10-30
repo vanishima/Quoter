@@ -12,7 +12,7 @@ const quotesStub = [
     privacy_level: "0",
     likes: 103,
     collection: "",
-    tags: ["tag1", "tag2", "tag2"],
+    tags: "tag1 tag2 tag3",
     comments: [
       {
         text: "i like it!!!",
@@ -36,7 +36,7 @@ const quotesStub = [
     privacy_level: "0",
     likes: 13,
     collection: "",
-    tags: ["tag2"],
+    tags: "tag2",
     comments: [
       {
         text: "i like it!!!",
@@ -59,7 +59,7 @@ const quotesStub = [
     postDate: "2021-10-28 13:30:01",
     privacy_level: "0",
     collection: "",
-    tags: ["tag3"],
+    tags: "tag3",
     comments: [
       {
         text: "i like it!!!",
@@ -82,7 +82,7 @@ const quotesStub = [
     postDate: "2021-10-28 13:30:01",
     privacy_level: "0",
     collection: "",
-    tags: ["tag3"],
+    tags: "tag3",
   },
   {
     text: "To say we know a person is to write that person off.",
@@ -93,7 +93,7 @@ const quotesStub = [
     postDate: "2021-10-28 13:30:01",
     privacy_level: "0",
     collection: "",
-    tags: ["tag3"],
+    tags: "tag3",
   },
   {
     text: "To say we know a person is to write that person off.",
@@ -104,7 +104,7 @@ const quotesStub = [
     postDate: "2021-10-28 13:30:01",
     privacy_level: "0",
     collection: "",
-    tags: ["tag3"],
+    tags: "tag3",
   },
   {
     text: "To say we know a person is to write that person off.",
@@ -115,7 +115,7 @@ const quotesStub = [
     postDate: "2021-10-28 13:30:01",
     privacy_level: "0",
     collection: "",
-    tags: ["tag3"],
+    tags: "tag3",
   },
   {
     text: "To say we know a person is to write that person off.",
@@ -126,7 +126,7 @@ const quotesStub = [
     postDate: "2021-10-28 13:30:01",
     privacy_level: "0",
     collection: "",
-    tags: ["tag3"],
+    tags: "tag3",
   },
   {
     text: "To say we know a person is to write that person off.",
@@ -137,7 +137,7 @@ const quotesStub = [
     postDate: "2021-10-28 13:30:01",
     privacy_level: "0",
     collection: "",
-    tags: ["tag3"],
+    tags: "tag3",
   },
   {
     text: "To say we know a person is to write that person off.",
@@ -148,7 +148,7 @@ const quotesStub = [
     postDate: "2021-10-28 13:30:01",
     privacy_level: "0",
     collection: "",
-    tags: ["tag3"],
+    tags: "tag3",
   },
 ];
 
@@ -181,10 +181,25 @@ router.get("/search", (req, res) => {
   res.json(quotesStub);
 });
 
+function getDateTime(){
+  let today = new Date();
+  let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+  let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  return date+' '+time;
+}
+
 /* CREATE NEW QUOTE */
 router.post("/create", (req, res) => {
   const quote = req.body;
-  console.log("create quote", quote.text);
+  
+  /* Default values */
+  quote.userID = 3;
+  quote.postDate = getDateTime();
+  quote.privacy_level = 0;
+  quote.collection = "temp";
+  quote.likes = 0;
+
+  console.log("create quote", quote);
 
   // insert quote into array
   quotesStub.push(quote);
