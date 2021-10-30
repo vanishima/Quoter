@@ -1,11 +1,12 @@
 /* Search bar */
-// const searchButton = document.getElementById("search-button");
-// const searchInput = document.getElementById("search-input");
-// searchButton.addEventListener("click", () => {
-//   const inputValue = searchInput.value;
-//   redirect("/")
-//   alert(inputValue);
-// });
+const searchButton = document.getElementById("search-button");
+const searchInput = document.getElementById("search-input");
+searchButton.addEventListener("click", () => {
+  const filter = searchInput.value;
+  console.log("searching for " + filter);
+  reloadQuotes(filter);
+  // alert(inputValue);
+});
 
 /* Quotes */
 const quotesDiv = document.querySelector("#quotes");
@@ -60,7 +61,16 @@ async function redrawQuotes(quotes) {
   }
 }
 
-async function reloadQuotes() {
+function filterTags(quotes, tag){
+  let result = quotes.filter((quote) => {
+    return quote.text.includes(tag) || quote.tags.includes(tag);
+  });
+  return result;
+}
+
+async function reloadQuotes(filter) {
+  console.log("reloading quotes");
+
   // clean up
   quotesDiv.innerHTML = "";
 
@@ -76,6 +86,9 @@ async function reloadQuotes() {
 
     // get the actual quotes
     quotes = await res.json();
+    // filter quotes based on filter
+    quotes = filterTags(quotes, filter);
+
   } catch (e) {
     quotesDiv.innerHTML = e.msg;
   }
@@ -84,4 +97,4 @@ async function reloadQuotes() {
   redrawQuotes(quotes);
 }
 
-reloadQuotes();
+reloadQuotes("");

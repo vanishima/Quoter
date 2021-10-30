@@ -36,12 +36,18 @@
                 <button type="button" class="btn btn-secondary">Closest</button>
               </div>
 
-              <form class="col-auto right-end row" action="/quotes/search" method="GET">
+              <div class="col-auto right-end">
+                <label><input type="text" class="form-control" id="search-input" placeholder="Search.."></label>
+                
+                <button id="search-button" type="submit" class="btn btn-primary col-auto"><span class="bi-search"></span></button>
+              </div>
+               <!-- action="/quotes/search/" method="GET" -->
+              <!-- <form class="col-auto right-end row">
                 <div class="col-auto">
-                  <label><input type="search" class="form-control" id="search-input" placeholder="Search.."></label>
+                  <label><input type="text" class="form-control" id="search-input" placeholder="Search.."></label>
                 </div>
-                <button type="submit" class="btn btn-secondary col-auto"><span class="bi-search"></span></button>
-              </form>
+                <button id="search-button" type="submit" class="btn btn-primary col-auto"><span class="bi-search"></span></button>
+              </form> -->
             </div>
             
           </nav>
