@@ -7,6 +7,17 @@ a {
   color: #00B7FF;
 }
 
+/* Nav Bar */
+/*a.navbar-brand {
+  font-size: 20px;
+}*/
+
+/* Page title */
+a.page-title{
+  text-decoration: none;
+  color: #000000;
+}
+
 div.quote-action-bar{
   align-items: center;
   margin-left: auto;

@@ -54,7 +54,6 @@ async function redrawQuotes(quotes) {
     btnFav.appendChild(imgFav);
 
     divBtn.appendChild(btnFav);
-
     
     if (q.srcYear) {
       footer.innerHTML += " (" + q.srcYear + ")";

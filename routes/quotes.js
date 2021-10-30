@@ -34,6 +34,83 @@ const quotesStub = [
     privacy_level: "0",
     collection: "",
     tags: "tag3"
+  },
+  {
+    text: "To say we know a person is to write that person off.",
+    author: "Yiyun Li",
+    source: "Dear Friend, from My Life I Write to You in Your Life",
+    srcYear: 2017,
+    userID: "1",
+    postDate: "2021-10-28 13:30:01",
+    privacy_level: "0",
+    collection: "",
+    tags: "tag3"
+  },
+  {
+    text: "To say we know a person is to write that person off.",
+    author: "Yiyun Li",
+    source: "Dear Friend, from My Life I Write to You in Your Life",
+    srcYear: 2017,
+    userID: "1",
+    postDate: "2021-10-28 13:30:01",
+    privacy_level: "0",
+    collection: "",
+    tags: "tag3"
+  },
+  {
+    text: "To say we know a person is to write that person off.",
+    author: "Yiyun Li",
+    source: "Dear Friend, from My Life I Write to You in Your Life",
+    srcYear: 2017,
+    userID: "1",
+    postDate: "2021-10-28 13:30:01",
+    privacy_level: "0",
+    collection: "",
+    tags: "tag3"
+  },
+  {
+    text: "To say we know a person is to write that person off.",
+    author: "Yiyun Li",
+    source: "Dear Friend, from My Life I Write to You in Your Life",
+    srcYear: 2017,
+    userID: "1",
+    postDate: "2021-10-28 13:30:01",
+    privacy_level: "0",
+    collection: "",
+    tags: "tag3"
+  },
+  {
+    text: "To say we know a person is to write that person off.",
+    author: "Yiyun Li",
+    source: "Dear Friend, from My Life I Write to You in Your Life",
+    srcYear: 2017,
+    userID: "1",
+    postDate: "2021-10-28 13:30:01",
+    privacy_level: "0",
+    collection: "",
+    tags: "tag3"
+  },
+  {
+    text: "To say we know a person is to write that person off.",
+    author: "Yiyun Li",
+    source: "Dear Friend, from My Life I Write to You in Your Life",
+    srcYear: 2017,
+    userID: "1",
+    postDate: "2021-10-28 13:30:01",
+    privacy_level: "0",
+    collection: "",
+    tags: "tag3"
+  },
+  {
+    text: "To say we know a person is to write that person off.",
+    author: "Yiyun Li",
+    source: "Dear Friend, from My Life I Write to You in Your Life",
+    srcYear: 2017,
+    userID: "1",
+    postDate: "2021-10-28 13:30:01",
+    privacy_level: "0",
+    collection: "",
+    tags: "tag3"
   }
 ];
 
@@ -43,9 +120,11 @@ router.get("/", (req, res) => {
 });
 
 function filterTags(quotes, tag){
+  /* Return true if any element in the quote matches tag */
   let result = quotes.filter((quote) => {
     return quote.text.includes(tag) || quote.tags.includes(tag);
   });
+  /* || quotes.author.includes(tag) || quote.source.includes(tag)*/
   return result;
 }
 
