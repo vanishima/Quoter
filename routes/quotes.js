@@ -10,8 +10,21 @@ const quotesStub = [
     userID: "1",
     postDate: "2021-10-28 10:30:01",
     privacy_level: "0",
+    likes: 103,
     collection: "",
-    tags: "tag1 tag2 tag3"
+    tags: ["tag1", "tag2", "tag2"],
+    comments: [
+      {
+        text: "i like it!!!",
+        userID: "1",
+        datetime: "2021-10-28 10:30:31",
+      },
+      {
+        text: "i like it too!!!",
+        userID: "2",
+        datetime: "2021-10-28 10:50:31",
+      },
+    ],
   },
   {
     text: "To go wrong in one's own way is better than to go right in someone else's.",
@@ -21,8 +34,21 @@ const quotesStub = [
     userID: "1",
     postDate: "2021-10-28 10:50:01",
     privacy_level: "0",
+    likes: 13,
     collection: "",
-    tags: "tag2"
+    tags: ["tag2"],
+    comments: [
+      {
+        text: "i like it!!!",
+        userID: "1",
+        datetime: "2021-10-28 10:30:31",
+      },
+      {
+        text: "i like it too!!!",
+        userID: "2",
+        datetime: "2021-10-28 10:50:31",
+      },
+    ],
   },
   {
     text: "To say we know a person is to write that person off.",
@@ -33,7 +59,19 @@ const quotesStub = [
     postDate: "2021-10-28 13:30:01",
     privacy_level: "0",
     collection: "",
-    tags: "tag3"
+    tags: ["tag3"],
+    comments: [
+      {
+        text: "i like it!!!",
+        userID: "1",
+        datetime: "2021-10-28 10:30:31",
+      },
+      {
+        text: "i like it too!!!",
+        userID: "2",
+        datetime: "2021-10-28 10:50:31",
+      },
+    ],
   },
   {
     text: "To say we know a person is to write that person off.",
@@ -44,7 +82,7 @@ const quotesStub = [
     postDate: "2021-10-28 13:30:01",
     privacy_level: "0",
     collection: "",
-    tags: "tag3"
+    tags: ["tag3"],
   },
   {
     text: "To say we know a person is to write that person off.",
@@ -55,7 +93,7 @@ const quotesStub = [
     postDate: "2021-10-28 13:30:01",
     privacy_level: "0",
     collection: "",
-    tags: "tag3"
+    tags: ["tag3"],
   },
   {
     text: "To say we know a person is to write that person off.",
@@ -66,7 +104,7 @@ const quotesStub = [
     postDate: "2021-10-28 13:30:01",
     privacy_level: "0",
     collection: "",
-    tags: "tag3"
+    tags: ["tag3"],
   },
   {
     text: "To say we know a person is to write that person off.",
@@ -77,7 +115,7 @@ const quotesStub = [
     postDate: "2021-10-28 13:30:01",
     privacy_level: "0",
     collection: "",
-    tags: "tag3"
+    tags: ["tag3"],
   },
   {
     text: "To say we know a person is to write that person off.",
@@ -88,7 +126,7 @@ const quotesStub = [
     postDate: "2021-10-28 13:30:01",
     privacy_level: "0",
     collection: "",
-    tags: "tag3"
+    tags: ["tag3"],
   },
   {
     text: "To say we know a person is to write that person off.",
@@ -99,7 +137,7 @@ const quotesStub = [
     postDate: "2021-10-28 13:30:01",
     privacy_level: "0",
     collection: "",
-    tags: "tag3"
+    tags: ["tag3"],
   },
   {
     text: "To say we know a person is to write that person off.",
@@ -110,8 +148,8 @@ const quotesStub = [
     postDate: "2021-10-28 13:30:01",
     privacy_level: "0",
     collection: "",
-    tags: "tag3"
-  }
+    tags: ["tag3"],
+  },
 ];
 
 /* GET FULL LIST */
@@ -119,7 +157,7 @@ router.get("/", (req, res) => {
   res.json(quotesStub);
 });
 
-function filterTags(quotes, tag){
+function filterTags(quotes, tag) {
   /* Return true if any element in the quote matches tag */
   let result = quotes.filter((quote) => {
     return quote.text.includes(tag) || quote.tags.includes(tag);
@@ -129,7 +167,7 @@ function filterTags(quotes, tag){
 }
 
 /* GET FILTERED LIST */
-router.get("/search/:tag", function(req, res){
+router.get("/search/:tag", function (req, res) {
   let tag = req.params.tag;
   console.log("get tag " + tag);
 
@@ -154,7 +192,3 @@ router.post("/create", (req, res) => {
 });
 
 module.exports = router;
-
-
-
-

@@ -27,23 +27,48 @@ async function redrawQuotes(quotes) {
   for (let q of quotes) {
     // create a quote card
     const divQ = createHTMLElement("div", "card mb-3", "");
-    const cardBody = createHTMLElement("div", "card-body row", "");
+    quotesDiv.appendChild(divQ);
 
-    const blockQuote = createHTMLElement("blockquote", "blockquote col-11", "");
-    const pText = createHTMLElement("p", "", q.text);
+    const cardBody = createHTMLElement("div", "card-body row", "");
+    divQ.appendChild(cardBody);
+
+    /* Quote Details: blockQuote, quoteFooter*/
+    const quoteDetails = createHTMLElement("div", "quoteDetails col-11", "");
+    const blockQuote = createHTMLElement("blockquote", "blockquoter", "");
+    const quoteFooter = createHTMLElement("div", "quoteFooter", "");
+
+    quoteDetails.appendChild(blockQuote);
+    quoteDetails.appendChild(quoteFooter);
+
+    /* Block Quote*/
+    const pText = createHTMLElement("p", "blockquote-text", q.text);
     const footer = createHTMLElement(
       "footer",
       "blockquote-footer",
       q.author
     );
+    blockQuote.appendChild(pText);
+
 
     if (q.source.length > 0){
       const cite = createHTMLElement("cite", "", ", " + q.source);
       cite.title = "Source Title";
       footer.appendChild(cite);
     }
+    blockQuote.appendChild(footer);
 
-    const divBtn = createHTMLElement("div", "col-1 quote-action-bar", "");
+    /* Quote Footer */
+    const footerTags = createHTMLElement("div", "greyText smallText left tags", "");
+    footerTags.innerHTML = q.tags.join(", ");
+    quoteFooter.appendChild(footerTags);
+
+    const footerRight = createHTMLElement("div", "right", "");
+    const footerLikes = createHTMLElement("a", "likes", `${q.likes} Likes`);
+    quoteFooter.appendChild(footerRight);
+    footerRight.appendChild(footerLikes);
+
+    /* DivAction */
+    const actionDiv = createHTMLElement("div", "action col-1 quote-action-bar", "");
     const btnFav = createHTMLElement("a", "quote-action-button", "");
     btnFav.href = "#";
     // const imgFav = createHTMLElement("i", "bi bi-heart", "");
@@ -53,19 +78,15 @@ async function redrawQuotes(quotes) {
     imgFav.alt = "like-button";
     btnFav.appendChild(imgFav);
 
-    divBtn.appendChild(btnFav);
+    actionDiv.appendChild(btnFav);
     
     if (q.srcYear) {
       footer.innerHTML += " (" + q.srcYear + ")";
     }
 
-    blockQuote.appendChild(pText);
-    blockQuote.appendChild(footer);
-
-    cardBody.appendChild(blockQuote);
-    cardBody.appendChild(divBtn);
-    divQ.appendChild(cardBody);
-    quotesDiv.appendChild(divQ);
+    cardBody.appendChild(quoteDetails);
+    cardBody.appendChild(actionDiv);
+    
   }
 }
 

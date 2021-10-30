@@ -18,6 +18,31 @@ a.page-title{
   color: #000000;
 }
 
+/* Quote Details */
+.blockquote-text {
+  font-family: "Georgia";
+  font-size: 20px;
+}
+
+.smallText, input.smallText {
+  font-family: "Lato", "Helvetica Neue", "Helvetica", sans-serif;
+  font-size: 11px;
+  line-height: 14px;
+}
+
+.greyText {
+    color: #999999;
+}
+
+div.left {
+  float: left;
+}
+
+div.right {
+  float: right;
+}
+
+/* Quote action */
 div.quote-action-bar{
   align-items: center;
   margin-left: auto;
