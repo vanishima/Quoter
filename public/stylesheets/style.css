@@ -24,3 +24,7 @@ img.quote-action-icon {
   width: 25px;
   opacity: 50%;
 }
+
+#btnCreateQuote:hover{
+  background: red;
+}

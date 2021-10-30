@@ -42,21 +42,25 @@ router.get("/", (req, res) => {
   res.json(quotesStub);
 });
 
+function filterTags(quotes, tag){
+  let result = quotes.filter((quote) => {
+    return quote.text.includes(tag) || quote.tags.includes(tag);
+  });
+  return result;
+}
+
 /* GET FILTERED LIST */
 router.get("/search/:tag", function(req, res){
+  let tag = req.params.tag;
   console.log("get tag " + tag);
-  res.json(quotesStub);
-  // const result = quotesStub.filter((quote) => {
-  //   return quote.text.contains(tag) || quote.tags.contains(tag);
-  // });
-  // const filteredList = quotesStub.filter(quote => quote.text.contains(tag) || quote.tags.contains(tag));
-  // res.json(result);
+
+  let quotes = filterTags(quotesStub, tag);
+
+  res.json(quotes);
 });
 
-
+/* GET FULL LIST */
 router.get("/search", (req, res) => {
-  const tag = req.body;
-  console.log("search " + tag);
   res.json(quotesStub);
 });
 
