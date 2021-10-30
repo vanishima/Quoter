@@ -198,6 +198,7 @@ router.post("/create", (req, res) => {
   quote.privacy_level = 0;
   quote.collection = "temp";
   quote.likes = 0;
+  quote.comments = [];
 
   console.log("create quote", quote);
 

@@ -23,6 +23,12 @@ function createHTMLElement(type, classes, theInnerText) {
   return ele;
 }
 
+// TODO: MODULARIZE HTML ELEMENT CREATION
+
+function createComment(comments){
+
+}
+
 async function redrawQuotes(quotes) {
   for (let q of quotes) {
     // create a quote card
