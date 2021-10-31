@@ -179,25 +179,19 @@ async function reloadQuotes(filter) {
   quotesDiv.innerHTML = "";
 
   // fetch quotes from /quotes
-  let quotes;
   try {
     // get list of quotes with filter
-    let res;
+    let resRaw;
     if (filter.length > 0){
-      res = await fetch("/quotes/search/" + filter);
+      resRaw = await fetch("/quotes/search/" + filter);
     } else {
-      res = await(fetch("/quotes"));
-    }
-
-    console.log(res);
-    // console.log("quotes:", res.quotes);
-  
-    if (!res.ok) {
-      throw new Error("Failed to fetch quotes " + res.status);
+      resRaw = await(fetch("/quotes"));
+      console.log("Got raw");
     }
 
     // get the actual quotes
-    quotes = await res.json();
+    const res = await resRaw.json();
+    const quotes = res.quotes;
     console.log("Got data", quotes);
 
     quotes.forEach(redrawQuotes);
@@ -205,12 +199,6 @@ async function reloadQuotes(filter) {
   } catch (e) {
     quotesDiv.innerHTML = e.msg;
   }
-
-  // redraw quotes
-  // redrawQuotes(quotes);
-
-  // const resRaw = await fetch("/getFiles");
-  // const res = await resRaw.json();
 }
 
 async function sort() {

@@ -162,24 +162,23 @@ router.get("/", async (req, res) => {
     console.log("MyDB", myDB);
     const quotes = await myDB.getQuotes();
     // console.log(quotes);
-    res.send(quotes);
-    // res.send({ quotes: quotes });
+    res.send({quotes: quotes});
   } catch (e) {
     console.log("Error", e);
     res.status(400).send({ err: e });
   }
 });
 
-function filterTags(quotes, tag) {
-  /* Return true if any element in the quote matches tag */
-  let result = quotes.filter((quote) => {
-    return quote.text.includes(tag) || quote.tags.includes(tag);
-  });
-  /* || quotes.author.includes(tag) || quote.source.includes(tag)*/
-  return result;
-}
+// function filterTags(quotes, tag) {
+//   /* Return true if any element in the quote matches tag */
+//   let result = quotes.filter((quote) => {
+//     return quote.text.includes(tag) || quote.tags.includes(tag);
+//   });
+//   /* || quotes.author.includes(tag) || quote.source.includes(tag)*/
+//   return result;
+// }
 
-/* GET FILTERED LIST */
+/* GET SEARCH RESULT */
 router.get("/search/:tag", async function (req, res) {
   let keyword = req.params.tag;
   console.log("search for " + keyword);
@@ -187,19 +186,26 @@ router.get("/search/:tag", async function (req, res) {
   try {
     console.log("MyDB", myDB);
     const quotes = await myDB.searchQuotes(keyword);
-    res.send(quotes);
+    res.send({quotes: quotes, keyword: keyword});
   } catch (e) {
     console.log("Error", e);
     res.status(400).send({ err: e });
   }
 });
 
-/* GET FULL LIST */
-// router.get("/search", (req, res) => {
-//   console.log("search empty");
-//   res.send({ quotes: quotesStub });
-//   // res.json(quotesStub);
-// });
+/* GET A USER'S QUOTE */
+router.get("/users/:userID", async (req, res) => {
+  const userID = req.params.userID;
+  try {
+    console.log("MyDB", myDB);
+    const quotes = await myDB.getQuotes({userID: userID});
+    res.send(quotes);
+    // res.send({ quotes: quotes });
+  } catch (e) {
+    console.log("Error", e);
+    res.status(400).send({ err: e });
+  }
+});
 
 function getDateTime() {
   let today = new Date();
