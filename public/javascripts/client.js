@@ -11,11 +11,11 @@ recentBtn.addEventListener("click", () => {
   sort();
 });
 
-searchButton.addEventListener("click", () => {
-  const filter = searchInput.value;
-  console.log("searching for " + filter);
-  reloadQuotes(filter);
-});
+// searchButton.addEventListener("click", () => {
+//   const filter = searchInput.value;
+//   console.log("searching for " + filter);
+//   reloadQuotes(filter);
+// });
 
 /* Create Quote */
 

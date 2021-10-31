@@ -39,7 +39,8 @@ function MyDB() {
     }
   };
 
-  myDB.searchQuotes = async (keyword = "") => {
+  myDB.searchQuotes = async (query = {}) => {
+    const keyword = query.keyword;
     console.log("enter search quotes for", keyword);
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     console.log("Connecting to the db");
@@ -52,7 +53,7 @@ function MyDB() {
 
       const db = client.db(DB_NAME);
       const quotesCol = db.collection("quotes");
-      console.log("Collection ready, querying with ", keyword);
+      console.log("Collection ready, querying with", keyword);
 
       const regex = RegExp(".*" + keyword + ".*");
       // find quotes that contain keyword case insensitive
@@ -68,6 +69,7 @@ function MyDB() {
         .toArray();
 
       // console.log("Got quotes", quotes);
+      console.log(`Got ${quotes.length} results matching ${keyword}`);
 
       return quotes;
     } finally {

@@ -58,8 +58,32 @@
           </ul>
          
          <!-- Search bar and Login -->
-          <ul class="navbar-nav">
+         <form action="/quotes/search" method="GET">
+           <ul class="navbar-nav">
             <li class="me-2">
+              <input
+                type="text"
+                class="form-control"
+                id="search-input"
+                placeholder="Search"
+                aria-label="Search"
+                name="keyword"
+              />
+            </li>
+            <li class="me-2">
+              <button
+              id="search-button"
+              type="submit"
+              class="btn btn-outline-success col-auto"
+            >
+              <span class="bi-search"></span>
+            </button>
+            </li>
+          </ul>
+         </form>
+
+          <ul class="navbar-nav">
+            <!-- <li class="me-2">
               <input
                 type="text"
                 class="form-control"
@@ -76,7 +100,7 @@
             >
               <span class="bi-search"></span>
             </button>
-            </li>
+            </li> -->
             <li class="me-2">
               <!-- Button trigger modal -->
               <button
@@ -88,7 +112,7 @@
                 Log in/Sign up
               </button>
             </li>
-          </div>
+          </ul>
         </div>
       </div>
     </nav>

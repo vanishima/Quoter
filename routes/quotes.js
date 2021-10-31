@@ -157,7 +157,6 @@ const quotesStub = [
 /* GET FULL LIST */
 router.get("/", async (req, res) => {
   // res.json(quotesStub);
-  // res.send({quotes: quotesStub});
   try {
     console.log("MyDB", myDB);
     const quotes = await myDB.getQuotes();
@@ -179,17 +178,35 @@ router.get("/", async (req, res) => {
 // }
 
 /* GET SEARCH RESULT */
-router.get("/search/:tag", async function (req, res) {
-  let keyword = req.params.tag;
-  console.log("search for " + keyword);
+// router.get("/search?:keyword", async function (req, res) {
+//   console.log("enter search");
+//   let keyword = req.params.keyword;
+//   console.log("search for " + keyword);
 
+//   try {
+//     console.log("MyDB", myDB);
+//     const quotes = await myDB.searchQuotes(keyword);
+//     res.send({quotes: quotes, keyword: keyword});
+//   } catch (e) {
+//     console.log("Error", e);
+//     res.status(400).send({ err: e });
+//   } finally {
+//     res.redirect("/");
+//   }
+// });
+
+router.get("/search", async function (req, res) {
+  const keyword = req.query;
   try {
     console.log("MyDB", myDB);
     const quotes = await myDB.searchQuotes(keyword);
+    // console.log(quotes);
     res.send({quotes: quotes, keyword: keyword});
   } catch (e) {
     console.log("Error", e);
     res.status(400).send({ err: e });
+  } finally {
+    res.redirect("/");
   }
 });
 
@@ -231,7 +248,6 @@ router.post("/create", async (req, res) => {
   console.log("create quote", quote);
 
   // insert quote into array
-  // quotesStub.push(quote);
   try {
     const dbRes = await myDB.createQuote(quote);
     console.log("dbRes: ", dbRes);
