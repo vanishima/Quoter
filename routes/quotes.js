@@ -1,6 +1,8 @@
 let express = require("express");
 let router = express.Router();
 
+const myDB = require("../db/myMongoDB.js");
+
 const quotesStub = [
   {
     text: "Without music, life would be a mistake.",
@@ -153,8 +155,25 @@ const quotesStub = [
 ];
 
 /* GET FULL LIST */
-router.get("/", (req, res) => {
-  res.json(quotesStub);
+router.get("/", async (req, res) => {
+  // res.json(quotesStub);
+  // res.send({quotes: quotesStub});
+  try {
+    console.log("MyDB", myDB);
+    const quotes = await myDB.getQuotes();
+    // console.log(quotes);
+    res.send(quotes);
+    // res.send({ quotes: quotes });
+  } catch (e) {
+    console.log("Error", e);
+    res.status(400).send({ err: e });
+  }
+  // try {
+  //   let quotes = await mongoDB.getQuotes();
+  //   res.render(quotes);
+  // } catch (err){
+  //   next(err);
+  // }
 });
 
 function filterTags(quotes, tag) {
@@ -178,20 +197,24 @@ router.get("/search/:tag", function (req, res) {
 
 /* GET FULL LIST */
 router.get("/search", (req, res) => {
-  res.json(quotesStub);
+  console.log("search empty");
+  res.send({ quotes: quotesStub });
+  // res.json(quotesStub);
 });
 
-function getDateTime(){
+function getDateTime() {
   let today = new Date();
-  let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-  let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-  return date+' '+time;
+  let date =
+    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+  let time =
+    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  return date + " " + time;
 }
 
 /* CREATE NEW QUOTE */
 router.post("/create", (req, res) => {
   const quote = req.body;
-  
+
   /* Default values */
   quote.userID = 3;
   quote.postDate = getDateTime();
