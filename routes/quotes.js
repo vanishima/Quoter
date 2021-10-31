@@ -168,12 +168,6 @@ router.get("/", async (req, res) => {
     console.log("Error", e);
     res.status(400).send({ err: e });
   }
-  // try {
-  //   let quotes = await mongoDB.getQuotes();
-  //   res.render(quotes);
-  // } catch (err){
-  //   next(err);
-  // }
 });
 
 function filterTags(quotes, tag) {
@@ -212,11 +206,11 @@ function getDateTime() {
 }
 
 /* CREATE NEW QUOTE */
-router.post("/create", (req, res) => {
+router.post("/create", async (req, res) => {
   const quote = req.body;
 
   /* Default values */
-  quote.userID = 3;
+  quote.userID = "617e28bf60d195a63e74e9a6";
   quote.postDate = getDateTime();
   quote.privacy_level = 0;
   quote.collection = "temp";
@@ -226,8 +220,16 @@ router.post("/create", (req, res) => {
   console.log("create quote", quote);
 
   // insert quote into array
-  quotesStub.push(quote);
-  res.redirect("/");
+  // quotesStub.push(quote);
+  try {
+    const dbRes = await myDB.createQuote(quote);
+    console.log("dbRes: ", dbRes);
+    // res.send({ done: dbRes });
+    res.redirect("/");
+  } catch(e) {
+    console.log("Error", e);
+    res.status(400).send({ err: e });
+  }  
 });
 
 

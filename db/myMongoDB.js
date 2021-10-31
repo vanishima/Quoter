@@ -46,6 +46,31 @@ function MyDB() {
     }
   };
 
+  myDB.createQuote = async (quote) => {
+    const client = new MongoClient(uri, { useUnifiedTopology: true });
+    console.log("Connecting to the db");
+
+    try {
+      await client.connect();
+      console.log("Connected!");
+
+      console.log(await listDatabases(client));
+
+      const db = client.db(DB_NAME);
+      const quotesCol = db.collection("quotes");
+      console.log("Collection ready, insert ", quote);
+
+      const res = await quotesCol.insertOne(quote);
+      console.log("Inserted", res);
+
+      return res;
+
+    } finally {
+      console.log("Closing the connection");
+      client.close();
+    }
+  };
+
   return myDB;
 }
 
