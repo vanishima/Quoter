@@ -180,21 +180,26 @@ function filterTags(quotes, tag) {
 }
 
 /* GET FILTERED LIST */
-router.get("/search/:tag", function (req, res) {
-  let tag = req.params.tag;
-  console.log("get tag " + tag);
+router.get("/search/:tag", async function (req, res) {
+  let keyword = req.params.tag;
+  console.log("search for " + keyword);
 
-  let quotes = filterTags(quotesStub, tag);
-
-  res.json(quotes);
+  try {
+    console.log("MyDB", myDB);
+    const quotes = await myDB.searchQuotes(keyword);
+    res.send(quotes);
+  } catch (e) {
+    console.log("Error", e);
+    res.status(400).send({ err: e });
+  }
 });
 
 /* GET FULL LIST */
-router.get("/search", (req, res) => {
-  console.log("search empty");
-  res.send({ quotes: quotesStub });
-  // res.json(quotesStub);
-});
+// router.get("/search", (req, res) => {
+//   console.log("search empty");
+//   res.send({ quotes: quotesStub });
+//   // res.json(quotesStub);
+// });
 
 function getDateTime() {
   let today = new Date();

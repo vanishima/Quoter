@@ -1,18 +1,17 @@
 // const mongodb = require("mongodb");
 const { MongoClient } = require("mongodb");
 
-async function listDatabases(client){
+async function listDatabases(client) {
   const databasesList = await client.db().admin().listDatabases();
   console.log("Databases: ");
 
-  databasesList.databases.forEach(db => console.log(` - ${db.name}`));
+  databasesList.databases.forEach((db) => console.log(` - ${db.name}`));
 }
-
 
 function MyDB() {
   const myDB = {};
   const uri =
-    "mongodb+srv://vanishima:testtest@quoter.1muqt.mongodb.net/quoter?retryWrites=true&w=majority"; 
+    "mongodb+srv://vanishima:testtest@quoter.1muqt.mongodb.net/quoter?retryWrites=true&w=majority";
   const DB_NAME = "quoter";
 
   myDB.getQuotes = async (query = {}) => {
@@ -29,17 +28,48 @@ function MyDB() {
       const quotesCol = db.collection("quotes");
       console.log("Collection ready, querying with ", query);
 
-      // quotesCol.find().toArray(function(err, items){
-      //   // if (err) throw err;
-      //   // console.log("items", items);
-      // });
-
       const quotes = await quotesCol.find(query).toArray();
 
       // console.log("Got quotes", quotes);
 
       return quotes;
+    } finally {
+      console.log("Closing the connection");
+      client.close();
+    }
+  };
 
+  myDB.searchQuotes = async (keyword = "") => {
+    console.log("enter search quotes for", keyword);
+    const client = new MongoClient(uri, { useUnifiedTopology: true });
+    console.log("Connecting to the db");
+
+    try {
+      await client.connect();
+      console.log("Connected!");
+
+      console.log(await listDatabases(client));
+
+      const db = client.db(DB_NAME);
+      const quotesCol = db.collection("quotes");
+      console.log("Collection ready, querying with ", keyword);
+
+      const regex = RegExp(".*" + keyword + ".*");
+      // find quotes that contain keyword case insensitive
+      const quotes = await quotesCol
+        .find({
+          $or: [
+            { text: { $regex: regex, $options: "i" } },
+            { tags: { $regex: regex, $options: "i" } },
+            { author: { $regex: regex, $options: "i" } },
+            { source: { $regex: regex, $options: "i" } },
+          ],
+        })
+        .toArray();
+
+      // console.log("Got quotes", quotes);
+
+      return quotes;
     } finally {
       console.log("Closing the connection");
       client.close();
@@ -64,7 +94,6 @@ function MyDB() {
       console.log("Inserted", res);
 
       return res;
-
     } finally {
       console.log("Closing the connection");
       client.close();
@@ -73,7 +102,6 @@ function MyDB() {
 
   return myDB;
 }
-
 
 async function insertQuote(quote) {
   const db = await MyMongoDB();
