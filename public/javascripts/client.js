@@ -117,7 +117,6 @@ async function reloadQuotes(filter) {
   let quotes;
   try {
     // get list of quotes with filter
-    const res = await fetch("/quotes/search/" + filter);
 
     if (!res.ok) {
       throw new Error("Failed to fetch quotes " + res.status);
@@ -130,7 +129,6 @@ async function reloadQuotes(filter) {
   }
 
   // redraw quotes
-  redrawQuotes(quotes);
 }
 
 async function sort() {
