@@ -207,4 +207,24 @@ router.post("/create", (req, res) => {
   res.redirect("/");
 });
 
+
+function compare(a, b) {
+  let d1 = new Date(a.postDate);
+  let d2 = new Date(b.postDate);
+  if (d1 < d2) {
+    return 1;
+  }
+  if (d1 > d2) {
+    return -1;
+  }
+  return 0;
+}
+
+/* Most Recent Quote */
+router.get("/most-recent", (req, res) => {
+  let sortedQuotes = quotesStub.slice();
+  console.log(sortedQuotes.sort(compare));
+  res.json(sortedQuotes.sort(compare));
+});
+
 module.exports = router;

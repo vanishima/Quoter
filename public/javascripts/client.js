@@ -1,6 +1,16 @@
+/* Quotes */
+const quotesDiv = document.querySelector("#quotes");
+
 /* Search bar */
 const searchButton = document.getElementById("search-button");
 const searchInput = document.getElementById("search-input");
+
+/* Most Recent Button */
+const recentBtn = document.getElementById("mostRecentBtn");
+recentBtn.addEventListener("click", () => {
+  sort();
+});
+
 searchButton.addEventListener("click", () => {
   const filter = searchInput.value;
   console.log("searching for " + filter);
@@ -8,9 +18,6 @@ searchButton.addEventListener("click", () => {
 });
 
 /* Create Quote */
-
-/* Quotes */
-const quotesDiv = document.querySelector("#quotes");
 
 function createHTMLElement(type, classes, theInnerText) {
   const ele = document.createElement(type);
@@ -25,9 +32,7 @@ function createHTMLElement(type, classes, theInnerText) {
 
 // TODO: MODULARIZE HTML ELEMENT CREATION
 
-function createComment(comments){
-
-}
+function createComment(comments) {}
 
 async function redrawQuotes(quotes) {
   for (let q of quotes) {
@@ -48,15 +53,10 @@ async function redrawQuotes(quotes) {
 
     /* Block Quote*/
     const pText = createHTMLElement("p", "blockquote-text", q.text);
-    const footer = createHTMLElement(
-      "footer",
-      "blockquote-footer",
-      q.author
-    );
+    const footer = createHTMLElement("footer", "blockquote-footer", q.author);
     blockQuote.appendChild(pText);
 
-
-    if (q.source.length > 0){
+    if (q.source.length > 0) {
       const cite = createHTMLElement("cite", "", ", " + q.source);
       cite.title = "Source Title";
       footer.appendChild(cite);
@@ -64,17 +64,29 @@ async function redrawQuotes(quotes) {
     blockQuote.appendChild(footer);
 
     /* Quote Footer */
-    const footerTags = createHTMLElement("div", "greyText smallText left tags", "");
-    footerTags.innerHTML =  q.tags; // q.tags.join(", ");
+    const footerTags = createHTMLElement(
+      "div",
+      "greyText smallText left tags",
+      ""
+    );
+    footerTags.innerHTML = q.tags; // q.tags.join(", ");
     quoteFooter.appendChild(footerTags);
 
     const footerRight = createHTMLElement("div", "right", "");
-    const footerLikes = createHTMLElement("p", "likes smallText", `${q.likes} Likes`);
+    const footerLikes = createHTMLElement(
+      "p",
+      "likes smallText",
+      `${q.likes} Likes`
+    );
     quoteFooter.appendChild(footerRight);
     footerRight.appendChild(footerLikes);
 
     /* DivAction */
-    const actionDiv = createHTMLElement("div", "action col-1 quote-action-bar", "");
+    const actionDiv = createHTMLElement(
+      "div",
+      "action col-1 quote-action-bar",
+      ""
+    );
     const btnFav = createHTMLElement("a", "quote-action-button", "");
     btnFav.href = "#";
     // const imgFav = createHTMLElement("i", "bi bi-heart", "");
@@ -85,17 +97,15 @@ async function redrawQuotes(quotes) {
     btnFav.appendChild(imgFav);
 
     actionDiv.appendChild(btnFav);
-    
+
     if (q.srcYear) {
       footer.innerHTML += " (" + q.srcYear + ")";
     }
 
     cardBody.appendChild(quoteDetails);
     cardBody.appendChild(actionDiv);
-    
   }
 }
-
 
 async function reloadQuotes(filter) {
   console.log("reloading quotes");
@@ -115,7 +125,6 @@ async function reloadQuotes(filter) {
 
     // get the actual quotes
     quotes = await res.json();
-
   } catch (e) {
     quotesDiv.innerHTML = e.msg;
   }
@@ -124,5 +133,30 @@ async function reloadQuotes(filter) {
   redrawQuotes(quotes);
 }
 
+async function sort() {
+  console.log("sorting quotes");
+
+  // clean up
+  quotesDiv.innerHTML = "";
+
+  // fetch quotes from /quotes
+  let quotes;
+  try {
+    // get list of quotes with filter
+    const res = await fetch("/quotes/most-recent");
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch quotes " + res.status);
+    }
+
+    // get the actual quotes
+    quotes = await res.json();
+  } catch (e) {
+    quotesDiv.innerHTML = e.msg;
+  }
+
+  // redraw quotes
+  redrawQuotes(quotes);
+}
 
 reloadQuotes("");
