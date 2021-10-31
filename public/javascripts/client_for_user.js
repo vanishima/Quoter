@@ -11,11 +11,11 @@ recentBtn.addEventListener("click", () => {
   sort();
 });
 
-searchButton.addEventListener("click", () => {
-  const filter = searchInput.value;
-  console.log("searching for " + filter);
-  reloadQuotes(filter);
-});
+// searchButton.addEventListener("click", () => {
+//   const filter = searchInput.value;
+//   console.log("searching for " + filter);
+//   reloadQuotes(filter);
+// });
 
 /* Create Quote */
 
@@ -76,10 +76,12 @@ async function redrawQuotes(quotes) {
     const footerLikes = createHTMLElement(
       "p",
       "likes smallText",
-      `${q.likes} Likesfffffffff`
+      `${q.likes} Likes`
     );
+    const footerEdit = createHTMLElement("p", "editLink smallText", "Edit");
     quoteFooter.appendChild(footerRight);
     footerRight.appendChild(footerLikes);
+    footerRight.appendChild(footerEdit);
 
     /* DivAction */
     const actionDiv = createHTMLElement(

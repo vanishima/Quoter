@@ -161,7 +161,7 @@ router.get("/", async (req, res) => {
     console.log("MyDB", myDB);
     const quotes = await myDB.getQuotes();
     // console.log(quotes);
-    res.send({quotes: quotes});
+    res.send({ quotes: quotes });
   } catch (e) {
     console.log("Error", e);
     res.status(400).send({ err: e });
@@ -178,29 +178,14 @@ router.get("/", async (req, res) => {
 // }
 
 /* GET SEARCH RESULT */
-// router.get("/search?:keyword", async function (req, res) {
-//   console.log("enter search");
-//   let keyword = req.params.keyword;
-//   console.log("search for " + keyword);
+router.get("/search/:keyword", async function (req, res) {
+  console.log("enter search");
+  let keyword = req.params.keyword;
+  console.log("search for " + keyword);
 
-//   try {
-//     console.log("MyDB", myDB);
-//     const quotes = await myDB.searchQuotes(keyword);
-//     res.send({quotes: quotes, keyword: keyword});
-//   } catch (e) {
-//     console.log("Error", e);
-//     res.status(400).send({ err: e });
-//   } finally {
-//     res.redirect("/");
-//   }
-// });
-
-router.get("/search", async function (req, res) {
-  const keyword = req.query;
   try {
     console.log("MyDB", myDB);
-    const quotes = await myDB.searchQuotes(keyword);
-    // console.log(quotes);
+    const quotes = await myDB.searchQuotes({keyword: keyword});
     res.send({quotes: quotes, keyword: keyword});
   } catch (e) {
     console.log("Error", e);
@@ -210,12 +195,27 @@ router.get("/search", async function (req, res) {
   }
 });
 
+// router.get("/search", async function (req, res) {
+//   const keyword = req.query;
+//   try {
+//     console.log("MyDB", myDB);
+//     const quotes = await myDB.searchQuotes(keyword);
+//     // console.log(quotes);
+//     res.send({ quotes: quotes, keyword: keyword });
+//   } catch (e) {
+//     console.log("Error", e);
+//     res.status(400).send({ err: e });
+//   } finally {
+//     res.redirect("/");
+//   }
+// });
+
 /* GET A USER'S QUOTE */
 router.get("/users/:userID", async (req, res) => {
   const userID = req.params.userID;
   try {
     console.log("MyDB", myDB);
-    const quotes = await myDB.getQuotes({userID: userID});
+    const quotes = await myDB.getQuotes({ userID: userID });
     res.send(quotes);
     // res.send({ quotes: quotes });
   } catch (e) {
@@ -253,12 +253,11 @@ router.post("/create", async (req, res) => {
     console.log("dbRes: ", dbRes);
     // res.send({ done: dbRes });
     res.redirect("/");
-  } catch(e) {
+  } catch (e) {
     console.log("Error", e);
     res.status(400).send({ err: e });
-  }  
+  }
 });
-
 
 function compare(a, b) {
   let d1 = new Date(a.postDate);

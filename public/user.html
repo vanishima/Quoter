@@ -55,7 +55,7 @@
           </ul>
          
          <!-- Search bar and Login -->
-<!--          <form action="/quotes/search" method="GET">
+         <form action="/quotes/search" method="GET">
            <ul class="navbar-nav">
             <li class="me-2">
               <input
@@ -77,36 +77,18 @@
             </button>
             </li>
           </ul>
-         </form> -->
+         </form>
 
           <ul class="navbar-nav">
-            <li class="me-2">
-              <input
-                type="text"
-                class="form-control"
-                id="search-input"
-                placeholder="Search"
-                aria-label="Search"
-              />
-            </li>
-            <li class="me-2">
-              <button
-              id="search-button"
-              type="submit"
-              class="btn btn-outline-success col-auto"
-            >
-              <span class="bi-search"></span>
-            </button>
-            </li>
             <li class="me-2">
               <!-- Button trigger modal -->
               <button
                 type="button"
                 class="btn btn-outline-primary me-2"
                 data-bs-toggle="modal"
-                data-bs-target="#loginModal"
+                data-bs-target="#logoutmodal"
               >
-                Log in/Sign up
+                Sign out
               </button>
             </li>
           </ul>
@@ -123,7 +105,7 @@
                 <a
                   class="page-title"
                   href="index.html"
-                  >Public Quotes</a
+                  >My Quotes</a
                 >
               </h1>
               <div
@@ -242,11 +224,11 @@
         </div>
         <!-- Modal -->
         <!-- Modal HTML Markup -->
-        <div id="loginModal" class="modal fade">
+        <div id="logoutmodal" class="modal fade">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h1 class="modal-title">Login</h1>
+                <h3 class="modal-title">Log out</h3>
                 <button
                   type="button"
                   class="btn-close"
@@ -254,86 +236,17 @@
                 ></button>
               </div>
               <div class="modal-body">
-                <form role="form" method="POST" action="">
-                  <input type="hidden" name="_token" value="" />
+                <form>
                   <div class="form-group">
-                    <label class="control-label">Username</label>
-                    <div>
-                      <input
-                        type="text"
-                        class="form-control input-lg"
-                        name="name"
-                        value=""
-                      />
-                    </div>
+                    <label class="control-label">Are you sure you want to log out?</label>
                   </div>
-                  <div class="form-group">
-                    <label class="control-label">Password</label>
+                  <div class="form-group right">
                     <div>
-                      <input
-                        type="password"
-                        class="form-control input-lg"
-                        name="password"
-                      />
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div>
-                      <div class="checkbox">
-                        <label>
-                          <input type="checkbox" name="remember" /> Remember Me
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div>
-                      <button type="submit" class="btn btn-success">
-                        Login
+                      <button type="button" class="btn btn-success">
+                        Cancel
                       </button>
-
-                      <a class="btn btn-link" href="">Forgot Password?</a>
-                    </div>
-                  </div>
-                </form>
-                <h1>Create New Account</h1>
-                <form role="form" method="POST" action="">
-                  <input type="hidden" name="_token" value="" />
-                  <div class="form-group">
-                    <label class="control-label">Username</label>
-                    <div>
-                      <input
-                        type="text"
-                        class="form-control input-lg"
-                        name="name"
-                        value=""
-                      />
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="control-label">Password</label>
-                    <div>
-                      <input
-                        type="password"
-                        class="form-control input-lg"
-                        name="password"
-                      />
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="control-label">Confirm Password</label>
-                    <div>
-                      <input
-                        type="password"
-                        class="form-control input-lg"
-                        name="password_confirmation"
-                      />
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div>
-                      <button type="submit" class="btn btn-success">
-                        Register
+                      <button type="button" class="btn btn-success">
+                        Log out
                       </button>
                     </div>
                   </div>
@@ -349,7 +262,7 @@
 
       <footer>Made by Shushu Chen 🌲, Zhengyuan Chen</footer>
     </div>
-    <script src="./javascripts/client.js"></script>
+    <script src="./javascripts/client_for_user.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
