@@ -1,29 +1,42 @@
 // const mongodb = require("mongodb");
 const { MongoClient } = require("mongodb");
 
+async function listDatabases(client){
+  const databasesList = await client.db().admin().listDatabases();
+  console.log("Databases: ");
+
+  databasesList.databases.forEach(db => console.log(` - ${db.name}`));
+}
+
+
 function MyDB() {
   const myDB = {};
-  const url =
-    "mongodb+srv://vanishima:testtest@quoter.1muqt.mongodb.net"; // /Quoter?retryWrites=true&w=majority
-  const DB_NAME = "Quoter";
+  const uri =
+    "mongodb+srv://vanishima:testtest@quoter.1muqt.mongodb.net/quoter?retryWrites=true&w=majority"; 
+  const DB_NAME = "quoter";
 
   myDB.getQuotes = async (query = {}) => {
-    let client;
+    const client = new MongoClient(uri, { useUnifiedTopology: true });
+    console.log("Connecting to the db");
 
     try {
-      client = new MongoClient(url, { useUnifiedTopology: true });
-      console.log("Connecting to the db");
-
       await client.connect();
       console.log("Connected!");
 
-      const db = client.db(DB_NAME);
+      console.log(await listDatabases(client));
 
+      const db = client.db(DB_NAME);
       const quotesCol = db.collection("quotes");
       console.log("Collection ready, querying with ", query);
 
-      const quotes = await quotesCol.find(query).toArray;
-      console.log("Got quotes", quotes);
+      // quotesCol.find().toArray(function(err, items){
+      //   // if (err) throw err;
+      //   // console.log("items", items);
+      // });
+
+      const quotes = await quotesCol.find(query).toArray();
+
+      // console.log("Got quotes", quotes);
 
       return quotes;
 

@@ -155,26 +155,15 @@ const quotesStub = [
 ];
 
 /* GET FULL LIST */
-
-// data endpoint for files
-// router.get("/getFiles", async (req, res) => {
-//   try {
-//     console.log("myDB", myDB);
-//     const files = await myDB.getFiles();
-//     res.send({ files: files });
-//   } catch (e) {
-//     console.log("Error", e);
-//     res.status(400).send({ err: e });
-//   }
-// });
-
 router.get("/", async (req, res) => {
   // res.json(quotesStub);
   // res.send({quotes: quotesStub});
   try {
     console.log("MyDB", myDB);
     const quotes = await myDB.getQuotes();
-    res.send({ quotes: quotes });
+    // console.log(quotes);
+    res.send(quotes);
+    // res.send({ quotes: quotes });
   } catch (e) {
     console.log("Error", e);
     res.status(400).send({ err: e });
@@ -208,6 +197,7 @@ router.get("/search/:tag", function (req, res) {
 
 /* GET FULL LIST */
 router.get("/search", (req, res) => {
+  console.log("search empty");
   res.send({ quotes: quotesStub });
   // res.json(quotesStub);
 });

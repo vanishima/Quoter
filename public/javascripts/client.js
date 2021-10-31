@@ -111,6 +111,9 @@ async function reloadQuotes(filter) {
     } else {
       res = await(fetch("/quotes"));
     }
+
+    console.log(res);
+    // console.log("quotes:", res.quotes);
   
     if (!res.ok) {
       throw new Error("Failed to fetch quotes " + res.status);
@@ -118,9 +121,9 @@ async function reloadQuotes(filter) {
 
     // get the actual quotes
     quotes = await res.json();
-    console.log("Got data", res);
+    console.log("Got data", quotes);
 
-    res.quotes.forEach(redrawQuotes);
+    quotes.forEach(redrawQuotes);
 
   } catch (e) {
     quotesDiv.innerHTML = e.msg;
