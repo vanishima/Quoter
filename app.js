@@ -19,4 +19,8 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/quotes", quotesRouter);
 
+/* Sessions */
+let session = require("express-session");
+app.use(session({secret: "username", resave: false, saveUninitialized: false}));
+
 module.exports = app;

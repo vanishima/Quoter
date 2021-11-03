@@ -59,20 +59,20 @@ router.get("/search", async function (req, res) {
   }
 });
 
-
 /* GET A USER'S QUOTE */
-router.get("/users/:userID", async (req, res) => {
-  const userID = req.params.userID;
-  try {
-    console.log("MyDB", myDB);
-    const quotes = await myDB.getQuotes({ userID: userID });
-    res.send(quotes);
-    // res.send({ quotes: quotes });
-  } catch (e) {
-    console.log("Error", e);
-    res.status(400).send({ err: e });
-  }
-});
+// router.get("/users/:userID", async (req, res) => {
+//   console.log("enter router /quotes")
+//   const userID = req.params.userID;
+//   try {
+//     console.log("MyDB", myDB);
+//     const quotes = await myDB.getQuotes({ userID: userID });
+//     res.send(quotes);
+//     // res.send({ quotes: quotes });
+//   } catch (e) {
+//     console.log("Error", e);
+//     res.status(400).send({ err: e });
+//   }
+// });
 
 function getDateTime() {
   let today = new Date();

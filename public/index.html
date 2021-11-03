@@ -43,7 +43,7 @@
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="user.html">My Quotes</a>
+              <a class="nav-link" href="/quotes/users/617e28bf60d195a63e74e9a6">My Quotes</a>
             </li>
             <li class="nav-item">
               <a
@@ -78,7 +78,7 @@
               </button>
             </li>
             <li id="username" class="me-2">
-              <a href="user.html" class="none-style">username</a>
+              <a href="user.html" class="none-style" id="username">username</a>
             </li>
             <li class="me-2">
               <!-- Button trigger modal -->
@@ -120,9 +120,6 @@
                     class="btn btn-secondary"
                   >
                     Most Recent
-                  </button>
-                  <button type="button" class="btn btn-secondary">
-                    Closest
                   </button>
                 </div>
 
@@ -220,7 +217,7 @@
                 ></button>
               </div>
               <div class="modal-body">
-                <form role="form" method="POST" action="">
+                <form role="form" method="POST" action="/users/login">
                   <input type="hidden" name="_token" value="" />
                   <div class="form-group">
                     <label class="control-label">Username</label>
@@ -263,7 +260,7 @@
                   </div>
                 </form>
                 <h1>Create New Account</h1>
-                <form role="form" method="POST" action="">
+                <form role="form" method="POST" action="/users/register">
                   <input type="hidden" name="_token" value="" />
                   <div class="form-group">
                     <label class="control-label">Username</label>
