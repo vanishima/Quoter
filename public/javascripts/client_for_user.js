@@ -34,81 +34,6 @@ function createHTMLElement(type, classes, theInnerText) {
 
 function createComment(comments) {}
 
-async function redrawQuotes(quotes) {
-  for (let q of quotes) {
-    // create a quote card
-    const divQ = createHTMLElement("div", "card mb-3", "");
-    quotesDiv.appendChild(divQ);
-
-    const cardBody = createHTMLElement("div", "card-body row", "");
-    divQ.appendChild(cardBody);
-
-    /* Quote Details: blockQuote, quoteFooter*/
-    const quoteDetails = createHTMLElement("div", "quoteDetails col-11", "");
-    const blockQuote = createHTMLElement("blockquote", "blockquoter", "");
-    const quoteFooter = createHTMLElement("div", "quoteFooter", "");
-
-    quoteDetails.appendChild(blockQuote);
-    quoteDetails.appendChild(quoteFooter);
-
-    /* Block Quote*/
-    const pText = createHTMLElement("p", "blockquote-text", q.text);
-    const footer = createHTMLElement("footer", "blockquote-footer", q.author);
-    blockQuote.appendChild(pText);
-
-    if (q.source.length > 0) {
-      const cite = createHTMLElement("cite", "", ", " + q.source);
-      cite.title = "Source Title";
-      footer.appendChild(cite);
-    }
-    blockQuote.appendChild(footer);
-
-    /* Quote Footer */
-    const footerTags = createHTMLElement(
-      "div",
-      "greyText smallText left tags",
-      ""
-    );
-    footerTags.innerHTML = q.tags; // q.tags.join(", ");
-    quoteFooter.appendChild(footerTags);
-
-    const footerRight = createHTMLElement("div", "right", "");
-    const footerLikes = createHTMLElement(
-      "p",
-      "likes smallText",
-      `${q.likes} Likes`
-    );
-    const footerEdit = createHTMLElement("p", "editLink smallText", "Edit");
-    quoteFooter.appendChild(footerRight);
-    footerRight.appendChild(footerLikes);
-    footerRight.appendChild(footerEdit);
-
-    /* DivAction */
-    const actionDiv = createHTMLElement(
-      "div",
-      "action col-1 quote-action-bar",
-      ""
-    );
-    const btnFav = createHTMLElement("a", "quote-action-button", "");
-    btnFav.href = "#";
-    // const imgFav = createHTMLElement("i", "bi bi-heart", "");
-    const imgFav = createHTMLElement("img", "quote-action-icon", "");
-    // {/*<i class="bi bi-star"></i>*/}
-    imgFav.src = "../images/icon/iconmonstr-heart-thin-240.png";
-    imgFav.alt = "like-button";
-    btnFav.appendChild(imgFav);
-
-    actionDiv.appendChild(btnFav);
-
-    if (q.srcYear) {
-      footer.innerHTML += " (" + q.srcYear + ")";
-    }
-
-    cardBody.appendChild(quoteDetails);
-    cardBody.appendChild(actionDiv);
-  }
-}
-
 async function redrawQuotes(q) {
   // create a quote card
   const divQ = createHTMLElement("div", "card mb-3", "");
@@ -146,14 +71,21 @@ async function redrawQuotes(q) {
   footerTags.innerHTML = q.tags; // q.tags.join(", ");
   quoteFooter.appendChild(footerTags);
 
-  const footerRight = createHTMLElement("div", "right", "");
+  const footerRight = createHTMLElement("div", "right row", "");
   const footerLikes = createHTMLElement(
     "p",
-    "likes smallText",
+    "likes smallText col-auto",
     `${q.likes} Likes`
   );
+  // const footerEditLink =createHTMLElement("a", "editLink", "");
+  const footerEdit = createHTMLElement("a", "editLink smallText col-auto bold greenText", "Edit");
+  footerEdit.href = "quotes/edit";
+  const footerDelete = createHTMLElement("a", "editLink smallText col-auto bold greenText", "Delete");
+  footerDelete.href = "#";
   quoteFooter.appendChild(footerRight);
   footerRight.appendChild(footerLikes);
+  footerRight.appendChild(footerEdit);
+  footerRight.appendChild(footerDelete);
 
   /* DivAction */
   const actionDiv = createHTMLElement(

@@ -3,17 +3,13 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
+.none-style {
+  text-decoration: none;
+  color: #000000;
 }
 
-/* Nav Bar */
-/*a.navbar-brand {
-  font-size: 20px;
-}*/
-
 /* Page title */
-a.page-title{
+a.page-title {
   text-decoration: none;
   color: #000000;
 }
@@ -24,14 +20,23 @@ a.page-title{
   font-size: 20px;
 }
 
-.smallText, input.smallText {
+.smallText,
+input.smallText {
   font-family: "Lato", "Helvetica Neue", "Helvetica", sans-serif;
   font-size: 11px;
   line-height: 14px;
 }
 
 .greyText {
-    color: #999999;
+  color: #999999;
+}
+
+.greenText {
+  color: #26724c;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 div.left {
@@ -43,13 +48,13 @@ div.right {
 }
 
 /* Quote action */
-div.quote-action-bar{
+div.quote-action-bar {
   align-items: center;
   margin-left: auto;
   margin-right: auto;
 }
 
-a.quote-action-button{
+a.quote-action-button {
   align-items: center;
   margin-left: auto;
   margin-right: auto;
@@ -61,7 +66,7 @@ img.quote-action-icon {
   opacity: 50%;
 }
 
-#btnCreateQuote{
+#btnCreateQuote {
   background: skyblue;
   margin: auto;
 }

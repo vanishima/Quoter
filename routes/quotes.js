@@ -3,157 +3,6 @@ let router = express.Router();
 
 const myDB = require("../db/myMongoDB.js");
 
-const quotesStub = [
-  {
-    text: "Without music, life would be a mistake.",
-    author: "Friedrich Nietzsche",
-    source: "Twilight of the Idols",
-    srcYear: 1889,
-    userID: "1",
-    postDate: "2021-10-28 10:30:01",
-    privacy_level: "0",
-    likes: 103,
-    collection: "",
-    tags: "tag1 tag2 tag3",
-    comments: [
-      {
-        text: "i like it!!!",
-        userID: "1",
-        datetime: "2021-10-28 10:30:31",
-      },
-      {
-        text: "i like it too!!!",
-        userID: "2",
-        datetime: "2021-10-28 10:50:31",
-      },
-    ],
-  },
-  {
-    text: "To go wrong in one's own way is better than to go right in someone else's.",
-    author: "Fyodor Dostoevsky",
-    source: "Crime and Punishment",
-    srcYear: 1866,
-    userID: "1",
-    postDate: "2021-10-28 10:50:01",
-    privacy_level: "0",
-    likes: 13,
-    collection: "",
-    tags: "tag2",
-    comments: [
-      {
-        text: "i like it!!!",
-        userID: "1",
-        datetime: "2021-10-28 10:30:31",
-      },
-      {
-        text: "i like it too!!!",
-        userID: "2",
-        datetime: "2021-10-28 10:50:31",
-      },
-    ],
-  },
-  {
-    text: "To say we know a person is to write that person off.",
-    author: "Yiyun Li",
-    source: "Dear Friend, from My Life I Write to You in Your Life",
-    srcYear: 2017,
-    userID: "1",
-    postDate: "2021-10-28 13:30:01",
-    privacy_level: "0",
-    collection: "",
-    tags: "tag3",
-    comments: [
-      {
-        text: "i like it!!!",
-        userID: "1",
-        datetime: "2021-10-28 10:30:31",
-      },
-      {
-        text: "i like it too!!!",
-        userID: "2",
-        datetime: "2021-10-28 10:50:31",
-      },
-    ],
-  },
-  {
-    text: "To say we know a person is to write that person off.",
-    author: "Yiyun Li",
-    source: "Dear Friend, from My Life I Write to You in Your Life",
-    srcYear: 2017,
-    userID: "1",
-    postDate: "2021-10-28 13:30:01",
-    privacy_level: "0",
-    collection: "",
-    tags: "tag3",
-  },
-  {
-    text: "To say we know a person is to write that person off.",
-    author: "Yiyun Li",
-    source: "Dear Friend, from My Life I Write to You in Your Life",
-    srcYear: 2017,
-    userID: "1",
-    postDate: "2021-10-28 13:30:01",
-    privacy_level: "0",
-    collection: "",
-    tags: "tag3",
-  },
-  {
-    text: "To say we know a person is to write that person off.",
-    author: "Yiyun Li",
-    source: "Dear Friend, from My Life I Write to You in Your Life",
-    srcYear: 2017,
-    userID: "1",
-    postDate: "2021-10-28 13:30:01",
-    privacy_level: "0",
-    collection: "",
-    tags: "tag3",
-  },
-  {
-    text: "To say we know a person is to write that person off.",
-    author: "Yiyun Li",
-    source: "Dear Friend, from My Life I Write to You in Your Life",
-    srcYear: 2017,
-    userID: "1",
-    postDate: "2021-10-28 13:30:01",
-    privacy_level: "0",
-    collection: "",
-    tags: "tag3",
-  },
-  {
-    text: "To say we know a person is to write that person off.",
-    author: "Yiyun Li",
-    source: "Dear Friend, from My Life I Write to You in Your Life",
-    srcYear: 2017,
-    userID: "1",
-    postDate: "2021-10-28 13:30:01",
-    privacy_level: "0",
-    collection: "",
-    tags: "tag3",
-  },
-  {
-    text: "To say we know a person is to write that person off.",
-    author: "Yiyun Li",
-    source: "Dear Friend, from My Life I Write to You in Your Life",
-    srcYear: 2017,
-    userID: "1",
-    postDate: "2021-10-28 13:30:01",
-    privacy_level: "0",
-    collection: "",
-    tags: "tag3",
-  },
-  {
-    text: "To say we know a person is to write that person off.",
-    author: "Yiyun Li",
-    source: "Dear Friend, from My Life I Write to You in Your Life",
-    srcYear: 2017,
-    userID: "1",
-    postDate: "2021-10-28 13:30:01",
-    privacy_level: "0",
-    collection: "",
-    tags: "tag3",
-  },
-];
-
 /* GET FULL LIST */
 router.get("/", async (req, res) => {
   // res.json(quotesStub);
@@ -195,20 +44,21 @@ router.get("/search/:keyword", async function (req, res) {
   }
 });
 
-// router.get("/search", async function (req, res) {
-//   const keyword = req.query;
-//   try {
-//     console.log("MyDB", myDB);
-//     const quotes = await myDB.searchQuotes(keyword);
-//     // console.log(quotes);
-//     res.send({ quotes: quotes, keyword: keyword });
-//   } catch (e) {
-//     console.log("Error", e);
-//     res.status(400).send({ err: e });
-//   } finally {
-//     res.redirect("/");
-//   }
-// });
+router.get("/search", async function (req, res) {
+  const keyword = req.query;
+  try {
+    console.log("MyDB", myDB);
+    const quotes = await myDB.searchQuotes(keyword);
+    // console.log(quotes);
+    res.send({ quotes: quotes, keyword: keyword });
+  } catch (e) {
+    console.log("Error", e);
+    res.status(400).send({ err: e });
+  } finally {
+    res.redirect("/");
+  }
+});
+
 
 /* GET A USER'S QUOTE */
 router.get("/users/:userID", async (req, res) => {
@@ -272,8 +122,9 @@ function compare(a, b) {
 }
 
 /* Most Recent Quote */
-router.get("/most-recent", (req, res) => {
-  let sortedQuotes = quotesStub.slice();
+router.get("/most-recent", async (req, res) => {
+  const quotes = await myDB.getQuotes();
+  let sortedQuotes = quotes.slice();
   console.log(sortedQuotes.sort(compare));
   res.json(sortedQuotes.sort(compare));
 });

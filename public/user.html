@@ -38,7 +38,9 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+              <a class="nav-link active" aria-current="page" href="index.html"
+                >Home</a
+              >
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">My Quotes</a>
@@ -53,32 +55,34 @@
               >
             </li>
           </ul>
-         
-         <!-- Search bar and Login -->
-         <form action="/quotes/search" method="GET">
-           <ul class="navbar-nav">
-            <li class="me-2">
-              <input
-                type="text"
-                class="form-control"
-                id="search-input"
-                placeholder="Search"
-                aria-label="Search"
-                name="keyword"
-              />
-            </li>
-            <li class="me-2">
-              <button
-              id="search-button"
-              type="submit"
-              class="btn btn-outline-success col-auto"
-            >
-              <span class="bi-search"></span>
-            </button>
-            </li>
-          </ul>
-         </form>
 
+          <!-- Search bar and Login -->
+          <form action="/quotes/search" method="GET">
+            <ul class="navbar-nav">
+              <li class="me-2">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="search-input"
+                  placeholder="Search"
+                  aria-label="Search"
+                  name="keyword"
+                />
+              </li>
+              <li class="me-2">
+                <button
+                  id="search-button"
+                  type="submit"
+                  class="btn btn-outline-success col-auto"
+                >
+                  <span class="bi-search"></span>
+                </button>
+              </li>
+            </ul>
+          </form>
+          <div id="username" class="me-2">
+            <a href="user.html" class="none-style">username</a>
+          </div>
           <ul class="navbar-nav">
             <li class="me-2">
               <!-- Button trigger modal -->
@@ -102,54 +106,30 @@
           <div class="col-8">
             <div>
               <h1>
-                <a
-                  class="page-title"
-                  href="index.html"
-                  >My Quotes</a
-                >
+                <a class="page-title" href="index.html">My Quotes</a>
               </h1>
               <div
-                class="btn-toolbar mb-3 row"
-                role="toolbar"
-                aria-label="Toolbar with button groups"
-              >
-                <div
                   class="btn-group mr-2 col-auto"
                   role="group"
                   aria-label="Basic example"
                 >
-                  <button type="button" id="mostRecentBtn" class="btn btn-secondary">
+                  <button
+                    type="button"
+                    id="mostRecentBtn"
+                    class="btn btn-secondary"
+                  >
                     Most Recent
                   </button>
                   <button type="button" class="btn btn-secondary">
                     Closest
                   </button>
                 </div>
-
-                
-                <nav class="navbar navbar-light bg-light">
-                  <div class="container-fluid">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-                       <!-- class="navbar-toggler-icon" -->
-                      <span class="text-black">Comments</span>
-                    </button>
-                  </div>
-                </nav>
-                <div class="collapse" id="navbarToggleExternalContent">
-                  <div class="bg-light p-4">
-                    <h5 class="text-black h4">Collapsed content</h5>
-                    <span class="text-muted">Toggleable via the navbar brand.</span>
-                  </div>
-                </div>
-
-              </div>
             </div>
-
+            <div id="searchStatus"></div>
             <div id="quotes" class="row"></div>
           </div>
 
           <div class="col-4">
-
             <!-- CREATE QUOTE -->
             <h3>Create Quote</h3>
             <form action="/quotes/create" method="POST">
@@ -238,7 +218,9 @@
               <div class="modal-body">
                 <form>
                   <div class="form-group">
-                    <label class="control-label">Are you sure you want to log out?</label>
+                    <label class="control-label"
+                      >Are you sure you want to log out?</label
+                    >
                   </div>
                   <div class="form-group right">
                     <div>
@@ -262,7 +244,7 @@
 
       <footer>Made by Shushu Chen 🌲, Zhengyuan Chen</footer>
     </div>
-    <script src="./javascripts/client_for_user.js"></script>
+    <script src="./javascripts/client.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
