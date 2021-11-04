@@ -5,12 +5,13 @@ const myDB = require("../db/myMongoDB.js");
 
 /* GET FULL LIST */
 router.get("/", async (req, res) => {
+  const user = {username: "abc"};
   // res.json(quotesStub);
   try {
     console.log("MyDB", myDB);
     const quotes = await myDB.getQuotes();
     // console.log(quotes);
-    res.send({ quotes: quotes });
+    res.send({ quotes: quotes, user: user});
   } catch (e) {
     console.log("Error", e);
     res.status(400).send({ err: e });

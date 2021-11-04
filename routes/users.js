@@ -35,20 +35,37 @@ router.post("/register", async function (req, res) {
   try {
     const dbRes = await myDB.createUser(user);
     console.log("dbRes", dbRes);
+    res.send({user: user});
   } catch (e) {
     console.log("Error", e);
     res.status(400).send({ err: e });
   } finally {
-    req.session.message = user.username;
     res.redirect("/");
   }
-  
-  // res.send("respond with a resource");
 });
 
 /* GET login user */
-router.get("/login", function (req, res, next) {
-  res.send("respond with a resource");
+router.post("/login", async function (req, res) {
+  console.log("enter POST user login");
+  const resUser = req.body;
+  const user = {
+    name: resUser.name,
+    password: resUser.password
+  };
+
+  try {
+    const dbRes = await myDB.loginUser(user);
+    console.log("dbRes", dbRes);
+    if (dbRes == null) {
+      res.redirect("/");
+    }
+    res.send({user: user});
+  } catch (e) {
+    console.log("Error", e);
+    res.status(400).send({ err: e });
+  } finally {
+    res.redirect("/");
+  }
 });
 
 router.get("/hehe", function (req, res, next) {

@@ -37,6 +37,29 @@ function MyDB() {
     }
   };
 
+  myDB.loginUser = async (user) => {
+    const client = new MongoClient(uri, { useUnifiedTopology: true });
+    console.log("Connecting to the db");
+
+    try {
+      await client.connect();
+      console.log("Connected!");
+
+      const db = client.db(DB_NAME);
+      const userCol = db.collection("users");
+      console.log("Collection ready, find ", user);
+
+      const res = await userCol.findOne(user);
+
+      console.log("Found", res);
+
+      return res;
+    } finally {
+      console.log("Closing the connection");
+      client.close();
+    }
+  };
+
   return myDB;
 }
 

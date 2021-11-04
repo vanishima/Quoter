@@ -1,6 +1,9 @@
 /* Quotes */
 const quotesDiv = document.querySelector("#quotes");
 
+/* Username */
+const username = document.querySelector("#username");
+
 /* Search bar */
 const searchButton = document.getElementById("search-button");
 const searchInput = document.getElementById("search-input");
@@ -131,6 +134,11 @@ async function reloadQuotes(filter) {
     // get the actual quotes
     const res = await resRaw.json();
     const quotes = res.quotes;
+    const user = res.user;
+    const username = user.username;
+
+    username.innerHTML = username;
+
     const searchStatus = quotes.length + " results for " + res.keyword;
     searchDiv.innerHTML = withSearch == true ? searchStatus : "";
     console.log("Got data", quotes);
