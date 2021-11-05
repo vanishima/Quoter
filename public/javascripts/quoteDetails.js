@@ -1,8 +1,11 @@
 const quoteDetails = document.querySelector("form#quoteDetails");
+const deleteBtn = document.querySelector("#quoteDelete");
 
 const searchParams = (new URL(document.location)).searchParams;
 const quoteID = searchParams.get("quoteID");
 console.log("Enter quoteDetails.js for", quoteID);
+
+let quote;
 
 const quoteText = document.querySelector("#quoteText");
 const quoteAuthor = document.querySelector("#quoteAuthor");
@@ -15,8 +18,9 @@ async function drawQuote(quoteID) {
     const resRaw = await fetch(`/quotes/${quoteID}`);
 
     const res = await resRaw.json();
-    const quote = res.quote;
+    quote = res.quote;
 
+    // quote.quoteID = quoteID;
     quoteText.innerText = quote.text;
     quoteAuthor.setAttribute("value", quote.author);
     quoteSource.setAttribute("value", quote.source);
@@ -26,7 +30,6 @@ async function drawQuote(quoteID) {
   } catch (e) {
     quoteText.innerHTML = e.msg;
   }
-  
 }
 
 quoteDetails.addEventListener("submit", async (evt) => {
@@ -34,9 +37,9 @@ quoteDetails.addEventListener("submit", async (evt) => {
   console.log("quoteDetails submit");
 
   const quoteData = new FormData(quoteDetails);
-  const data = {};
+  // const data = {};
   for (let [key, val] of quoteData.entries()){
-    data[key] = val;
+    quote[key] = val;
   }
 
   // const text = quoteDetails.querySelector("#quoteText");
@@ -46,9 +49,9 @@ quoteDetails.addEventListener("submit", async (evt) => {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(quote)
   });
-  const res = fetchRes.json();
+  const res = await fetchRes.json();
 
   console.log("Got response", res);
 
@@ -62,4 +65,29 @@ quoteDetails.addEventListener("submit", async (evt) => {
 if (quoteID != null){
   drawQuote(quoteID);
 }
+
+deleteBtn.addEventListener("click", async (evt) => {
+  evt.preventDefault();
+  console.log("quoteDetails delete");
+
+  // console.log(quote);
+
+  const fetchRes = await fetch("/quotes/delete", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(quote)
+  });
+  const res = await fetchRes.json();
+
+  console.log("Got response", res);
+
+  if (res.status == "OK"){
+    window.location.replace("../index.html");
+  } else {
+    // show error message
+  }
+});
+
 

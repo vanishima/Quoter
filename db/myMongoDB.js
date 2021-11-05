@@ -1,4 +1,3 @@
-// const mongodb = require("mongodb");
 const { MongoClient, ObjectId } = require("mongodb");
 
 async function listDatabases(client) {
@@ -92,7 +91,7 @@ function MyDB() {
       const quotesCol = db.collection("quotes");
       console.log("Collection ready, querying with ", quoteID);
 
-      const quote = await quotesCol.findOne({_id: ObjectId(quoteID)});
+      const quote = await quotesCol.findOne({ _id: ObjectId(quoteID) });
 
       console.log("Got quote", quote);
 
@@ -138,18 +137,47 @@ function MyDB() {
       const quotesCol = client.db(DB_NAME).collection("quotes");
       console.log("Collection ready, update ", quote);
 
-      const res = await quotesCol.update(
-        {_id: quote.quoteID},
-        {$set: {
-          text: quote.text,
-          author: quote.author,
-          source: quote.source,
-          srcYear: quote.srcYear,
-          tags: quote.tags
-        }});
+      const res = await quotesCol.updateOne(
+        { _id: ObjectId(quote._id) },
+        {
+          $set: {
+            text: quote.text,
+            author: quote.author,
+            source: quote.source,
+            srcYear: quote.srcYear,
+            tags: quote.tags,
+          },
+        },
+        { upsert: true }
+      );
       console.log("Updated", res);
 
       return res;
+    } finally {
+      console.log("Closing the connection");
+      client.close();
+    }
+  };
+
+  myDB.deleteQuoteByID = async (quoteID) => {
+    const client = new MongoClient(uri, { useUnifiedTopology: true });
+    console.log("Connecting to the db");
+
+    try {
+      await client.connect();
+      console.log("Connected!");
+
+      console.log(await listDatabases(client));
+
+      const db = client.db(DB_NAME);
+      const quotesCol = db.collection("quotes");
+      console.log("Collection ready, deleting ", quoteID);
+
+      const quote = await quotesCol.deleteOne({ _id: ObjectId(quoteID) });
+
+      console.log("Got quote", quote);
+
+      return quote;
     } finally {
       console.log("Closing the connection");
       client.close();

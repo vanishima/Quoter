@@ -87,7 +87,7 @@ async function redrawQuotes(q) {
   );
 
   const editBtn = createHTMLElement("a", "btn btn-outline-primary col-auto me-2", "Edit");
-  const deleteBtn = createHTMLElement("a", "btn btn-outline-danger col-auto", "Delete");
+  // const deleteBtn = createHTMLElement("a", "btn btn-outline-danger col-auto", "Delete");
 
   // editBtn.setAttribute("href", `/quotes/${q._id}/edit`);
   editBtn.setAttribute("href", `/quoteDetails.html?quoteID=${q._id}`);
@@ -96,7 +96,7 @@ async function redrawQuotes(q) {
   quoteFooter.appendChild(footerLikes);
   // footerRight.appendChild(footerLikes);
   quoteFooter.appendChild(editBtn);
-  quoteFooter.appendChild(deleteBtn);
+  // quoteFooter.appendChild(deleteBtn);
 
   /* DivAction */
   const actionDiv = createHTMLElement(

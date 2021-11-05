@@ -124,7 +124,7 @@ router.post("/create", async (req, res) => {
   }
 });
 
-/* UPDATE current quote */
+/* POST UPDATE current quote */
 router.post("/update", async (req, res) => {
   const quote = req.body;
 
@@ -136,7 +136,26 @@ router.post("/update", async (req, res) => {
     console.log("dbRes: ", dbRes);
     // res.send({ done: dbRes });
     res.json({status: "OK"});
-    res.redirect("/");
+    // res.redirect(`../quoteDetails.html?quoteID=${quote._id}`);
+  } catch (e) {
+    console.log("Error", e);
+    res.status(400).send({ err: e });
+  }
+});
+
+/* POST DELETE current quote */
+router.post("/delete", async (req, res) => {
+  const quote = req.body;
+
+  console.log("enter /quotes/delete quote", quote);
+
+  // update quote
+  try {
+    const dbRes = await myDB.deleteQuoteByID(quote._id);
+    console.log("dbRes: ", dbRes);
+    // res.send({ done: dbRes });
+    res.json({status: "OK"});
+    // res.redirect(`../quoteDetails.html?quoteID=${quote._id}`);
   } catch (e) {
     console.log("Error", e);
     res.status(400).send({ err: e });
