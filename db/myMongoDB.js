@@ -1,5 +1,5 @@
 // const mongodb = require("mongodb");
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 
 async function listDatabases(client) {
   const databasesList = await client.db().admin().listDatabases();
@@ -78,6 +78,31 @@ function MyDB() {
     }
   };
 
+  myDB.getQuoteByID = async (quoteID) => {
+    const client = new MongoClient(uri, { useUnifiedTopology: true });
+    console.log("Connecting to the db");
+
+    try {
+      await client.connect();
+      console.log("Connected!");
+
+      console.log(await listDatabases(client));
+
+      const db = client.db(DB_NAME);
+      const quotesCol = db.collection("quotes");
+      console.log("Collection ready, querying with ", quoteID);
+
+      const quote = await quotesCol.findOne({_id: ObjectId(quoteID)});
+
+      console.log("Got quote", quote);
+
+      return quote;
+    } finally {
+      console.log("Closing the connection");
+      client.close();
+    }
+  };
+
   myDB.createQuote = async (quote) => {
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     console.log("Connecting to the db");
@@ -102,31 +127,36 @@ function MyDB() {
     }
   };
 
+  myDB.updateQuoteByID = async (quote) => {
+    const client = new MongoClient(uri, { useUnifiedTopology: true });
+    console.log("Connecting to the db");
+
+    try {
+      await client.connect();
+      console.log("Connected!");
+
+      const quotesCol = client.db(DB_NAME).collection("quotes");
+      console.log("Collection ready, update ", quote);
+
+      const res = await quotesCol.update(
+        {_id: quote.quoteID},
+        {$set: {
+          text: quote.text,
+          author: quote.author,
+          source: quote.source,
+          srcYear: quote.srcYear,
+          tags: quote.tags
+        }});
+      console.log("Updated", res);
+
+      return res;
+    } finally {
+      console.log("Closing the connection");
+      client.close();
+    }
+  };
+
   return myDB;
-}
-
-async function insertQuote(quote) {
-  const db = await MyMongoDB();
-
-  const stmt = await db.prepare(`INSERT INTO
-        quotes(text, author, source, srcYear, userID, privacy_level, likes)
-        VALUES(@text, @author, @source, @srcYear, @userID, @privacy_level, @likes);
-        `);
-
-  try {
-    return await stmt.run({
-      "@text": quote.text,
-      "@author": quote.author,
-      "@source": quote.source,
-      "@srcYear": quote.srcYear,
-      "@userID": quote.userID,
-      "@privacy_level": quote.privacy_level,
-      "@likes": quote.likes,
-    });
-  } finally {
-    await stmt.finalize();
-    db.close();
-  }
 }
 
 module.exports = MyDB();

@@ -9,6 +9,7 @@ const searchButton = document.getElementById("search-button");
 const searchInput = document.getElementById("search-input");
 
 /* Search status */
+const controlPanelDiv = document.querySelector("#control-panel");
 const searchDiv = document.querySelector("#searchStatus");
 searchDiv.innerHTML = "";
 
@@ -38,10 +39,8 @@ function createHTMLElement(type, classes, theInnerText) {
 }
 
 // TODO: MODULARIZE HTML ELEMENT CREATION
-
-function createComment(comments) {}
-
 async function redrawQuotes(q) {
+  console.log("redrawQuotes with quote", q._id);
   // create a quote card
   const divQ = createHTMLElement("div", "card mb-3", "");
   quotesDiv.appendChild(divQ);
@@ -49,10 +48,10 @@ async function redrawQuotes(q) {
   const cardBody = createHTMLElement("div", "card-body row", "");
   divQ.appendChild(cardBody);
 
-  /* Quote Details: blockQuote, quoteFooter*/
+  /* Quote Details: blockQuote, quoteFooter */
   const quoteDetails = createHTMLElement("div", "quoteDetails col-11", "");
   const blockQuote = createHTMLElement("blockquote", "blockquoter", "");
-  const quoteFooter = createHTMLElement("div", "quoteFooter", "");
+  const quoteFooter = createHTMLElement("div", "quoteFooter row", "");
 
   quoteDetails.appendChild(blockQuote);
   quoteDetails.appendChild(quoteFooter);
@@ -72,20 +71,32 @@ async function redrawQuotes(q) {
   /* Quote Footer */
   const footerTags = createHTMLElement(
     "div",
-    "greyText smallText left tags",
+    "greyText smallText left tags col-4",
     ""
   );
   footerTags.innerHTML = q.tags; // q.tags.join(", ");
+  
   quoteFooter.appendChild(footerTags);
+  
 
-  const footerRight = createHTMLElement("div", "right", "");
+  // const footerRight = createHTMLElement("div", "right", "");
   const footerLikes = createHTMLElement(
     "p",
-    "likes smallText",
+    "likes smallText col-2",
     `${q.likes} Likes`
   );
-  quoteFooter.appendChild(footerRight);
-  footerRight.appendChild(footerLikes);
+
+  const editBtn = createHTMLElement("a", "btn btn-outline-primary col-auto me-2", "Edit");
+  const deleteBtn = createHTMLElement("a", "btn btn-outline-danger col-auto", "Delete");
+
+  // editBtn.setAttribute("href", `/quotes/${q._id}/edit`);
+  editBtn.setAttribute("href", `/quoteDetails.html?quoteID=${q._id}`);
+  // editBtn.href = "quoteDetails.html";
+
+  quoteFooter.appendChild(footerLikes);
+  // footerRight.appendChild(footerLikes);
+  quoteFooter.appendChild(editBtn);
+  quoteFooter.appendChild(deleteBtn);
 
   /* DivAction */
   const actionDiv = createHTMLElement(
@@ -103,6 +114,7 @@ async function redrawQuotes(q) {
   btnFav.appendChild(imgFav);
 
   actionDiv.appendChild(btnFav);
+  
 
   if (q.srcYear) {
     footer.innerHTML += " (" + q.srcYear + ")";
@@ -135,12 +147,24 @@ async function reloadQuotes(filter) {
     const res = await resRaw.json();
     const quotes = res.quotes;
     const user = res.user;
-    const username = user.username;
+    if (user != null){
+      const username = user.username;
+      console.log(username);
+      username.innerHTML = username;
+    }
 
-    username.innerHTML = username;
+    let searchStatus = quotes.length + " results";
+    if (withSearch == true){
+      const keywordSpan = createHTMLElement("span", "bold", res.keyword);
+      searchStatus += " for ";
+      searchDiv.innerHTML = searchStatus;
+      searchDiv.appendChild(keywordSpan);
+    } else {
+      searchDiv.innerHTML = searchStatus;
+    }
 
-    const searchStatus = quotes.length + " results for " + res.keyword;
-    searchDiv.innerHTML = withSearch == true ? searchStatus : "";
+    // controlPanelDiv.appendChild(searchDiv);
+    
     console.log("Got data", quotes);
 
     quotes.forEach(redrawQuotes);

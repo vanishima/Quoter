@@ -5,13 +5,13 @@ const myDB = require("../db/myMongoDB.js");
 
 /* GET FULL LIST */
 router.get("/", async (req, res) => {
-  const user = {username: "abc"};
+  const user = { username: "abc" };
   // res.json(quotesStub);
   try {
     console.log("MyDB", myDB);
     const quotes = await myDB.getQuotes();
     // console.log(quotes);
-    res.send({ quotes: quotes, user: user});
+    res.send({ quotes: quotes, user: user });
   } catch (e) {
     console.log("Error", e);
     res.status(400).send({ err: e });
@@ -35,13 +35,27 @@ router.get("/search/:keyword", async function (req, res) {
 
   try {
     console.log("MyDB", myDB);
-    const quotes = await myDB.searchQuotes({keyword: keyword});
-    res.send({quotes: quotes, keyword: keyword});
+    const quotes = await myDB.searchQuotes({ keyword: keyword });
+    res.send({ quotes: quotes, keyword: keyword });
   } catch (e) {
     console.log("Error", e);
     res.status(400).send({ err: e });
   } finally {
-    res.redirect("/");
+    // res.redirect("/");
+  }
+});
+
+router.get("/:quoteID", async (req, res) => {
+  const quoteID = req.params.quoteID;
+  console.log("Enter /quotes/quoteID for", quoteID);
+  const user = {username: "test"};
+  try {
+    console.log("MyDB", myDB);
+    const quote = await myDB.getQuoteByID(quoteID);
+    res.send({ quote: quote, user: user });
+  } catch (e) {
+    console.log("Error", e);
+    res.status(400).send({ err: e });
   }
 });
 
@@ -103,6 +117,25 @@ router.post("/create", async (req, res) => {
     const dbRes = await myDB.createQuote(quote);
     console.log("dbRes: ", dbRes);
     // res.send({ done: dbRes });
+    res.redirect("/");
+  } catch (e) {
+    console.log("Error", e);
+    res.status(400).send({ err: e });
+  }
+});
+
+/* UPDATE current quote */
+router.post("/update", async (req, res) => {
+  const quote = req.body;
+
+  console.log("enter /quotes/update quote", quote);
+
+  // update quote
+  try {
+    const dbRes = await myDB.updateQuoteByID(quote);
+    console.log("dbRes: ", dbRes);
+    // res.send({ done: dbRes });
+    res.json({status: "OK"});
     res.redirect("/");
   } catch (e) {
     console.log("Error", e);
