@@ -90,7 +90,7 @@ async function redrawQuotes(q) {
   // const deleteBtn = createHTMLElement("a", "btn btn-outline-danger col-auto", "Delete");
 
   // editBtn.setAttribute("href", `/quotes/${q._id}/edit`);
-  editBtn.setAttribute("href", `/quoteDetails.html?quoteID=${q._id}`);
+  editBtn.setAttribute("href", `./pages_details/quoteDetails.html?quoteID=${q._id}`);
   // editBtn.href = "quoteDetails.html";
 
   quoteFooter.appendChild(footerLikes);

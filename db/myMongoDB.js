@@ -10,7 +10,7 @@ async function listDatabases(client) {
 function MyDB() {
   const myDB = {};
   const uri =
-    "mongodb+srv://vanishima:testtest@quoter.1muqt.mongodb.net/quoter?retryWrites=true&w=majority";
+    "mongodb+srv://projectUser:testtest@quoter.1muqt.mongodb.net/quoter?retryWrites=true&w=majority";
   const DB_NAME = "quoter";
 
   myDB.getQuotes = async (query = {}) => {
@@ -178,6 +178,56 @@ function MyDB() {
       console.log("Got quote", quote);
 
       return quote;
+    } finally {
+      console.log("Closing the connection");
+      client.close();
+    }
+  };
+
+  myDB.getFullList = async (collection, query = {}) => {
+    const client = new MongoClient(uri, { useUnifiedTopology: true });
+    console.log("Connecting to the db");
+
+    try {
+      await client.connect();
+      console.log("Connected!");
+
+      console.log(await listDatabases(client));
+
+      const db = client.db(DB_NAME);
+      const col = db.collection(collection);
+      console.log("Collection ready, querying with ", query);
+
+      const documents = await col.find(query).toArray();
+
+      // console.log("Got documents", documents);
+
+      return documents;
+    } finally {
+      console.log("Closing the connection");
+      client.close();
+    }
+  };
+
+  myDB.getObjectByID = async (collection, id) => {
+    const client = new MongoClient(uri, { useUnifiedTopology: true });
+    console.log("Connecting to the db");
+
+    try {
+      await client.connect();
+      console.log("Connected!");
+
+      console.log(await listDatabases(client));
+
+      const db = client.db(DB_NAME);
+      const col = db.collection(collection);
+      console.log(`Collection ready, querying ${id} in ${collection}`);
+
+      const object = await col.findOne({ _id: ObjectId(id) });
+      // console.log("Got object", object);
+
+      return object;
+
     } finally {
       console.log("Closing the connection");
       client.close();

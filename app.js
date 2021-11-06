@@ -6,6 +6,8 @@ let logger = require("morgan");
 let indexRouter = require("./routes/index");
 let usersRouter = require("./routes/users");
 let quotesRouter = require("./routes/quotes");
+let booksRouter = require("./routes/books");
+let authorsRouter = require("./routes/authors");
 
 let app = express();
 
@@ -18,5 +20,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/quotes", quotesRouter);
+app.use("/books", booksRouter);
+app.use("/authors", authorsRouter);
 
 module.exports = app;
