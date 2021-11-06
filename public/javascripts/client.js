@@ -75,9 +75,8 @@ async function redrawQuotes(q) {
     ""
   );
   footerTags.innerHTML = q.tags; // q.tags.join(", ");
-  
+
   quoteFooter.appendChild(footerTags);
-  
 
   // const footerRight = createHTMLElement("div", "right", "");
   const footerLikes = createHTMLElement(
@@ -86,11 +85,18 @@ async function redrawQuotes(q) {
     `${q.likes} Likes`
   );
 
-  const editBtn = createHTMLElement("a", "btn btn-outline-primary col-auto me-2", "Edit");
+  const editBtn = createHTMLElement(
+    "a",
+    "btn btn-outline-primary col-auto me-2",
+    "Edit"
+  );
   // const deleteBtn = createHTMLElement("a", "btn btn-outline-danger col-auto", "Delete");
 
   // editBtn.setAttribute("href", `/quotes/${q._id}/edit`);
-  editBtn.setAttribute("href", `./pages_details/quoteDetails.html?quoteID=${q._id}`);
+  editBtn.setAttribute(
+    "href",
+    `./pages_details/quoteDetails.html?quoteID=${q._id}`
+  );
   // editBtn.href = "quoteDetails.html";
 
   quoteFooter.appendChild(footerLikes);
@@ -104,8 +110,11 @@ async function redrawQuotes(q) {
     "action col-1 quote-action-bar",
     ""
   );
-  const btnFav = createHTMLElement("a", "quote-action-button", "");
-  btnFav.href = "#";
+  const btnFav = createHTMLElement("a", "btn quote-action-button", "");
+  btnFav.addEventListener("click", async () => {
+    likeQuote(q._id);
+  });
+
   // const imgFav = createHTMLElement("i", "bi bi-heart", "");
   const imgFav = createHTMLElement("img", "quote-action-icon", "");
   // {/*<i class="bi bi-star"></i>*/}
@@ -114,7 +123,6 @@ async function redrawQuotes(q) {
   btnFav.appendChild(imgFav);
 
   actionDiv.appendChild(btnFav);
-  
 
   if (q.srcYear) {
     footer.innerHTML += " (" + q.srcYear + ")";
@@ -147,14 +155,14 @@ async function reloadQuotes(filter) {
     const res = await resRaw.json();
     const quotes = res.quotes;
     const user = res.user;
-    if (user != null){
+    if (user != null) {
       const username = user.username;
       console.log(username);
       username.innerHTML = username;
     }
 
     let searchStatus = quotes.length + " results";
-    if (withSearch == true){
+    if (withSearch == true) {
       const keywordSpan = createHTMLElement("span", "bold", res.keyword);
       searchStatus += " for ";
       searchDiv.innerHTML = searchStatus;
@@ -164,13 +172,26 @@ async function reloadQuotes(filter) {
     }
 
     // controlPanelDiv.appendChild(searchDiv);
-    
+
     console.log("Got data", quotes);
 
     quotes.forEach(redrawQuotes);
   } catch (e) {
     quotesDiv.innerHTML = e.msg;
   }
+}
+
+async function likeQuote(quoteID) {
+  const response = await fetch(`/quotes/like/${quoteID}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    body: JSON.stringify(),
+  });
+  console.log("like response: ", response);
+  window.location.reload();
 }
 
 async function sort() {

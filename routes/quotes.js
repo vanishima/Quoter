@@ -45,6 +45,21 @@ router.get("/search/:keyword", async function (req, res) {
   }
 });
 
+router.post("/like/:quoteID", async (req, res) => {
+  const quoteID = req.params.quoteID;
+  console.log("Enter /quotes/like/quoteID for", quoteID);
+  try {
+    console.log("MyDB", myDB);
+    const dbRes = await myDB.likeQuoteByID(quoteID);
+    // res.send({ quote: quote});
+  } catch (e) {
+    console.log("Error", e);
+    res.status(400).send({ err: e });
+  } finally {
+    res.redirect("/");
+  }
+});
+
 router.get("/:quoteID", async (req, res) => {
   const quoteID = req.params.quoteID;
   console.log("Enter /quotes/quoteID for", quoteID);
