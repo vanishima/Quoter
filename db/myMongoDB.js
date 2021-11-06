@@ -1,5 +1,7 @@
 const { MongoClient, ObjectId } = require("mongodb");
 
+const { secret } = require("./secrets/dbCon.js");
+
 async function listDatabases(client) {
   const databasesList = await client.db().admin().listDatabases();
   console.log("Databases: ");
@@ -9,8 +11,7 @@ async function listDatabases(client) {
 
 function MyDB() {
   const myDB = {};
-  const uri =
-    "mongodb+srv://projectUser:testtest@quoter.1muqt.mongodb.net/quoter?retryWrites=true&w=majority";
+  const uri = secret.uri;
   const DB_NAME = "quoter";
 
   myDB.getQuotes = async (query = {}) => {
@@ -261,6 +262,7 @@ function MyDB() {
       console.log("updated", res);
 
       return res;
+
     } finally {
       console.log("Closing the connection");
       client.close();
