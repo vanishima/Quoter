@@ -16,31 +16,6 @@ function MyDB() {
   const uri = secret.uri;
   const DB_NAME = "quoter";
 
-  // myDB.getQuotes = async (query = {}) => {
-  //   const client = new MongoClient(uri, { useUnifiedTopology: true });
-  //   console.log("Connecting to the db");
-
-  //   try {
-  //     await client.connect();
-  //     console.log("Connected!");
-
-  //     console.log(await listDatabases(client));
-
-  //     const db = client.db(DB_NAME);
-  //     const quotesCol = db.collection("quotes");
-  //     console.log("Collection ready, querying with ", query);
-
-  //     const quotes = await quotesCol.find(query).toArray();
-
-  //     // console.log("Got quotes", quotes);
-
-  //     return quotes;
-  //   } finally {
-  //     console.log("Closing the connection");
-  //     client.close();
-  //   }
-  // };
-
   myDB.getQuotes = async (query = {}) => {
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     console.log("Connecting to the db");

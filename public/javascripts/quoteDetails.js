@@ -24,11 +24,17 @@ async function drawQuote(quoteID) {
     quote = res.quote;
 
     // quote.quoteID = quoteID;
-    quoteText.innerText = quote.text;
+    quoteText.innerHTML = quote.text;
     quoteAuthor.setAttribute("value", quote.author.name);
     quoteSource.setAttribute("value", quote.book.title);
     quoteSrcYear.innerHTML = quote.book.year;
-    quoteTags.setAttribute("value", quote.tags.join(" "));
+
+    if (typeof quote.tags == "string") {
+      quoteTags.value = quote.tags;
+    } else if (quote.tags != null) {
+      quoteTags.value = quote.tags.join(" ");
+    }
+
     quotePostDate.setAttribute("value", quote.postDate.substring(0, 16));
     console.log(quote);
   } catch (e) {

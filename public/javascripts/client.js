@@ -9,13 +9,12 @@ const searchButton = document.getElementById("search-button");
 const searchInput = document.getElementById("search-input");
 
 /* Search status */
-const controlPanelDiv = document.querySelector("#control-panel");
 const searchDiv = document.querySelector("#searchStatus");
 searchDiv.innerHTML = "";
 
 /* Most Recent Button */
 const recentBtn = document.getElementById("mostRecentBtn");
-if (recentBtn != null){
+if (recentBtn != null) {
   recentBtn.addEventListener("click", () => {
     sort();
   });
@@ -109,7 +108,6 @@ async function redrawQuotes(q) {
     "href",
     `./pages_details/quoteDetails.html?quoteID=${q._id}`
   );
-  // editBtn.href = "quoteDetails.html";
 
   quoteFooter.appendChild(footerLikes);
   quoteFooter.appendChild(editBtn);
@@ -153,7 +151,7 @@ async function reloadQuotes(filter) {
   // fetch quotes from /quotes
   try {
     // get list of quotes with filter
-    let resRaw, userRes;
+    let resRaw;
     let withSearch = false;
     if (filter.length > 0) {
       resRaw = await fetch("/quotes/search/" + filter);
@@ -183,10 +181,6 @@ async function reloadQuotes(filter) {
     } else {
       searchDiv.innerHTML = searchStatus;
     }
-
-    // controlPanelDiv.appendChild(searchDiv);
-
-    // console.log("Got data", quotes);
 
     quotes.forEach(redrawQuotes);
   } catch (e) {
@@ -236,6 +230,5 @@ async function sort() {
 
 reloadQuotes("");
 
-// export { likeQuote, redrawQuotes };
-// module.exports redrawQuotes = redrawQuotes;
-// module.exports likeQuote = likeQuote;
+// module.exports = { createHTMLElement, reloadQuotes, redrawQuotes, likeQuote };
+// export { createHTMLElement, reloadQuotes, redrawQuotes, likeQuote };

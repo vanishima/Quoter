@@ -1,5 +1,8 @@
 /* ===================== Shushu Chen =================== */
 
+// import { createHTMLElement, reloadQuotes, redrawQuotes, likeQuote } from "client.js";
+// const { createHTMLElement, reloadQuotes, redrawQuotes, likeQuote } = require("./client.js");
+
 const bookTitle = document.querySelector("#bookTitle");
 const bookAuthor = document.querySelector("#bookAuthor");
 const bookKeywords = document.querySelector("#bookKeywords");
@@ -58,6 +61,9 @@ async function redrawBookDetail(book, author, currTime) {
   newQuoteBookID.value = book._id;
   newQuoteAuthorID.value = author._id;
 }
+reloadBookDetail();
+
+// ================= duplicated code =================
 
 function createHTMLElement(type, classes = "", theInnerText = "") {
   const ele = document.createElement(type);
@@ -69,10 +75,6 @@ function createHTMLElement(type, classes = "", theInnerText = "") {
   }
   return ele;
 }
-
-reloadBookDetail();
-
-// =================
 
 async function redrawQuotes(q) {
   console.log("redrawQuotes with quote", q._id);
@@ -91,13 +93,18 @@ async function redrawQuotes(q) {
   quoteDetails.appendChild(blockQuote);
   quoteDetails.appendChild(quoteFooter);
 
-  /* Block Quote*/
   const pText = createHTMLElement("p", "blockquote-text", q.text);
-  const footer = createHTMLElement("footer", "blockquote-footer", author.name);
+  const authorLink = createHTMLElement("a", "none-style", author.name);
+  authorLink.href = "./authorDetails.html?author=" + author._id;
+  const footer = createHTMLElement("footer", "blockquote-footer", "");
+  footer.appendChild(authorLink);
   blockQuote.appendChild(pText);
 
-  if (book != null) {
-    const cite = createHTMLElement("cite", "", ", " + book.title);
+  if (book.title.length > 0) {
+    const citeLink = createHTMLElement("a", "none-style", ", " + book.title);
+    citeLink.href = "./bookDetails.html?book=" + book._id;
+    const cite = createHTMLElement("cite", "", "");
+    cite.appendChild(citeLink);
     cite.title = "Source Title";
     footer.appendChild(cite);
   }
@@ -109,11 +116,14 @@ async function redrawQuotes(q) {
     "greyText smallText left tags col-4",
     ""
   );
-  footerTags.innerHTML = q.tags; // q.tags.join(", ");
+  if (typeof q.tags == "string") {
+    footerTags.innerHTML = q.tags;
+  } else if (q.tags != null) {
+    footerTags.innerHTML = q.tags.join(" ");
+  }
 
   quoteFooter.appendChild(footerTags);
 
-  // const footerRight = createHTMLElement("div", "right", "");
   const footerLikes = createHTMLElement(
     "p",
     "likes smallText col-2",
@@ -125,16 +135,11 @@ async function redrawQuotes(q) {
     "btn btn-outline-primary col-auto me-2",
     "Edit"
   );
-  // const deleteBtn = createHTMLElement("a", "btn btn-outline-danger col-auto", "Delete");
 
-  // editBtn.setAttribute("href", `/quotes/${q._id}/edit`);
   editBtn.setAttribute("href", `./quoteDetails.html?quoteID=${q._id}`);
-  // editBtn.href = "quoteDetails.html";
 
   quoteFooter.appendChild(footerLikes);
-  // footerRight.appendChild(footerLikes);
   quoteFooter.appendChild(editBtn);
-  // quoteFooter.appendChild(deleteBtn);
 
   /* DivAction */
   const actionDiv = createHTMLElement(

@@ -44,8 +44,8 @@ router.post("/create", async (req, res) => {
     quote.userID = ObjectId("617e28bf60d195a63e74e9a6");
   }
 
+  // Create New Author or Get existing authorID
   let author;
-
   if (quote.authorID == null) {
     if (quote.author != null) {
       author = await myDB.getObjectByText("Authors", { name: quote.author });
@@ -55,6 +55,7 @@ router.post("/create", async (req, res) => {
     quote.authorID = ObjectId(quote.authorID);
   }
 
+  // Create New Book or Get existing bookID
   let book;
   if (quote.bookID == null) {
     if (quote.source != null) {
@@ -105,9 +106,7 @@ router.post("/update", async (req, res) => {
   try {
     const dbRes = await myDB.updateQuoteByID(quote);
     console.log("dbRes: ", dbRes);
-    // res.send({ done: dbRes });
     res.json({ status: "OK" });
-    // res.redirect(`../quoteDetails.html?quoteID=${quote._id}`);
   } catch (e) {
     console.log("Error", e);
     res.status(400).send({ err: e });
@@ -214,7 +213,6 @@ router.get("/users/:userID", async (req, res) => {
     console.log("MyDB", myDB);
     const quotes = await myDB.getQuotes({ userID: userID });
     res.send(quotes);
-    // res.send({ quotes: quotes });
   } catch (e) {
     console.log("Error", e);
     res.status(400).send({ err: e });
