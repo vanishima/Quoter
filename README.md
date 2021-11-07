@@ -38,6 +38,7 @@ Instructor: [John Alexis Guerra Gómez](https://johnguerra.co/)
 - `npm run nodemon`
 
 ## Video demo
+https://youtu.be/UHsmBG3kcuA  
 
 ## Slides
 [Quoter - Demo Slides](https://docs.google.com/presentation/d/1YWO2BhOK9eBZhFptax2Dc68FTBAMlQ1yOyuQYALaq44/edit?usp=sharing)
