@@ -12,7 +12,94 @@ router.get("/", async (req, res) => {
     console.log("MyDB", myDB);
     const quotes = await myDB.getQuotes();
     // console.log(quotes);
-    res.send({ quotes: quotes, user: user });
+    res.send({ quotes: quotes, user: user, currTime: getTimeStr()});
+  } catch (e) {
+    console.log("Error", e);
+    res.status(400).send({ err: e });
+  }
+});
+
+
+/* CREATE NEW QUOTE */
+router.post("/create", async (req, res) => {
+  const quote = req.body;
+
+  /* Default values */
+  quote.userID = ObjectId("617e28bf60d195a63e74e9a6");
+  let author;
+
+  if (quote.authorID == null){
+    if (quote.author != null){
+      author = await myDB.getObjectByText("Authors", {name: quote.author});
+    } 
+    quote.authorID = ObjectId(author._id);
+  } else {
+    quote.authorID = ObjectId(quote.authorID);
+  }
+
+  let book;
+  if (quote.bookID == null){
+    if (quote.source != null){
+      book = await myDB.getObjectByText("Books", {title: quote.source, year: quote.srcYear});
+    } 
+    quote.bookID = ObjectId(book._id);
+  } else {
+    quote.bookID = ObjectId(quote.bookID);
+  }
+
+  quote.postDate = quote.postDate != null ? quote.postDate : getDateTime();
+  quote.likes = 0;
+
+  console.log("create quote", quote);
+
+  // insert quote into array
+  try {
+    const dbRes = await myDB.createQuote(quote);
+    console.log("dbRes: ", dbRes);
+    // res.send({ done: dbRes });
+    res.redirect("/");
+  } catch (e) {
+    console.log("Error", e);
+    res.status(400).send({ err: e });
+  }
+});
+
+async function getIdByText(val, collection, field){
+  
+}
+
+/* POST UPDATE current quote */
+router.post("/update", async (req, res) => {
+  const quote = req.body;
+
+  console.log("enter /quotes/update quote", quote);
+
+  // update quote
+  try {
+    const dbRes = await myDB.updateQuoteByID(quote);
+    console.log("dbRes: ", dbRes);
+    // res.send({ done: dbRes });
+    res.json({status: "OK"});
+    // res.redirect(`../quoteDetails.html?quoteID=${quote._id}`);
+  } catch (e) {
+    console.log("Error", e);
+    res.status(400).send({ err: e });
+  }
+});
+
+/* POST DELETE current quote */
+router.post("/delete", async (req, res) => {
+  const quote = req.body;
+
+  console.log("enter /quotes/delete quote", quote);
+
+  // update quote
+  try {
+    const dbRes = await myDB.deleteQuoteByID(quote._id);
+    console.log("dbRes: ", dbRes);
+    // res.send({ done: dbRes });
+    res.json({status: "OK"});
+    // res.redirect(`../quoteDetails.html?quoteID=${quote._id}`);
   } catch (e) {
     console.log("Error", e);
     res.status(400).send({ err: e });
@@ -114,69 +201,6 @@ function getDateTime() {
   return date + " " + time;
 }
 
-/* CREATE NEW QUOTE */
-router.post("/create", async (req, res) => {
-  const quote = req.body;
-
-  /* Default values */
-  quote.userID = ObjectId("617e28bf60d195a63e74e9a6");
-  quote.authorID = ObjectId(quote.authorID);
-  quote.bookID = ObjectId(quote.bookID);
-  quote.postDate = quote.postDate != null ? quote.postDate : getDateTime();
-  quote.likes = 0;
-
-  console.log("create quote", quote);
-
-  // insert quote into array
-  try {
-    const dbRes = await myDB.createQuote(quote);
-    console.log("dbRes: ", dbRes);
-    // res.send({ done: dbRes });
-    res.redirect("/");
-  } catch (e) {
-    console.log("Error", e);
-    res.status(400).send({ err: e });
-  }
-});
-
-/* POST UPDATE current quote */
-router.post("/update", async (req, res) => {
-  const quote = req.body;
-
-  console.log("enter /quotes/update quote", quote);
-
-  // update quote
-  try {
-    const dbRes = await myDB.updateQuoteByID(quote);
-    console.log("dbRes: ", dbRes);
-    // res.send({ done: dbRes });
-    res.json({status: "OK"});
-    // res.redirect(`../quoteDetails.html?quoteID=${quote._id}`);
-  } catch (e) {
-    console.log("Error", e);
-    res.status(400).send({ err: e });
-  }
-});
-
-/* POST DELETE current quote */
-router.post("/delete", async (req, res) => {
-  const quote = req.body;
-
-  console.log("enter /quotes/delete quote", quote);
-
-  // update quote
-  try {
-    const dbRes = await myDB.deleteQuoteByID(quote._id);
-    console.log("dbRes: ", dbRes);
-    // res.send({ done: dbRes });
-    res.json({status: "OK"});
-    // res.redirect(`../quoteDetails.html?quoteID=${quote._id}`);
-  } catch (e) {
-    console.log("Error", e);
-    res.status(400).send({ err: e });
-  }
-});
-
 function compare(a, b) {
   let d1 = new Date(a.postDate);
   let d2 = new Date(b.postDate);
@@ -196,5 +220,11 @@ router.get("/most-recent", async (req, res) => {
   console.log(sortedQuotes.sort(compare));
   res.json(sortedQuotes.sort(compare));
 });
+
+function getTimeStr() {
+  const tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+  const localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0, -1);
+  return localISOTime.substring(0,16);
+}
 
 module.exports = router;

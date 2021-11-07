@@ -129,7 +129,7 @@ async function redrawQuotes(q) {
   // editBtn.setAttribute("href", `/quotes/${q._id}/edit`);
   editBtn.setAttribute(
     "href",
-    `./pages_details/quoteDetails.html?quoteID=${q._id}`
+    `./quoteDetails.html?quoteID=${q._id}`
   );
   // editBtn.href = "quoteDetails.html";
 

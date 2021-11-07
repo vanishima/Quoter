@@ -14,6 +14,31 @@ function MyDB() {
   const uri = secret.uri;
   const DB_NAME = "quoter";
 
+  // myDB.getQuotes = async (query = {}) => {
+  //   const client = new MongoClient(uri, { useUnifiedTopology: true });
+  //   console.log("Connecting to the db");
+
+  //   try {
+  //     await client.connect();
+  //     console.log("Connected!");
+
+  //     console.log(await listDatabases(client));
+
+  //     const db = client.db(DB_NAME);
+  //     const quotesCol = db.collection("quotes");
+  //     console.log("Collection ready, querying with ", query);
+
+  //     const quotes = await quotesCol.find(query).toArray();
+
+  //     // console.log("Got quotes", quotes);
+
+  //     return quotes;
+  //   } finally {
+  //     console.log("Closing the connection");
+  //     client.close();
+  //   }
+  // };
+
   myDB.getQuotes = async (query = {}) => {
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     console.log("Connecting to the db");
@@ -28,11 +53,62 @@ function MyDB() {
       const quotesCol = db.collection("quotes");
       console.log("Collection ready, querying with ", query);
 
-      const quotes = await quotesCol.find(query).toArray();
+      // const quotes = await quotesCol.find(query).toArray();
+      const quotes = await quotesCol
+        .aggregate([
+          {
+            $lookup: {
+              from: "Authors",
+              localField: "authorID",
+              foreignField: "_id",
+              as: "author",
+            },
+          },
+          {
+            $lookup: {
+              from: "Books",
+              localField: "bookID",
+              foreignField: "_id",
+              as: "book",
+            },
+          },
+          {$match: query},
+        ])
+        .toArray();
 
       // console.log("Got quotes", quotes);
 
       return quotes;
+    } finally {
+      console.log("Closing the connection");
+      client.close();
+    }
+  };
+
+  myDB.getObjectByText = async (collection, query) => {
+    const client = new MongoClient(uri, { useUnifiedTopology: true });
+    console.log("Connecting to the db");
+
+    try {
+      await client.connect();
+      console.log("Connected!");
+
+      console.log(await listDatabases(client));
+
+      const db = client.db(DB_NAME);
+      const col = db.collection(collection);
+      console.log("Collection ready, querying with ", query);
+
+      let object = await col.findOne(query);
+
+      if (object == null){
+        await myDB.insertDoc(collection, query);
+        object = await col.findOne(query);
+      }
+      
+      console.log("Got object", object);
+
+      return object;
     } finally {
       console.log("Closing the connection");
       client.close();
@@ -121,6 +197,31 @@ function MyDB() {
       console.log("Inserted", res);
 
       return res;
+    } finally {
+      console.log("Closing the connection");
+      client.close();
+    }
+  };
+
+  myDB.insertDoc = async (collection, doc) => {
+    const client = new MongoClient(uri, { useUnifiedTopology: true });
+    console.log("Connecting to the db");
+
+    try {
+      await client.connect();
+      console.log("Connected!");
+
+      console.log(await listDatabases(client));
+
+      const db = client.db(DB_NAME);
+      const col = db.collection(collection);
+      console.log("Collection ready, insert ", doc);
+
+      const res = await col.insertOne(doc);
+      console.log("Inserted", res);
+
+      return res;
+
     } finally {
       console.log("Closing the connection");
       client.close();
