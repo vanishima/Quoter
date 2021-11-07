@@ -42,6 +42,9 @@
               >
             </li>
             <li class="nav-item">
+              <a id="myQuotesLink" class="nav-link" href="#">My Quotes</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="books.html">Books</a>
             </li>
             <li class="nav-item">
@@ -71,17 +74,32 @@
               </button>
             </li>
             <li class="me-2">
-              <a href="user.html" class="none-style" id="display_username">username</a>
+              <a class="none-style" id="display_username"
+                ></a
+              >
             </li>
             <li class="me-2">
               <!-- Button trigger modal -->
               <button
+                id="loginSignUpBtn"
                 type="button"
                 class="btn btn-outline-primary me-2"
                 data-bs-toggle="modal"
                 data-bs-target="#loginModal"
               >
                 Log in/Sign up
+              </button>
+            </li>
+            <li class="me-2">
+              <!-- Button trigger modal -->
+              <button
+                type="button"
+                class="btn btn-outline-primary me-2"
+                id="logoutOptionBtn"
+                data-bs-toggle="modal"
+                data-bs-target="#logoutmodal"
+              >
+                Sign out
               </button>
             </li>
           </ul>
@@ -91,14 +109,12 @@
 
     <div class="container">
       <main>
-        <br>
+        <br />
         <div class="row">
           <h1 class="col-auto">Authors</h1>
-           <div id="authors" class="authors col-auto">
-          </div>
+          <div id="authors" class="authors col-auto"></div>
         </div>
-       
-        
+
         <div id="loginModal" class="modal fade">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -146,7 +162,11 @@
                   </div>
                   <div class="form-group">
                     <div>
-                      <button id="loginBtn" type="submit" class="btn btn-success">
+                      <button
+                        id="loginBtn"
+                        type="submit"
+                        class="btn btn-success"
+                      >
                         Login
                       </button>
 
@@ -203,6 +223,49 @@
           <!-- /.modal-dialog -->
         </div>
 
+        <div id="logoutmodal" class="modal fade">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 class="modal-title">Log out</h3>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <label class="control-label"
+                      >Are you sure you want to log out?</label
+                    >
+                  </div>
+                  <div class="form-group right">
+                    <div>
+                      <button
+                        type="button"
+                        class="btn btn-success"
+                        data-bs-dismiss="modal"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        id="logoutConfirmBtn"
+                        class="btn btn-danger"
+                        type="button"
+                      >
+                        Log out
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
       </main>
 
       <footer>Made by Shushu Chen 🌲, Zhengyuan Chen</footer>

@@ -53,8 +53,9 @@ function MyDB() {
       console.log("Collection ready, find ", user);
 
       const res = await userCol.findOne(user);
+      
       if(res){
-        // console.log("Found", res);
+        console.log("Found", res);
 
         return res;
       }

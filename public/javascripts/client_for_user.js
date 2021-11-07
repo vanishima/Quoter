@@ -2,16 +2,6 @@
 const quotesDiv = document.querySelector("#quotes");
 const newQuotePostDate = document.querySelector("#newQuotePostDate");
 
-/* Username */
-const username = document.querySelector("#username");
-// const userID = document.querySelector("#login_userID");
-// const userpsw = document.querySelector("#login_userpsw");
-
-sessionStorage.setItem("currentloggedin", username.innerHTML);
-
-const loginBtn = document.querySelector("#loginBtn");
-const logoutBtn = document.querySelector("#logoutBtn");
-
 /* Search bar */
 const searchButton = document.getElementById("search-button");
 const searchInput = document.getElementById("search-input");
@@ -177,17 +167,17 @@ async function reloadQuotes(filter) {
     newQuotePostDate.value = currTime;
     
 
-    if (user.status) {
-      console.log("username: ", user.username);
-      username.style.display = "block";
-      username.innerHTML = user.username;
-      loginBtn.style.display = "none";
-      logoutBtn.style.display = "block";
-    }
-    else {
-      loginBtn.style.display = "block";
-      logoutBtn.style.display = "none";
-    }
+    // if (user.status) {
+    //   console.log("username: ", user.username);
+    //   username.style.display = "block";
+    //   username.innerHTML = user.username;
+    //   loginBtn.style.display = "none";
+    //   logoutBtn.style.display = "block";
+    // }
+    // else {
+    //   loginBtn.style.display = "block";
+    //   logoutBtn.style.display = "none";
+    // }
 
     let searchStatus = quotes.length + " results";
     if (withSearch == true) {

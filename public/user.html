@@ -42,6 +42,9 @@
               >
             </li>
             <li class="nav-item">
+              <a id="myQuotesLink" class="nav-link">My Quotes</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="books.html">Books</a>
             </li>
             <li class="nav-item">
@@ -71,14 +74,14 @@
               </button>
             </li>
             <li class="me-2">
-              <a href="user.html" class="none-style" id="username">username</a>
+              <a class="none-style" id="display_username">username</a>
             </li>
             <li class="me-2">
               <!-- Button trigger modal -->
               <button
                 type="button"
                 class="btn btn-outline-primary me-2"
-                id="loginBtn"
+                id="loginSignUpBtn"
                 data-bs-toggle="modal"
                 data-bs-target="#loginModal"
               >
@@ -90,7 +93,7 @@
               <button
                 type="button"
                 class="btn btn-outline-primary me-2"
-                id="logoutBtn"
+                id="logoutOptionBtn"
                 data-bs-toggle="modal"
                 data-bs-target="#logoutmodal"
               >
@@ -142,6 +145,20 @@
             <!-- CREATE QUOTE -->
             <h3>Create Quote</h3>
             <form action="/quotes/create" method="POST">
+
+              <div class="form-group row mb-2">
+                <label class="col-sm-2" for="inputUserID">UserID</label>
+                <div class="col-sm-10">
+                  <input
+                    readonly
+                    id="inputUserID"
+                    type="text"
+                    class="form-control-plaintext"
+                    name="userID"
+                  />
+                </div>
+              </div>
+
               <div class="form-group row mb-2">
                 <label class="col-sm-2" for="newQuoteText">Text</label>
                 <div class="col-sm-10">
@@ -225,7 +242,106 @@
           </div>
         </div>
         <!-- Modal -->
-        
+
+        <div id="loginModal" class="modal fade">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title">Login</h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form role="form" method="POST" action="/users/login">
+                  <input type="hidden" name="_token" value="" />
+                  <div class="form-group">
+                    <label class="control-label">Username</label>
+                    <div>
+                      <input
+                        id="uname"
+                        type="text"
+                        class="form-control input-lg"
+                        name="name"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">Password</label>
+                    <div>
+                      <input
+                        id="psw"
+                        type="password"
+                        class="form-control input-lg"
+                        name="password"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div>
+                      <button
+                        id="loginBtn"
+                        type="submit"
+                        class="btn btn-success"
+                      >
+                        Login
+                      </button>
+
+                      <a class="btn btn-link" href="">Forgot Password?</a>
+                    </div>
+                  </div>
+                </form>
+                <h1>Create New Account</h1>
+                <form role="form" method="POST" action="/users/register">
+                  <input type="hidden" name="_token" value="" />
+                  <div class="form-group">
+                    <label class="control-label">Username</label>
+                    <div>
+                      <input
+                        type="text"
+                        class="form-control input-lg"
+                        name="name"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">Password</label>
+                    <div>
+                      <input
+                        type="password"
+                        class="form-control input-lg"
+                        name="password"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">Confirm Password</label>
+                    <div>
+                      <input
+                        type="password"
+                        class="form-control input-lg"
+                        name="password_confirmation"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div>
+                      <button type="submit" class="btn btn-success">
+                        Register
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+
         <div id="logoutmodal" class="modal fade">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -253,8 +369,13 @@
                       >
                         Cancel
                       </button>
-                      <input type="hidden" value="logout">
-                      <input class="btn btn-primary" type="submit" value="Logout">
+                      <button
+                        id="logoutConfirmBtn"
+                        type="button"
+                        class="btn btn-danger"
+                      >
+                        Log out
+                      </button>
                     </div>
                   </div>
                 </form>
@@ -269,7 +390,7 @@
 
       <footer>Made by Shushu Chen 🌲, Zhengyuan Chen</footer>
     </div>
-    <script src="./javascripts/client_for_user.js"></script>
+    <script src="./javascripts/client.js"></script>
     <script src="./javascripts/login.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

@@ -70,29 +70,24 @@ router.post("/login", async function (req, res) {
       res.send("Incorrect username/password");
       //res.redirect("/");
     } else {
-      // req.session.username = user.name;
-      // req.session.userID = dbRes._id;
-      
-      uid = new ObjectId(dbRes._id);
-      console.log("uid", uid);
-      currentUser = user.name;
-      loginStatus = true;
-      // res.json({ status: "OK" });
-      // res.send();
-      // res.redirect("/index");
+      // uid = new ObjectId(dbRes._id);
+      // console.log("uid", uid);
+      // currentUser = user.name;
+      // loginStatus = true;
+      res.json({ status: "OK", user: dbRes});
     }
-    //res.send({user: user});
   } catch (e) {
     console.log("Error", e);
     res.status(400).send({ err: e });
   } finally {
-    res.redirect("/");
+    // res.redirect("/");
   }
 });
 
 router.post("/logout", (req, res) => {
   console.log("enter post for logout");
-  req.session.destroy();
+  // req.session.destroy();
+  sessionStorage.clear();
 
   // res.send({title: "User logout", userID: "", username: currentUser});
   currentUser = null;

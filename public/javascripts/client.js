@@ -143,6 +143,10 @@ async function reloadQuotes(filter) {
   // clean up
   quotesDiv.innerHTML = "";
 
+  // get user ID
+  const params = new URL(document.location).searchParams;
+  const userID = params.get("user");
+
   // fetch quotes from /quotes
   try {
     // get list of quotes with filter
@@ -150,19 +154,19 @@ async function reloadQuotes(filter) {
     let withSearch = false;
     if (filter.length > 0) {
       resRaw = await fetch("/quotes/search/" + filter);
-      userRes = await fetch("/users");
       withSearch = true;
+    } else if (userID != null){
+      resRaw = await fetch("/quotes/user/" + userID);
+      console.log("Got raw");
     } else {
       resRaw = await fetch("/quotes");
-      userRes = await fetch("/users");
       console.log("Got raw");
     }
 
     // get the actual quotes
     const res = await resRaw.json();
     const quotes = await res.quotes;
-    //const user = await res.user;
-    const user = await userRes.json();
+
     const currTime = await res.currTime;
     console.log("current time", currTime);
     newQuotePostDate.value = currTime;

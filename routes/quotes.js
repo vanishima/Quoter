@@ -6,13 +6,27 @@ const { ObjectId } = require("mongodb");
 
 /* GET FULL LIST */
 router.get("/", async (req, res) => {
-  const user = { username: "abc" };
   // res.json(quotesStub);
   try {
     console.log("MyDB", myDB);
     const quotes = await myDB.getQuotes();
     // console.log(quotes);
-    res.send({ quotes: quotes, user: user, currTime: getTimeStr() });
+    res.send({ quotes: quotes, currTime: getTimeStr() });
+  } catch (e) {
+    console.log("Error", e);
+    res.status(400).send({ err: e });
+  }
+});
+
+/* GET FULL LIST by user */
+router.get("/user/:userID", async (req, res) => {
+  const userID = req.params.userID;
+
+  try {
+    console.log("MyDB", myDB);
+    const quotes = await myDB.getQuotes({userID: userID});
+    // console.log(quotes);
+    res.send({ quotes: quotes, currTime: getTimeStr() });
   } catch (e) {
     console.log("Error", e);
     res.status(400).send({ err: e });
@@ -24,7 +38,10 @@ router.post("/create", async (req, res) => {
   const quote = req.body;
 
   /* Default values */
-  quote.userID = ObjectId("617e28bf60d195a63e74e9a6");
+  if (quote.userID == null){
+    quote.userID = ObjectId("617e28bf60d195a63e74e9a6");
+  }
+  
   let author;
 
   if (quote.authorID == null) {
