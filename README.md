@@ -14,7 +14,12 @@ Instructor: John Alexis Guerra Gómez
 
 ## Screenshot
 
-![Quoter demo](https://github.com/vanishima/Quoter2/blob/main/demo/screenshots/hompage.png?raw=true)
+![Quoter demo](https://github.com/vanishima/Quoter2/blob/main/demo/screenshots/screenshot_hompage.png?raw=true)
+![Quoter demo](https://github.com/vanishima/Quoter2/blob/main/demo/screenshots/screenshot_loginmodal.png?raw=true)
+![Quoter demo](https://github.com/vanishima/Quoter2/blob/main/demo/screenshots/screenshot_books.png?raw=true)
+![Quoter demo](https://github.com/vanishima/Quoter2/blob/main/demo/screenshots/screenshot_authors.png?raw=true)
+![Quoter demo](https://github.com/vanishima/Quoter2/blob/main/demo/screenshots/screenshot_authordetails.png?raw=true)
+![Quoter demo](https://github.com/vanishima/Quoter2/blob/main/demo/screenshots/screenshot_bookdetails.png?raw=true)
 
 ## Tech requirements
 
