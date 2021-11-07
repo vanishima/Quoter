@@ -1,5 +1,4 @@
-/* Username */
-const username = document.querySelector("#username");
+/* ===================== Shushu Chen =================== */
 
 const authorsDiv = document.querySelector("#authors");
 
@@ -16,28 +15,34 @@ async function reloadAuthors() {
     // get the actual authors
     const res = await resRaw.json();
     const authors = res.authors;
-    
+
     console.log("Got data", authors);
     authors.forEach(redrawAuthors);
-
   } catch (e) {
     authorsDiv.innerHTML = e.msg;
   }
 }
 
-async function redrawAuthors(author){
+async function redrawAuthors(author) {
   const authorDiv = createAuthorElement(author);
   authorsDiv.appendChild(authorDiv);
 }
 
-function createAuthorElement(author){
-  const authorDiv = createHTMLElement("a", "author btn btn-info me-3 mb-3", author.name);
-  authorDiv.setAttribute("href", "/pages_details/authorDetails.html?author=" + author._id);
+function createAuthorElement(author) {
+  const authorDiv = createHTMLElement(
+    "a",
+    "author btn btn-info me-3 mb-3",
+    author.name
+  );
+  authorDiv.setAttribute(
+    "href",
+    "/pages_details/authorDetails.html?author=" + author._id
+  );
 
   return authorDiv;
 }
 
-function createHTMLElement(type, classes="", theInnerText="") {
+function createHTMLElement(type, classes = "", theInnerText = "") {
   const ele = document.createElement(type);
   if (classes.length > 0) {
     ele.className = classes;

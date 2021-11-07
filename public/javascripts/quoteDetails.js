@@ -1,7 +1,9 @@
+/* ===================== Shushu Chen =================== */
+
 const quoteDetails = document.querySelector("form#quoteDetails");
 const deleteBtn = document.querySelector("#quoteDelete");
 
-const searchParams = (new URL(document.location)).searchParams;
+const searchParams = new URL(document.location).searchParams;
 const quoteID = searchParams.get("quoteID");
 console.log("Enter quoteDetails.js for", quoteID);
 
@@ -29,7 +31,6 @@ async function drawQuote(quoteID) {
     quoteTags.setAttribute("value", quote.tags.join(" "));
     quotePostDate.setAttribute("value", quote.postDate.substring(0, 16));
     console.log(quote);
-
   } catch (e) {
     quoteText.innerHTML = e.msg;
   }
@@ -41,7 +42,7 @@ quoteDetails.addEventListener("submit", async (evt) => {
 
   const quoteData = new FormData(quoteDetails);
   // const data = {};
-  for (let [key, val] of quoteData.entries()){
+  for (let [key, val] of quoteData.entries()) {
     quote[key] = val;
   }
 
@@ -50,15 +51,15 @@ quoteDetails.addEventListener("submit", async (evt) => {
   const fetchRes = await fetch("/quotes/update", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(quote)
+    body: JSON.stringify(quote),
   });
   const res = await fetchRes.json();
 
   console.log("Got response", res);
 
-  if (res.status == "OK"){
+  if (res.status == "OK") {
     window.location.reload();
     // window.location.replace("../index.html");
   } else {
@@ -66,7 +67,7 @@ quoteDetails.addEventListener("submit", async (evt) => {
   }
 });
 
-if (quoteID != null){
+if (quoteID != null) {
   drawQuote(quoteID);
 }
 
@@ -79,19 +80,17 @@ deleteBtn.addEventListener("click", async (evt) => {
   const fetchRes = await fetch("/quotes/delete", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(quote)
+    body: JSON.stringify(quote),
   });
   const res = await fetchRes.json();
 
   console.log("Got response", res);
 
-  if (res.status == "OK"){
+  if (res.status == "OK") {
     window.location.replace("../index.html");
   } else {
     // show error message
   }
 });
-
-

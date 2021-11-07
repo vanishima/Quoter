@@ -1,3 +1,5 @@
+/* ===================== Zhengyuan Chen, Shushu Chen =================== */
+
 let express = require("express");
 let router = express.Router();
 
@@ -74,7 +76,7 @@ router.post("/login", async function (req, res) {
       // console.log("uid", uid);
       // currentUser = user.name;
       // loginStatus = true;
-      res.json({ status: "OK", user: dbRes});
+      res.json({ status: "OK", user: dbRes });
     }
   } catch (e) {
     console.log("Error", e);

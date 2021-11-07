@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -42,7 +42,7 @@
               >
             </li>
             <li class="nav-item">
-              <a id="myQuotesLink" class="nav-link">My Quotes</a>
+              <a id="myQuotesLink" class="nav-link" href="#">My Quotes</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="books.html">Books</a>
@@ -74,9 +74,7 @@
               </button>
             </li>
             <li class="me-2">
-              <a class="none-style" id="display_username"
-                ></a
-              >
+              <a class="none-style" id="display_username"></a>
             </li>
             <li class="me-2">
               <!-- Button trigger modal -->
@@ -127,13 +125,13 @@
                   role="group"
                   aria-label="Basic example"
                 >
-                  <button
+                  <!-- <button
                     type="button"
                     id="mostRecentBtn"
                     class="btn btn-secondary"
                   >
                     Most Recent
-                  </button>
+                  </button> -->
                 </div>
 
                 <div id="searchStatus" class="col-auto middle"></div>
@@ -159,7 +157,7 @@
                   />
                 </div>
               </div>
-              
+
               <div class="form-group row mb-2">
                 <label class="col-sm-2" for="newQuoteText">Text</label>
                 <div class="col-sm-10">
@@ -167,40 +165,40 @@
                     id="newQuoteText"
                     class="form-control"
                     rows="3"
-                    required="true"
+                    required
                     name="text"
                   ></textarea>
                 </div>
               </div>
 
               <div class="form-group row mb-2">
-                <label class="col-sm-2" for="">Author</label>
+                <label class="col-sm-2">Author</label>
                 <div class="col-sm-10">
                   <input
                     type="text"
                     class="form-control"
-                    required="true"
+                    required
                     name="author"
                   />
                 </div>
               </div>
 
               <div class="form-group row mb-2">
-                <label class="col-sm-2" for="">Source</label>
+                <label class="col-sm-2">Source</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" name="source" />
                 </div>
               </div>
 
               <div class="form-group row mb-2">
-                <label class="col-sm-2" for="">Year</label>
+                <label class="col-sm-2">Year</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" name="srcYear" />
                 </div>
               </div>
 
               <div class="form-group row mb-2">
-                <label class="col-sm-2" for="date">Date</label>
+                <label class="col-sm-2" for="newQuotePostDate">Date</label>
                 <div class="col-sm-10">
                   <input
                     type="datetime-local"
@@ -213,7 +211,7 @@
               </div>
 
               <div class="form-group row mb-2">
-                <label class="col-sm-2" for="">Tags</label>
+                <label class="col-sm-2">Tags</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" name="tags" />
                 </div>
@@ -256,7 +254,7 @@
                 ></button>
               </div>
               <div class="modal-body">
-                <form role="form" method="POST" action="/users/login">
+                <form method="POST" action="/users/login">
                   <input type="hidden" name="_token" value="" />
                   <div class="form-group">
                     <label class="control-label">Username</label>
@@ -295,7 +293,7 @@
                   </div>
                 </form>
                 <h1>Create New Account</h1>
-                <form role="form" method="POST" action="/users/register">
+                <form method="POST" action="/users/register">
                   <input type="hidden" name="_token" value="" />
                   <div class="form-group">
                     <label class="control-label">Username</label>
@@ -369,7 +367,11 @@
                   >
                     Cancel
                   </button>
-                  <button id="logoutConfirmBtn" type="button" class="btn btn-danger">
+                  <button
+                    id="logoutConfirmBtn"
+                    type="button"
+                    class="btn btn-danger"
+                  >
                     Log out
                   </button>
                 </div>

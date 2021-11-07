@@ -45,9 +45,7 @@
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/quotes/users/617e28bf60d195a63e74e9a6"
-                >My Quotes</a
-              >
+              <a id="myQuotesLink" class="nav-link" href="#">My Quotes</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="../books.html">Books</a>
@@ -78,12 +76,13 @@
                 <span class="bi-search"></span>
               </button>
             </li>
-            <li id="username" class="me-2">
-              <a href="user.html" class="none-style" id="username">username</a>
+            <li class="me-2">
+              <a class="none-style" id="display_username"></a>
             </li>
             <li class="me-2">
               <!-- Button trigger modal -->
               <button
+                id="loginSignUpBtn"
                 type="button"
                 class="btn btn-outline-primary me-2"
                 data-bs-toggle="modal"
@@ -92,12 +91,24 @@
                 Log in/Sign up
               </button>
             </li>
+            <li class="me-2">
+              <!-- Button trigger modal -->
+              <button
+                type="button"
+                class="btn btn-outline-primary me-2"
+                id="logoutOptionBtn"
+                data-bs-toggle="modal"
+                data-bs-target="#logoutmodal"
+              >
+                Sign out
+              </button>
+            </li>
           </ul>
         </div>
       </div>
     </nav>
 
-    <br>
+    <br />
 
     <div class="container center">
       <h1>Quote Details</h1>
@@ -112,28 +123,28 @@
                     id="quoteText"
                     class="form-control"
                     rows="5"
-                    required="true"
+                    required
                     name="text"
                   ></textarea>
                 </div>
               </div>
 
               <div class="form-group row mb-2">
-                <label class="col-sm-2" for="">Author</label>
+                <label class="col-sm-2">Author</label>
                 <div class="col-sm-10">
                   <input
                     readonly
                     id="quoteAuthor"
                     type="text"
                     class="form-control-plaintext"
-                    required="true"
+                    required
                     name="author"
                   />
                 </div>
               </div>
 
               <div class="form-group row mb-2">
-                <label class="col-sm-2" for="">Source</label>
+                <label class="col-sm-2">Source</label>
                 <div class="col-sm-10">
                   <input
                     readonly
@@ -146,14 +157,14 @@
               </div>
 
               <div class="form-group row mb-2">
-                <label class="col-sm-2" for="">Year</label>
+                <label class="col-sm-2">Year</label>
                 <div class="col-sm-10">
-                  <div id="quoteSrcYear" name="srcYear"></div>
+                  <div id="quoteSrcYear"></div>
                 </div>
               </div>
 
               <div class="form-group row mb-2">
-                <label class="col-sm-2" for="date">Date</label>
+                <label class="col-sm-2" for="quotePostDate">Date</label>
                 <div class="col-sm-10">
                   <input
                     type="datetime-local"
@@ -166,7 +177,7 @@
               </div>
 
               <div class="form-group row mb-2">
-                <label class="col-sm-2" for="">Tags</label>
+                <label class="col-sm-2" for="quoteTags">Tags</label>
                 <div class="col-sm-10">
                   <input
                     id="quoteTags"
@@ -178,13 +189,9 @@
               </div>
 
               <div class="form-group row mb-2">
-                <label class="col-sm-2" for="">Memo</label>
+                <label class="col-sm-2">Memo</label>
                 <div class="col-sm-10">
-                  <textarea
-                    type="text"
-                    class="form-control"
-                    name="memo"
-                  ></textarea>
+                  <textarea class="form-control" name="memo"></textarea>
                 </div>
               </div>
 
@@ -195,9 +202,149 @@
             </form>
           </div>
         </div>
+
+        <div id="loginModal" class="modal fade">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title">Login</h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form method="POST" action="/users/login">
+                  <input type="hidden" name="_token" value="" />
+                  <div class="form-group">
+                    <label class="control-label">Username</label>
+                    <div>
+                      <input
+                        id="uname"
+                        type="text"
+                        class="form-control input-lg"
+                        name="name"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">Password</label>
+                    <div>
+                      <input
+                        id="psw"
+                        type="password"
+                        class="form-control input-lg"
+                        name="password"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div>
+                      <button
+                        id="loginBtn"
+                        type="submit"
+                        class="btn btn-success"
+                      >
+                        Login
+                      </button>
+
+                      <a class="btn btn-link" href="">Forgot Password?</a>
+                    </div>
+                  </div>
+                </form>
+                <h1>Create New Account</h1>
+                <form method="POST" action="/users/register">
+                  <input type="hidden" name="_token" value="" />
+                  <div class="form-group">
+                    <label class="control-label">Username</label>
+                    <div>
+                      <input
+                        type="text"
+                        class="form-control input-lg"
+                        name="name"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">Password</label>
+                    <div>
+                      <input
+                        type="password"
+                        class="form-control input-lg"
+                        name="password"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">Confirm Password</label>
+                    <div>
+                      <input
+                        type="password"
+                        class="form-control input-lg"
+                        name="password_confirmation"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div>
+                      <button type="submit" class="btn btn-success">
+                        Register
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="logoutmodal" class="modal fade">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 class="modal-title">Log out</h3>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <label class="control-label"
+                      >Are you sure you want to log out?</label
+                    >
+                  </div>
+                  <div class="form-group right">
+                    <div>
+                      <button
+                        type="button"
+                        class="btn btn-success"
+                        data-bs-dismiss="modal"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        id="logoutConfirmBtn"
+                        class="btn btn-danger"
+                        type="button"
+                      >
+                        Log out
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
       </main>
     </div>
 
+    <script src="../javascripts/login.js"></script>
     <script src="../javascripts/quoteDetails.js"></script>
   </body>
 </html>

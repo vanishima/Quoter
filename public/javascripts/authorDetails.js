@@ -1,3 +1,5 @@
+/* ===================== Shushu Chen =================== */
+
 const authorName = document.querySelector("#authorName");
 const authorOrigin = document.querySelector("#authorOrigin");
 const authorKeywords = document.querySelector("#authorKeywords");
@@ -25,7 +27,6 @@ async function reloadAuthorDetail() {
 
     redrawAuthorDetail(author);
     books.forEach(redrawBooks);
-
   } catch (e) {
     authorName.innerHTML = e.msg;
   }
@@ -43,7 +44,10 @@ function redrawBooks(book) {
     "author btn btn-info me-3 mb-3",
     book.title
   );
-  bookDiv.setAttribute("href", "../pages_details/bookDetails.html?book=" + book._id);
+  bookDiv.setAttribute(
+    "href",
+    "../pages_details/bookDetails.html?book=" + book._id
+  );
 
   booksDiv.appendChild(bookDiv);
 }

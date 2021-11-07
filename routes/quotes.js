@@ -1,3 +1,5 @@
+/* ===================== Shushu Chen =================== */
+
 let express = require("express");
 let router = express.Router();
 
@@ -24,7 +26,7 @@ router.get("/user/:userID", async (req, res) => {
 
   try {
     console.log("MyDB", myDB);
-    const quotes = await myDB.getQuotes({userID: userID});
+    const quotes = await myDB.getQuotes({ userID: userID });
     // console.log(quotes);
     res.send({ quotes: quotes, currTime: getTimeStr() });
   } catch (e) {
@@ -38,10 +40,10 @@ router.post("/create", async (req, res) => {
   const quote = req.body;
 
   /* Default values */
-  if (quote.userID == null){
+  if (quote.userID == null) {
     quote.userID = ObjectId("617e28bf60d195a63e74e9a6");
   }
-  
+
   let author;
 
   if (quote.authorID == null) {

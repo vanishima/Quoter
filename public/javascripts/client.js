@@ -1,3 +1,5 @@
+/* ===================== Shushu Chen =================== */
+
 /* Quotes */
 const quotesDiv = document.querySelector("#quotes");
 const newQuotePostDate = document.querySelector("#newQuotePostDate");
@@ -13,16 +15,17 @@ searchDiv.innerHTML = "";
 
 /* Most Recent Button */
 const recentBtn = document.getElementById("mostRecentBtn");
-recentBtn.addEventListener("click", () => {
-  sort();
-});
+if (recentBtn != null){
+  recentBtn.addEventListener("click", () => {
+    sort();
+  });
+}
 
 searchButton.addEventListener("click", () => {
   const filter = searchInput.value;
   console.log("searching for " + filter);
   reloadQuotes(filter);
 });
-
 
 /* Create Quote */
 function createHTMLElement(type, classes, theInnerText) {
@@ -82,9 +85,9 @@ async function redrawQuotes(q) {
     "greyText smallText left tags col-4",
     ""
   );
-  if (typeof q.tags == "string"){
+  if (typeof q.tags == "string") {
     footerTags.innerHTML = q.tags;
-  } else if (q.tags != null){
+  } else if (q.tags != null) {
     footerTags.innerHTML = q.tags.join(" ");
   }
 
@@ -155,7 +158,7 @@ async function reloadQuotes(filter) {
     if (filter.length > 0) {
       resRaw = await fetch("/quotes/search/" + filter);
       withSearch = true;
-    } else if (userID != null){
+    } else if (userID != null) {
       resRaw = await fetch("/quotes/user/" + userID);
       console.log("Got raw");
     } else {
@@ -186,7 +189,6 @@ async function reloadQuotes(filter) {
     // console.log("Got data", quotes);
 
     quotes.forEach(redrawQuotes);
-
   } catch (e) {
     quotesDiv.innerHTML = e.msg;
   }
@@ -205,6 +207,7 @@ async function likeQuote(quoteID) {
   window.location.reload();
 }
 
+/* ===================== Zhengyuan Chen =================== */
 async function sort() {
   console.log("sorting quotes");
 

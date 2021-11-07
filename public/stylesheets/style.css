@@ -8,7 +8,8 @@ body {
   color: #000000;
 }
 
-#username, #logoutBtn {
+#username,
+#logoutBtn {
   display: none;
 }
 

@@ -1,3 +1,5 @@
+/* ===================== Shushu Chen =================== */
+
 const { MongoClient, ObjectId } = require("mongodb");
 
 const { secret } = require("./secrets/dbCon.js");
@@ -297,7 +299,7 @@ function MyDB() {
           $set: {
             text: quote.text,
             tags: quote.tags,
-            memo: quote.memo
+            memo: quote.memo,
           },
         },
         { upsert: true }

@@ -1,4 +1,5 @@
-// const mongodb = require("mongodb");
+/* ===================== Zhengyuan Chen, Shushu Chen =================== */
+
 const { MongoClient } = require("mongodb");
 const { secret } = require("./secrets/dbCon.js");
 
@@ -26,11 +27,10 @@ function MyDB() {
       const userCol = db.collection("users");
       console.log("Collection ready, insert ", user);
       const res = await userCol.insertOne(user);
-      if (res){
+      if (res) {
         console.log("Inserted", res);
         return res;
-      }
-      else {
+      } else {
         console.log("already exist");
         return null;
       }
@@ -53,13 +53,12 @@ function MyDB() {
       console.log("Collection ready, find ", user);
 
       const res = await userCol.findOne(user);
-      
-      if(res){
+
+      if (res) {
         console.log("Found", res);
 
         return res;
-      }
-      else {
+      } else {
         console.log("not found");
         return null;
       }
@@ -71,6 +70,5 @@ function MyDB() {
 
   return myDB;
 }
-
 
 module.exports = MyDB();

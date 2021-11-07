@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -37,12 +37,15 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="../index.html"
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="../index.html"
                 >Home</a
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/quotes/users/617e28bf60d195a63e74e9a6">My Quotes</a>
+              <a id="myQuotesLink" class="nav-link" href="#">My Quotes</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="../books.html">Books</a>
@@ -73,18 +76,31 @@
                 <span class="bi-search"></span>
               </button>
             </li>
-            <li id="username" class="me-2">
-              <a href="user.html" class="none-style" id="username">username</a>
+            <li class="me-2">
+              <a class="none-style" id="display_username"></a>
             </li>
             <li class="me-2">
               <!-- Button trigger modal -->
               <button
+                id="loginSignUpBtn"
                 type="button"
                 class="btn btn-outline-primary me-2"
                 data-bs-toggle="modal"
                 data-bs-target="#loginModal"
               >
                 Log in/Sign up
+              </button>
+            </li>
+            <li class="me-2">
+              <!-- Button trigger modal -->
+              <button
+                type="button"
+                class="btn btn-outline-primary me-2"
+                id="logoutOptionBtn"
+                data-bs-toggle="modal"
+                data-bs-target="#logoutmodal"
+              >
+                Sign out
               </button>
             </li>
           </ul>
@@ -94,9 +110,9 @@
 
     <div class="container">
       <main>
-        <br>
-        
-        <h1 id="authorName"></h1>
+        <br />
+
+        <h1 id="authorName">Loading</h1>
         <div class="row">
           <div class="col-2">Origin</div>
           <div id="authorOrigin" class="col-10"></div>
@@ -107,19 +123,12 @@
           <div id="authorKeywords" class="col-10"></div>
         </div>
 
-        <hr>
+        <hr />
         <div class="row">
           <h3 class="col-auto">Books by author</h3>
-          <button
-            type="button"
-            class="btn btn-outline-primary me-2 col-auto"
-            data-bs-toggle="modal"
-            data-bs-target="#newBookModal"
-          ><i class="bi bi-plus-square-dotted"></i> Create New Books
-          </button>
           <div id="booksByAuthor"></div>
         </div>
-        
+
         <div id="loginModal" class="modal fade">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -132,16 +141,16 @@
                 ></button>
               </div>
               <div class="modal-body">
-                <form role="form" method="POST" action="/users/login">
+                <form method="POST" action="/users/login">
                   <input type="hidden" name="_token" value="" />
                   <div class="form-group">
                     <label class="control-label">Username</label>
                     <div>
                       <input
+                        id="uname"
                         type="text"
                         class="form-control input-lg"
                         name="name"
-                        value=""
                       />
                     </div>
                   </div>
@@ -149,6 +158,7 @@
                     <label class="control-label">Password</label>
                     <div>
                       <input
+                        id="psw"
                         type="password"
                         class="form-control input-lg"
                         name="password"
@@ -157,16 +167,11 @@
                   </div>
                   <div class="form-group">
                     <div>
-                      <div class="checkbox">
-                        <label>
-                          <input type="checkbox" name="remember" /> Remember Me
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div>
-                      <button type="submit" class="btn btn-success">
+                      <button
+                        id="loginBtn"
+                        type="submit"
+                        class="btn btn-success"
+                      >
                         Login
                       </button>
 
@@ -175,7 +180,7 @@
                   </div>
                 </form>
                 <h1>Create New Account</h1>
-                <form role="form" method="POST" action="/users/register">
+                <form method="POST" action="/users/register">
                   <input type="hidden" name="_token" value="" />
                   <div class="form-group">
                     <label class="control-label">Username</label>
@@ -218,15 +223,55 @@
                 </form>
               </div>
             </div>
-            <!-- /.modal-content -->
           </div>
-          <!-- /.modal-dialog -->
         </div>
 
+        <div id="logoutmodal" class="modal fade">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 class="modal-title">Log out</h3>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <label class="control-label"
+                      >Are you sure you want to log out?</label
+                    >
+                  </div>
+                  <div class="form-group right">
+                    <div>
+                      <button
+                        type="button"
+                        class="btn btn-success"
+                        data-bs-dismiss="modal"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        id="logoutConfirmBtn"
+                        class="btn btn-danger"
+                        type="button"
+                      >
+                        Log out
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
       </main>
 
       <footer>Made by Shushu Chen 🌲, Zhengyuan Chen</footer>
     </div>
+    <script src="../javascripts/login.js"></script>
     <script src="../javascripts/authorDetails.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

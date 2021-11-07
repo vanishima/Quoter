@@ -1,3 +1,5 @@
+/* ===================== Shushu Chen =================== */
+
 console.log("inside login.js");
 
 let currentUser;
@@ -10,8 +12,12 @@ const myQuotesLink = document.getElementById("myQuotesLink");
 const display_username = document.getElementById("display_username");
 
 const inputUserID = document.getElementById("inputUserID");
+// userID for anonymous user
+if (inputUserID != null) {
+  inputUserID.value = "617e28bf60d195a63e74e9a6";
+}
 
-logoutBtn.addEventListener("click", async(evt) => {
+logoutBtn.addEventListener("click", async (evt) => {
   evt.preventDefault();
   sessionStorage.clear();
   window.location.reload();
@@ -38,19 +44,22 @@ loginBtn.addEventListener("click", async (evt) => {
   console.log("login response: ", response);
   const res = await response.json();
 
-  if (response.status == 200){
+  if (response.status == 200) {
     user = res.user;
     currentUser = user;
     sessionStorage.setItem("username", input_username);
     sessionStorage.setItem("currentUser", JSON.stringify(currentUser));
-    console.log("logged in sessionStorage", JSON.parse(sessionStorage.getItem("currentUser")).name);
+    console.log(
+      "logged in sessionStorage",
+      JSON.parse(sessionStorage.getItem("currentUser")).name
+    );
     window.location.reload();
   } else {
     alert("incorrect username or password");
   }
 });
 
-if (sessionStorage.getItem("currentUser") != null){
+if (sessionStorage.getItem("currentUser") != null) {
   currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
   console.log("user logged in", currentUser);
 
@@ -59,20 +68,13 @@ if (sessionStorage.getItem("currentUser") != null){
   display_username.href = "../user.html?user=" + currentUser._id;
   myQuotesLink.href = "../user.html?user=" + currentUser._id;
 
-  if (inputUserID != null){
+  if (inputUserID != null) {
     inputUserID.value = currentUser._id;
   }
-  
+
   loginSignUpBtn.style.display = "none";
   logoutOptionBtn.style.display = "block";
 } else {
   loginSignUpBtn.style.display = "block";
   logoutOptionBtn.style.display = "none";
 }
-
-
-
-
-
-
-

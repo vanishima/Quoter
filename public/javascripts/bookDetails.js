@@ -1,4 +1,4 @@
-// import {redrawQuotes, likeQuotes} from "./client.js";
+/* ===================== Shushu Chen =================== */
 
 const bookTitle = document.querySelector("#bookTitle");
 const bookAuthor = document.querySelector("#bookAuthor");
@@ -36,7 +36,6 @@ async function reloadBookDetail() {
     await quotes.forEach(redrawQuotes);
 
     await redrawBookDetail(book, author, currTime);
-
   } catch (e) {
     bookTitle.innerHTML = e.msg;
   }
@@ -129,10 +128,7 @@ async function redrawQuotes(q) {
   // const deleteBtn = createHTMLElement("a", "btn btn-outline-danger col-auto", "Delete");
 
   // editBtn.setAttribute("href", `/quotes/${q._id}/edit`);
-  editBtn.setAttribute(
-    "href",
-    `./quoteDetails.html?quoteID=${q._id}`
-  );
+  editBtn.setAttribute("href", `./quoteDetails.html?quoteID=${q._id}`);
   // editBtn.href = "quoteDetails.html";
 
   quoteFooter.appendChild(footerLikes);

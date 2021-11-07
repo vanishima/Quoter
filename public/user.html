@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -145,7 +145,6 @@
             <!-- CREATE QUOTE -->
             <h3>Create Quote</h3>
             <form action="/quotes/create" method="POST">
-
               <div class="form-group row mb-2">
                 <label class="col-sm-2" for="inputUserID">UserID</label>
                 <div class="col-sm-10">
@@ -166,40 +165,40 @@
                     id="newQuoteText"
                     class="form-control"
                     rows="3"
-                    required="true"
+                    required
                     name="text"
                   ></textarea>
                 </div>
               </div>
 
               <div class="form-group row mb-2">
-                <label class="col-sm-2" for="">Author</label>
+                <label class="col-sm-2">Author</label>
                 <div class="col-sm-10">
                   <input
                     type="text"
                     class="form-control"
-                    required="true"
+                    required
                     name="author"
                   />
                 </div>
               </div>
 
               <div class="form-group row mb-2">
-                <label class="col-sm-2" for="">Source</label>
+                <label class="col-sm-2">Source</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" name="source" />
                 </div>
               </div>
 
               <div class="form-group row mb-2">
-                <label class="col-sm-2" for="">Year</label>
+                <label class="col-sm-2">Year</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" name="srcYear" />
                 </div>
               </div>
 
               <div class="form-group row mb-2">
-                <label class="col-sm-2" for="date">Date</label>
+                <label class="col-sm-2" for="newQuotePostDate">Date</label>
                 <div class="col-sm-10">
                   <input
                     type="datetime-local"
@@ -212,7 +211,7 @@
               </div>
 
               <div class="form-group row mb-2">
-                <label class="col-sm-2" for="">Tags</label>
+                <label class="col-sm-2">Tags</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" name="tags" />
                 </div>
@@ -255,7 +254,7 @@
                 ></button>
               </div>
               <div class="modal-body">
-                <form role="form" method="POST" action="/users/login">
+                <form method="POST" action="/users/login">
                   <input type="hidden" name="_token" value="" />
                   <div class="form-group">
                     <label class="control-label">Username</label>
@@ -294,7 +293,7 @@
                   </div>
                 </form>
                 <h1>Create New Account</h1>
-                <form role="form" method="POST" action="/users/register">
+                <form method="POST" action="/users/register">
                   <input type="hidden" name="_token" value="" />
                   <div class="form-group">
                     <label class="control-label">Username</label>
@@ -337,9 +336,7 @@
                 </form>
               </div>
             </div>
-            <!-- /.modal-content -->
           </div>
-          <!-- /.modal-dialog -->
         </div>
 
         <div id="logoutmodal" class="modal fade">

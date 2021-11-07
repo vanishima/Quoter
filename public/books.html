@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -125,7 +125,7 @@
                 ></button>
               </div>
               <div class="modal-body">
-                <form role="form" method="POST" action="/users/login">
+                <form method="POST" action="/users/login">
                   <input type="hidden" name="_token" value="" />
                   <div class="form-group">
                     <label class="control-label">Username</label>
@@ -174,7 +174,7 @@
                   </div>
                 </form>
                 <h1>Create New Account</h1>
-                <form role="form" method="POST" action="/users/register">
+                <form method="POST" action="/users/register">
                   <input type="hidden" name="_token" value="" />
                   <div class="form-group">
                     <label class="control-label">Username</label>
@@ -261,9 +261,7 @@
                 </form>
               </div>
             </div>
-            <!-- /.modal-content -->
           </div>
-          <!-- /.modal-dialog -->
         </div>
       </main>
 
