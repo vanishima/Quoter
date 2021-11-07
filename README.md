@@ -9,8 +9,8 @@ A quote sharing app with a node + express + Mongo + vanilla ES6 frontend
 
 ## Link to class
 
-Class: CS 5610 Web Development Northeastern University Bay Area [**Link**](https://johnguerra.co/classes/webDevelopment_fall_2021/)  
-Instructor: John Alexis Guerra Gómez
+Class: [CS 5610 Web Development Northeastern University Bay Area](https://johnguerra.co/classes/webDevelopment_fall_2021/)  
+Instructor: [John Alexis Guerra Gómez](https://johnguerra.co/)
 
 ## Screenshot
 
@@ -40,4 +40,4 @@ Instructor: John Alexis Guerra Gómez
 ## Video demo
 
 ## Slides
-
+[Quoter - Demo Slides](https://docs.google.com/presentation/d/1YWO2BhOK9eBZhFptax2Dc68FTBAMlQ1yOyuQYALaq44/edit?usp=sharing)
