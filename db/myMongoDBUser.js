@@ -1,5 +1,6 @@
 // const mongodb = require("mongodb");
 const { MongoClient } = require("mongodb");
+const { secret } = require("./secrets/dbCon.js");
 
 async function listDatabases(client) {
   const databasesList = await client.db().admin().listDatabases();
@@ -10,8 +11,7 @@ async function listDatabases(client) {
 
 function MyDB() {
   const myDB = {};
-  const uri =
-    "mongodb+srv://vanishima:testtest@quoter.1muqt.mongodb.net/quoter?retryWrites=true&w=majority";
+  const uri = secret.uri;
   const DB_NAME = "quoter";
 
   myDB.createUser = async (user) => {
