@@ -2,10 +2,20 @@ var express = require("express");
 var router = express.Router();
 
 const myDB = require("../db/myMongoDBUser.js");
+const quotesDB = require("../db/myMongoDB.js");
+const { ObjectId } = require("mongodb");
 
+let currentUser = null;
+let loginStatus = false;
+let uid = null;
 /* GET users listing. */
-router.get("/", function (req, res, next) {
-  res.render("user", { title: "User", userID: "" });
+router.get("/", function (req, res) {
+  res.send({
+    title: "User",
+    userID: uid,
+    username: currentUser,
+    status: loginStatus,
+  });
 });
 
 /* GET A USER'S QUOTE */
@@ -14,7 +24,7 @@ router.get("/:userID", async (req, res) => {
   const userID = req.params.userID;
   try {
     console.log("MyDB", myDB);
-    const quotes = await myDB.getQuotes({ userID: userID });
+    const quotes = await quotesDB.getQuotes({ userID: userID });
     res.send(quotes);
     // res.send({ quotes: quotes });
   } catch (e) {
@@ -29,19 +39,21 @@ router.post("/register", async function (req, res) {
   const resUser = req.body;
   const user = {
     name: resUser.name,
-    password: resUser.password
+    password: resUser.password,
   };
-
   try {
     const dbRes = await myDB.createUser(user);
     console.log("dbRes", dbRes);
-    res.send({user: user});
+    if (dbRes === null) {
+      res.send("User already exist");
+    }
+    else {
+      res.redirect("/");
+    }
   } catch (e) {
     console.log("Error", e);
     res.status(400).send({ err: e });
-  } finally {
-    res.redirect("/");
-  }
+  } 
 });
 
 /* GET login user */
@@ -50,26 +62,35 @@ router.post("/login", async function (req, res) {
   const resUser = req.body;
   const user = {
     name: resUser.name,
-    password: resUser.password
+    password: resUser.password,
   };
-
   try {
     const dbRes = await myDB.loginUser(user);
     console.log("dbRes", dbRes);
-    if (dbRes == null) {
+    if (dbRes === null) {
+      res.send("Incorrect username/password");
+      //res.redirect("/");
+    } else {
+      uid = new ObjectId(dbRes._id);
+      console.log("uid", uid);
+      currentUser = user.name;
+      loginStatus = true;
       res.redirect("/");
     }
-    res.send({user: user});
+    //res.send({user: user});
   } catch (e) {
     console.log("Error", e);
-    res.status(400).send({ err: e });
-  } finally {
-    res.redirect("/");
-  }
+    res.send();
+  } 
 });
 
-router.get("/hehe", function (req, res, next) {
-  res.send("respond with a resource");
+router.post("/logout", (req, res) => {
+  console.log("enter post for logout");
+  // res.send({title: "User logout", userID: "", username: currentUser});
+  currentUser = null;
+  loginStatus = false;
+  uid = null;
+  res.redirect("/");
 });
 
 module.exports = router;

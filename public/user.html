@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Quoter</title>
     <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/icons.css" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -43,52 +42,55 @@
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">My Quotes</a>
+              <a class="nav-link" href="books.html">Books</a>
             </li>
             <li class="nav-item">
-              <a
-                class="nav-link disabled"
-                href="#"
-                tabindex="-1"
-                aria-disabled="true"
-                >Disabled</a
-              >
+              <a class="nav-link" href="authors.html">Authors</a>
             </li>
           </ul>
 
           <!-- Search bar and Login -->
-          <form action="/quotes/search" method="GET">
-            <ul class="navbar-nav">
-              <li class="me-2">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="search-input"
-                  placeholder="Search"
-                  aria-label="Search"
-                  name="keyword"
-                />
-              </li>
-              <li class="me-2">
-                <button
-                  id="search-button"
-                  type="submit"
-                  class="btn btn-outline-success col-auto"
-                >
-                  <span class="bi-search"></span>
-                </button>
-              </li>
-            </ul>
-          </form>
-          <div id="username" class="me-2">
-            <a href="user.html" class="none-style">username</a>
-          </div>
+
           <ul class="navbar-nav">
+            <li class="me-2">
+              <input
+                type="text"
+                class="form-control"
+                id="search-input"
+                placeholder="Search"
+                aria-label="Search"
+              />
+            </li>
+            <li class="me-2">
+              <button
+                id="search-button"
+                type="submit"
+                class="btn btn-outline-success col-auto"
+              >
+                <span class="bi-search"></span>
+              </button>
+            </li>
+            <li class="me-2">
+              <a href="user.html" class="none-style" id="username">username</a>
+            </li>
             <li class="me-2">
               <!-- Button trigger modal -->
               <button
                 type="button"
                 class="btn btn-outline-primary me-2"
+                id="loginBtn"
+                data-bs-toggle="modal"
+                data-bs-target="#loginModal"
+              >
+                Log in/Sign up
+              </button>
+            </li>
+            <li class="me-2">
+              <!-- Button trigger modal -->
+              <button
+                type="button"
+                class="btn btn-outline-primary me-2"
+                id="logoutBtn"
                 data-bs-toggle="modal"
                 data-bs-target="#logoutmodal"
               >
@@ -101,6 +103,7 @@
     </nav>
 
     <div class="container">
+      <br />
       <main>
         <div class="row">
           <div class="col-8">
@@ -109,6 +112,12 @@
                 <a class="page-title" href="index.html">My Quotes</a>
               </h1>
               <div
+                class="btn-toolbar mb-3 row"
+                role="toolbar"
+                aria-label="Toolbar with button groups"
+              >
+                <div
+                  id="control-panel"
                   class="btn-group mr-2 col-auto"
                   role="group"
                   aria-label="Basic example"
@@ -121,8 +130,11 @@
                     Most Recent
                   </button>
                 </div>
+
+                <div id="searchStatus" class="col-auto middle"></div>
+              </div>
             </div>
-            <div id="searchStatus"></div>
+
             <div id="quotes" class="row"></div>
           </div>
 
@@ -170,6 +182,19 @@
               </div>
 
               <div class="form-group row mb-2">
+                <label class="col-sm-2" for="date">Date</label>
+                <div class="col-sm-10">
+                  <input
+                    type="datetime-local"
+                    id="newQuotePostDate"
+                    name="postDate"
+                    min="1990-01-01T00:00"
+                    max="2099-12-31T23:55"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group row mb-2">
                 <label class="col-sm-2" for="">Tags</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" name="tags" />
@@ -200,7 +225,7 @@
           </div>
         </div>
         <!-- Modal -->
-        <!-- Modal HTML Markup -->
+        
         <div id="logoutmodal" class="modal fade">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -213,7 +238,7 @@
                 ></button>
               </div>
               <div class="modal-body">
-                <form>
+                <form action="/users/logout" method="POST">
                   <div class="form-group">
                     <label class="control-label"
                       >Are you sure you want to log out?</label
@@ -221,12 +246,15 @@
                   </div>
                   <div class="form-group right">
                     <div>
-                      <button type="button" class="btn btn-success">
+                      <button
+                        type="button"
+                        class="btn btn-success"
+                        data-bs-dismiss="modal"
+                      >
                         Cancel
                       </button>
-                      <button type="button" class="btn btn-success">
-                        Log out
-                      </button>
+                      <input type="hidden" value="logout">
+                      <input class="btn btn-primary" type="submit" value="Logout">
                     </div>
                   </div>
                 </form>
@@ -241,7 +269,7 @@
 
       <footer>Made by Shushu Chen 🌲, Zhengyuan Chen</footer>
     </div>
-    <script src="./javascripts/client.js"></script>
+    <script src="./javascripts/client_for_user.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"

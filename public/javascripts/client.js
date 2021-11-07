@@ -5,6 +5,9 @@ const newQuotePostDate = document.querySelector("#newQuotePostDate");
 /* Username */
 const username = document.querySelector("#username");
 
+const loginBtn = document.querySelector("#loginBtn");
+const logoutBtn = document.querySelector("#logoutBtn");
+
 /* Search bar */
 const searchButton = document.getElementById("search-button");
 const searchInput = document.getElementById("search-input");
@@ -26,8 +29,8 @@ searchButton.addEventListener("click", () => {
   reloadQuotes(filter);
 });
 
-/* Create Quote */
 
+/* Create Quote */
 function createHTMLElement(type, classes, theInnerText) {
   const ele = document.createElement(type);
   if (classes.length > 0) {
@@ -149,29 +152,38 @@ async function reloadQuotes(filter) {
   // fetch quotes from /quotes
   try {
     // get list of quotes with filter
-    let resRaw;
+    let resRaw, userRes;
     let withSearch = false;
     if (filter.length > 0) {
       resRaw = await fetch("/quotes/search/" + filter);
+      userRes = await fetch("/users");
       withSearch = true;
     } else {
       resRaw = await fetch("/quotes");
+      userRes = await fetch("/users");
       console.log("Got raw");
     }
 
     // get the actual quotes
     const res = await resRaw.json();
     const quotes = await res.quotes;
-    const user = await res.user;
+    //const user = await res.user;
+    const user = await userRes.json();
     const currTime = await res.currTime;
     console.log("current time", currTime);
     newQuotePostDate.value = currTime;
     
 
-    if (user != null) {
-      const username = user.username;
-      console.log("username: ", username);
-      username.innerHTML = username;
+    if (user.status) {
+      console.log("username: ", user.username);
+      username.style.display = "block";
+      username.innerHTML = user.username;
+      loginBtn.style.display = "none";
+      logoutBtn.style.display = "block";
+    }
+    else {
+      loginBtn.style.display = "block";
+      logoutBtn.style.display = "none";
     }
 
     let searchStatus = quotes.length + " results";

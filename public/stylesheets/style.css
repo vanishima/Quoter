@@ -8,6 +8,10 @@ body {
   color: #000000;
 }
 
+#username, #logoutBtn {
+  display: none;
+}
+
 /* Page title */
 a.page-title {
   text-decoration: none;

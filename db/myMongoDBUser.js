@@ -25,12 +25,15 @@ function MyDB() {
       const db = client.db(DB_NAME);
       const userCol = db.collection("users");
       console.log("Collection ready, insert ", user);
-
       const res = await userCol.insertOne(user);
-
-      console.log("Inserted", res);
-
-      return res;
+      if (res){
+        console.log("Inserted", res);
+        return res;
+      }
+      else {
+        console.log("already exist");
+        return null;
+      }
     } finally {
       console.log("Closing the connection");
       client.close();
@@ -50,10 +53,15 @@ function MyDB() {
       console.log("Collection ready, find ", user);
 
       const res = await userCol.findOne(user);
+      if(res){
+        console.log("Found", res);
 
-      console.log("Found", res);
-
-      return res;
+        return res;
+      }
+      else {
+        console.log("not found");
+        return null;
+      }
     } finally {
       console.log("Closing the connection");
       client.close();

@@ -1,9 +1,21 @@
 /* Quotes */
 const quotesDiv = document.querySelector("#quotes");
+const newQuotePostDate = document.querySelector("#newQuotePostDate");
+
+/* Username */
+const username = document.querySelector("#username");
+
+const loginBtn = document.querySelector("#loginBtn");
+const logoutBtn = document.querySelector("#logoutBtn");
 
 /* Search bar */
 const searchButton = document.getElementById("search-button");
 const searchInput = document.getElementById("search-input");
+
+/* Search status */
+const controlPanelDiv = document.querySelector("#control-panel");
+const searchDiv = document.querySelector("#searchStatus");
+searchDiv.innerHTML = "";
 
 /* Most Recent Button */
 const recentBtn = document.getElementById("mostRecentBtn");
@@ -11,14 +23,14 @@ recentBtn.addEventListener("click", () => {
   sort();
 });
 
-// searchButton.addEventListener("click", () => {
-//   const filter = searchInput.value;
-//   console.log("searching for " + filter);
-//   reloadQuotes(filter);
-// });
+searchButton.addEventListener("click", () => {
+  const filter = searchInput.value;
+  console.log("searching for " + filter);
+  reloadQuotes(filter);
+});
+
 
 /* Create Quote */
-
 function createHTMLElement(type, classes, theInnerText) {
   const ele = document.createElement(type);
   if (classes.length > 0) {
@@ -31,10 +43,12 @@ function createHTMLElement(type, classes, theInnerText) {
 }
 
 // TODO: MODULARIZE HTML ELEMENT CREATION
-
-function createComment(comments) {}
-
 async function redrawQuotes(q) {
+  const author = q.author[0];
+  const book = q.book[0];
+
+  // console.log(book);
+  console.log("redrawQuotes with quote", q._id);
   // create a quote card
   const divQ = createHTMLElement("div", "card mb-3", "");
   quotesDiv.appendChild(divQ);
@@ -42,21 +56,27 @@ async function redrawQuotes(q) {
   const cardBody = createHTMLElement("div", "card-body row", "");
   divQ.appendChild(cardBody);
 
-  /* Quote Details: blockQuote, quoteFooter*/
+  /* Quote Details: blockQuote, quoteFooter */
   const quoteDetails = createHTMLElement("div", "quoteDetails col-11", "");
   const blockQuote = createHTMLElement("blockquote", "blockquoter", "");
-  const quoteFooter = createHTMLElement("div", "quoteFooter", "");
+  const quoteFooter = createHTMLElement("div", "quoteFooter row", "");
 
   quoteDetails.appendChild(blockQuote);
   quoteDetails.appendChild(quoteFooter);
 
   /* Block Quote*/
   const pText = createHTMLElement("p", "blockquote-text", q.text);
-  const footer = createHTMLElement("footer", "blockquote-footer", q.author);
+  const authorLink = createHTMLElement("a", "none-style", author.name);
+  authorLink.href = "./pages_details/authorDetails.html?author=" + author._id;
+  const footer = createHTMLElement("footer", "blockquote-footer", "");
+  footer.appendChild(authorLink);
   blockQuote.appendChild(pText);
 
-  if (q.source.length > 0) {
-    const cite = createHTMLElement("cite", "", ", " + q.source);
+  if (book.title.length > 0) {
+    const citeLink = createHTMLElement("a", "none-style", ", " + book.title);
+    citeLink.href = "./pages_details/bookDetails.html?book=" + book._id;
+    const cite = createHTMLElement("cite", "", "");
+    cite.appendChild(citeLink);
     cite.title = "Source Title";
     footer.appendChild(cite);
   }
@@ -65,27 +85,37 @@ async function redrawQuotes(q) {
   /* Quote Footer */
   const footerTags = createHTMLElement(
     "div",
-    "greyText smallText left tags",
+    "greyText smallText left tags col-4",
     ""
   );
-  footerTags.innerHTML = q.tags; // q.tags.join(", ");
+  if (typeof q.tags == "string"){
+    footerTags.innerHTML = q.tags;
+  } else if (q.tags != null){
+    footerTags.innerHTML = q.tags.join(" ");
+  }
+
   quoteFooter.appendChild(footerTags);
 
-  const footerRight = createHTMLElement("div", "right row", "");
   const footerLikes = createHTMLElement(
     "p",
-    "likes smallText col-auto",
+    "likes smallText col-2",
     `${q.likes} Likes`
   );
-  // const footerEditLink =createHTMLElement("a", "editLink", "");
-  const footerEdit = createHTMLElement("a", "editLink smallText col-auto bold greenText", "Edit");
-  footerEdit.href = "quotes/edit";
-  const footerDelete = createHTMLElement("a", "editLink smallText col-auto bold greenText", "Delete");
-  footerDelete.href = "#";
-  quoteFooter.appendChild(footerRight);
-  footerRight.appendChild(footerLikes);
-  footerRight.appendChild(footerEdit);
-  footerRight.appendChild(footerDelete);
+
+  const editBtn = createHTMLElement(
+    "a",
+    "btn btn-outline-primary col-auto me-2",
+    "Edit"
+  );
+
+  editBtn.setAttribute(
+    "href",
+    `./pages_details/quoteDetails.html?quoteID=${q._id}`
+  );
+  // editBtn.href = "quoteDetails.html";
+
+  quoteFooter.appendChild(footerLikes);
+  quoteFooter.appendChild(editBtn);
 
   /* DivAction */
   const actionDiv = createHTMLElement(
@@ -93,11 +123,12 @@ async function redrawQuotes(q) {
     "action col-1 quote-action-bar",
     ""
   );
-  const btnFav = createHTMLElement("a", "quote-action-button", "");
-  btnFav.href = "#";
-  // const imgFav = createHTMLElement("i", "bi bi-heart", "");
+  const btnFav = createHTMLElement("a", "btn quote-action-button", "");
+  btnFav.addEventListener("click", async () => {
+    likeQuote(q._id);
+  });
+
   const imgFav = createHTMLElement("img", "quote-action-icon", "");
-  // {/*<i class="bi bi-star"></i>*/}
   imgFav.src = "../images/icon/iconmonstr-heart-thin-240.png";
   imgFav.alt = "like-button";
   btnFav.appendChild(imgFav);
@@ -121,23 +152,71 @@ async function reloadQuotes(filter) {
   // fetch quotes from /quotes
   try {
     // get list of quotes with filter
-    let resRaw;
+    let resRaw, userRes;
+    let withSearch = false;
+    userRes = await fetch("/users");
+    const user = await userRes.json();
     if (filter.length > 0) {
-      resRaw = await fetch("/quotes/search/" + filter);
+      resRaw = await fetch("/users/" + "");
+      withSearch = true;
     } else {
-      resRaw = await fetch("/quotes");
+      resRaw = await fetch("/users/" + user.userID);
       console.log("Got raw");
     }
 
     // get the actual quotes
     const res = await resRaw.json();
-    const quotes = res.quotes;
-    console.log("Got data", quotes);
+    const quotes = await res.quotes;
+    //const user = await res.user;
+    const currTime = await res.currTime;
+    console.log("current time", currTime);
+    newQuotePostDate.value = currTime;
+    
+
+    if (user.status) {
+      console.log("username: ", user.username);
+      username.style.display = "block";
+      username.innerHTML = user.username;
+      loginBtn.style.display = "none";
+      logoutBtn.style.display = "block";
+    }
+    else {
+      loginBtn.style.display = "block";
+      logoutBtn.style.display = "none";
+    }
+
+    let searchStatus = quotes.length + " results";
+    if (withSearch == true) {
+      const keywordSpan = createHTMLElement("span", "bold", res.keyword);
+      searchStatus += " for ";
+      searchDiv.innerHTML = searchStatus;
+      searchDiv.appendChild(keywordSpan);
+    } else {
+      searchDiv.innerHTML = searchStatus;
+    }
+
+    // controlPanelDiv.appendChild(searchDiv);
+
+    // console.log("Got data", quotes);
 
     quotes.forEach(redrawQuotes);
+
   } catch (e) {
     quotesDiv.innerHTML = e.msg;
   }
+}
+
+async function likeQuote(quoteID) {
+  const response = await fetch(`/quotes/like/${quoteID}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow",
+    body: JSON.stringify(),
+  });
+  console.log("like response: ", response);
+  window.location.reload();
 }
 
 async function sort() {
@@ -163,7 +242,11 @@ async function sort() {
   }
 
   // redraw quotes
-  redrawQuotes(quotes);
+  quotes.forEach(redrawQuotes);
 }
 
 reloadQuotes("");
+
+// export { likeQuote, redrawQuotes };
+// module.exports redrawQuotes = redrawQuotes;
+// module.exports likeQuote = likeQuote;
