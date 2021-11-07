@@ -197,11 +197,12 @@ function MyDB() {
 
       const db = client.db(DB_NAME);
       const col = db.collection(collection);
-      console.log("Collection ready, querying with ", query);
+      console.log(query);
+      console.log("Collection ready, querying with " + query + " in " + collection);
 
       const documents = await col.find(query).toArray();
 
-      // console.log("Got documents", documents);
+      console.log("Got documents", documents);
 
       return documents;
     } finally {

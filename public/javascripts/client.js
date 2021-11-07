@@ -221,3 +221,7 @@ async function sort() {
 }
 
 reloadQuotes("");
+
+export { likeQuote, redrawQuotes };
+// module.exports redrawQuotes = redrawQuotes;
+// module.exports likeQuote = likeQuote;

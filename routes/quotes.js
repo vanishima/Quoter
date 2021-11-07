@@ -2,6 +2,7 @@ let express = require("express");
 let router = express.Router();
 
 const myDB = require("../db/myMongoDB.js");
+const { ObjectId } = require("mongodb");
 
 /* GET FULL LIST */
 router.get("/", async (req, res) => {
@@ -118,12 +119,11 @@ router.post("/create", async (req, res) => {
   const quote = req.body;
 
   /* Default values */
-  quote.userID = "617e28bf60d195a63e74e9a6";
-  quote.postDate = getDateTime();
-  quote.privacy_level = 0;
-  quote.collection = "temp";
+  quote.userID = ObjectId("617e28bf60d195a63e74e9a6");
+  quote.authorID = ObjectId(quote.authorID);
+  quote.bookID = ObjectId(quote.bookID);
+  quote.postDate = quote.postDate != null ? quote.postDate : getDateTime();
   quote.likes = 0;
-  quote.comments = [];
 
   console.log("create quote", quote);
 
