@@ -15,7 +15,6 @@ Instructor: John Alexis Guerra Gómez
 ## Screenshot
 
 ![Quoter demo](https://github.com/vanishima/Quoter/blob/main/demo/screenshot_hompage.png?raw=true)
-![Quoter demo](https://github.com/vanishima/Quoter/blob/main/demo/screenshot_loginmodal.png?raw=true)
 ![Quoter demo](https://github.com/vanishima/Quoter/blob/main/demo/screenshot_books.png?raw=true)
 ![Quoter demo](https://github.com/vanishima/Quoter/blob/main/demo/screenshot_authors.png?raw=true)
 ![Quoter demo](https://github.com/vanishima/Quoter/blob/main/demo/screenshot_authordetails.png?raw=true)
@@ -37,3 +36,8 @@ Instructor: John Alexis Guerra Gómez
 - `git clone [repo link]`
 - `npm install`
 - `npm run nodemon`
+
+## Video demo
+
+## Slides
+
