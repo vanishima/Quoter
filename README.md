@@ -1,4 +1,4 @@
-# Quoter2
+# Quoter
 
 A quote sharing app with a node + express + Mongo + vanilla ES6 frontend
 
