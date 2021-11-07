@@ -17,6 +17,88 @@
     />
   </head>
   <body>
+    <nav
+      class="navbar navbar-expand-lg fixed-top navbar-light"
+      style="background-color: #e3f2fd"
+    >
+      <div class="container-fluid">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarTogglerDemo03"
+          aria-controls="navbarTogglerDemo03"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand mb-0" href="../index.html">Quoter</a>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="../index.html"
+                >Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/quotes/users/617e28bf60d195a63e74e9a6"
+                >My Quotes</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../books.html">Books</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../authors.html">Authors</a>
+            </li>
+          </ul>
+
+          <!-- Search bar and Login -->
+
+          <ul class="navbar-nav">
+            <li class="me-2">
+              <input
+                type="text"
+                class="form-control"
+                id="search-input"
+                placeholder="Search"
+                aria-label="Search"
+              />
+            </li>
+            <li class="me-2">
+              <button
+                id="search-button"
+                type="submit"
+                class="btn btn-outline-success col-auto"
+              >
+                <span class="bi-search"></span>
+              </button>
+            </li>
+            <li id="username" class="me-2">
+              <a href="user.html" class="none-style" id="username">username</a>
+            </li>
+            <li class="me-2">
+              <!-- Button trigger modal -->
+              <button
+                type="button"
+                class="btn btn-outline-primary me-2"
+                data-bs-toggle="modal"
+                data-bs-target="#loginModal"
+              >
+                Log in/Sign up
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <br>
+
     <div class="container center">
       <h1>Quote Details</h1>
       <main>
@@ -24,12 +106,12 @@
           <div class="col-5">
             <form id="quoteDetails">
               <div class="form-group row mb-2">
-                <label class="col-sm-2" for="newQuoteText">Text</label>
+                <label class="col-sm-2" for="quoteText">Text</label>
                 <div class="col-sm-10">
                   <textarea
                     id="quoteText"
                     class="form-control"
-                    rows="3"
+                    rows="5"
                     required="true"
                     name="text"
                   ></textarea>
@@ -53,24 +135,62 @@
               <div class="form-group row mb-2">
                 <label class="col-sm-2" for="">Source</label>
                 <div class="col-sm-10">
-                  <input readonly id="quoteSource" type="text" class="form-control-plaintext" name="source" />
+                  <input
+                    readonly
+                    id="quoteSource"
+                    type="text"
+                    class="form-control-plaintext"
+                    name="source"
+                  />
                 </div>
               </div>
 
               <div class="form-group row mb-2">
                 <label class="col-sm-2" for="">Year</label>
                 <div class="col-sm-10">
-                  <input id="quoteSrcYear" type="text" class="form-control" name="srcYear" />
+                  <div id="quoteSrcYear" name="srcYear"></div>
+                </div>
+              </div>
+
+              <div class="form-group row mb-2">
+                <label class="col-sm-2" for="date">Date</label>
+                <div class="col-sm-10">
+                  <input
+                    type="datetime-local"
+                    id="quotePostDate"
+                    name="postDate"
+                    min="1990-01-01T00:00"
+                    max="2099-12-31T23:55"
+                  />
                 </div>
               </div>
 
               <div class="form-group row mb-2">
                 <label class="col-sm-2" for="">Tags</label>
                 <div class="col-sm-10">
-                  <input id="quoteTags" type="text" class="form-control" name="tags" />
+                  <input
+                    id="quoteTags"
+                    type="text"
+                    class="form-control"
+                    name="tags"
+                  />
                 </div>
               </div>
-              <button id="quoteUpdate" type="submit" class="btn btn-primary">Update</button>
+
+              <div class="form-group row mb-2">
+                <label class="col-sm-2" for="">Memo</label>
+                <div class="col-sm-10">
+                  <textarea
+                    type="text"
+                    class="form-control"
+                    name="memo"
+                  ></textarea>
+                </div>
+              </div>
+
+              <button id="quoteUpdate" type="submit" class="btn btn-primary">
+                Update
+              </button>
               <button id="quoteDelete" class="btn btn-danger">Delete</button>
             </form>
           </div>
@@ -79,6 +199,5 @@
     </div>
 
     <script src="../javascripts/quoteDetails.js"></script>
-
   </body>
 </html>

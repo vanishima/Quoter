@@ -63,11 +63,17 @@ async function redrawQuotes(q) {
 
   /* Block Quote*/
   const pText = createHTMLElement("p", "blockquote-text", q.text);
-  const footer = createHTMLElement("footer", "blockquote-footer", author.name);
+  const authorLink = createHTMLElement("a", "none-style", author.name);
+  authorLink.href = "./pages_details/authorDetails.html?author=" + author._id;
+  const footer = createHTMLElement("footer", "blockquote-footer", "");
+  footer.appendChild(authorLink);
   blockQuote.appendChild(pText);
 
   if (book.title.length > 0) {
-    const cite = createHTMLElement("cite", "", ", " + book.title);
+    const citeLink = createHTMLElement("a", "none-style", ", " + book.title);
+    citeLink.href = "./pages_details/bookDetails.html?book=" + book._id;
+    const cite = createHTMLElement("cite", "", "");
+    cite.appendChild(citeLink);
     cite.title = "Source Title";
     footer.appendChild(cite);
   }
@@ -79,7 +85,11 @@ async function redrawQuotes(q) {
     "greyText smallText left tags col-4",
     ""
   );
-  footerTags.innerHTML = q.tags;
+  if (typeof q.tags == "string"){
+    footerTags.innerHTML = q.tags;
+  } else if (q.tags != null){
+    footerTags.innerHTML = q.tags.join(" ");
+  }
 
   quoteFooter.appendChild(footerTags);
 
@@ -153,8 +163,9 @@ async function reloadQuotes(filter) {
     const res = await resRaw.json();
     const quotes = await res.quotes;
     const user = await res.user;
-    console.log("current time", res.currTime);
-    newQuotePostDate.value = await res.currTime;
+    const currTime = await res.currTime;
+    console.log("current time", currTime);
+    newQuotePostDate.value = currTime;
     
 
     if (user != null) {
@@ -178,6 +189,7 @@ async function reloadQuotes(filter) {
     // console.log("Got data", quotes);
 
     quotes.forEach(redrawQuotes);
+
   } catch (e) {
     quotesDiv.innerHTML = e.msg;
   }

@@ -72,7 +72,7 @@ function MyDB() {
               as: "book",
             },
           },
-          {$match: query},
+          { $match: query },
         ])
         .toArray();
 
@@ -101,11 +101,11 @@ function MyDB() {
 
       let object = await col.findOne(query);
 
-      if (object == null){
+      if (object == null) {
         await myDB.insertDoc(collection, query);
         object = await col.findOne(query);
       }
-      
+
       console.log("Got object", object);
 
       return object;
@@ -133,15 +133,46 @@ function MyDB() {
 
       const regex = RegExp(".*" + keyword + ".*");
       // find quotes that contain keyword case insensitive
+      // const quotes = await quotesCol
+      //   .find({
+      //     $or: [
+      //       { text: { $regex: regex, $options: "i" } },
+      //       { tags: { $regex: regex, $options: "i" } },
+      //       // { author: { $regex: regex, $options: "i" } },
+      //       // { source: { $regex: regex, $options: "i" } },
+      //     ],
+      //   })
+      //   .toArray();
+
       const quotes = await quotesCol
-        .find({
-          $or: [
-            { text: { $regex: regex, $options: "i" } },
-            { tags: { $regex: regex, $options: "i" } },
-            { author: { $regex: regex, $options: "i" } },
-            { source: { $regex: regex, $options: "i" } },
-          ],
-        })
+        .aggregate([
+          {
+            $lookup: {
+              from: "Authors",
+              localField: "authorID",
+              foreignField: "_id",
+              as: "author",
+            },
+          },
+          {
+            $lookup: {
+              from: "Books",
+              localField: "bookID",
+              foreignField: "_id",
+              as: "book",
+            },
+          },
+          {
+            $match: {
+              $or: [
+                { text: { $regex: regex, $options: "i" } },
+                { tags: { $regex: regex, $options: "i" } },
+                // { "author.name": { $regex: regex, $options: "i" } },
+                // { "book.title": { $regex: regex, $options: "i" } },
+              ],
+            },
+          },
+        ])
         .toArray();
 
       // console.log("Got quotes", quotes);
@@ -168,11 +199,33 @@ function MyDB() {
       const quotesCol = db.collection("quotes");
       console.log("Collection ready, querying with ", quoteID);
 
-      const quote = await quotesCol.findOne({ _id: ObjectId(quoteID) });
+      // const quote = await quotesCol.findOne({ _id: ObjectId(quoteID) });
+
+      const quote = await quotesCol
+        .aggregate([
+          {
+            $lookup: {
+              from: "Authors",
+              localField: "authorID",
+              foreignField: "_id",
+              as: "author",
+            },
+          },
+          {
+            $lookup: {
+              from: "Books",
+              localField: "bookID",
+              foreignField: "_id",
+              as: "book",
+            },
+          },
+          { $match: { _id: ObjectId(quoteID) } },
+        ])
+        .toArray();
 
       console.log("Got quote", quote);
 
-      return quote;
+      return quote[0];
     } finally {
       console.log("Closing the connection");
       client.close();
@@ -221,7 +274,6 @@ function MyDB() {
       console.log("Inserted", res);
 
       return res;
-
     } finally {
       console.log("Closing the connection");
       client.close();
@@ -244,10 +296,8 @@ function MyDB() {
         {
           $set: {
             text: quote.text,
-            author: quote.author,
-            source: quote.source,
-            srcYear: quote.srcYear,
             tags: quote.tags,
+            memo: quote.memo
           },
         },
         { upsert: true }
@@ -299,7 +349,9 @@ function MyDB() {
       const db = client.db(DB_NAME);
       const col = db.collection(collection);
       console.log(query);
-      console.log("Collection ready, querying with " + query + " in " + collection);
+      console.log(
+        "Collection ready, querying with " + query + " in " + collection
+      );
 
       const documents = await col.find(query).toArray();
 
@@ -332,7 +384,6 @@ function MyDB() {
       console.log("Got object", object);
 
       return object;
-
     } finally {
       console.log("Closing the connection");
       client.close();
@@ -366,7 +417,6 @@ function MyDB() {
       console.log("updated", res);
 
       return res;
-
     } finally {
       console.log("Closing the connection");
       client.close();

@@ -47,8 +47,12 @@ router.post("/create", async (req, res) => {
     quote.bookID = ObjectId(quote.bookID);
   }
 
-  quote.postDate = quote.postDate != null ? quote.postDate : getDateTime();
+  quote.postDate = quote.postDate != null ? new Date(quote.postDate + ":01.000Z") : getDateTime();
   quote.likes = 0;
+
+  const tagStr = quote.tags;
+  quote.tags = tagStr.split(" ");
+  // quote.tags = quote.tags.split(" ");
 
   console.log("create quote", quote);
 
@@ -64,13 +68,11 @@ router.post("/create", async (req, res) => {
   }
 });
 
-async function getIdByText(val, collection, field){
-  
-}
-
 /* POST UPDATE current quote */
 router.post("/update", async (req, res) => {
   const quote = req.body;
+  const tagStr = quote.tags;
+  quote.tags = tagStr.split(" ");
 
   console.log("enter /quotes/update quote", quote);
 
@@ -124,7 +126,7 @@ router.get("/search/:keyword", async function (req, res) {
   try {
     console.log("MyDB", myDB);
     const quotes = await myDB.searchQuotes({ keyword: keyword });
-    res.send({ quotes: quotes, keyword: keyword });
+    res.send({ quotes: quotes, keyword: keyword, currTime: getTimeStr()});
   } catch (e) {
     console.log("Error", e);
     res.status(400).send({ err: e });
@@ -155,6 +157,8 @@ router.get("/:quoteID", async (req, res) => {
   try {
     console.log("MyDB", myDB);
     const quote = await myDB.getQuoteByID(quoteID);
+    quote.author = quote.author[0];
+    quote.book = quote.book[0];
     res.send({ quote: quote, user: user });
   } catch (e) {
     console.log("Error", e);
@@ -167,8 +171,8 @@ router.get("/search", async function (req, res) {
   try {
     console.log("MyDB", myDB);
     const quotes = await myDB.searchQuotes(keyword);
-    // console.log(quotes);
-    res.send({ quotes: quotes, keyword: keyword });
+    console.log(quotes);
+    res.send({ quotes: quotes, keyword: keyword, currTime: getTimeStr() });
   } catch (e) {
     console.log("Error", e);
     res.status(400).send({ err: e });

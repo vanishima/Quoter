@@ -12,6 +12,7 @@ const quoteAuthor = document.querySelector("#quoteAuthor");
 const quoteSource = document.querySelector("#quoteSource");
 const quoteSrcYear = document.querySelector("#quoteSrcYear");
 const quoteTags = document.querySelector("#quoteTags");
+const quotePostDate = document.querySelector("#quotePostDate");
 
 async function drawQuote(quoteID) {
   try {
@@ -22,10 +23,12 @@ async function drawQuote(quoteID) {
 
     // quote.quoteID = quoteID;
     quoteText.innerText = quote.text;
-    quoteAuthor.setAttribute("value", quote.author);
-    quoteSource.setAttribute("value", quote.source);
-    quoteSrcYear.setAttribute("value", quote.srcYear);
-    quoteTags.setAttribute("value", quote.tags);
+    quoteAuthor.setAttribute("value", quote.author.name);
+    quoteSource.setAttribute("value", quote.book.title);
+    quoteSrcYear.innerHTML = quote.book.year;
+    quoteTags.setAttribute("value", quote.tags.join(" "));
+    quotePostDate.setAttribute("value", quote.postDate.substring(0, 16));
+    console.log(quote);
 
   } catch (e) {
     quoteText.innerHTML = e.msg;
@@ -56,7 +59,8 @@ quoteDetails.addEventListener("submit", async (evt) => {
   console.log("Got response", res);
 
   if (res.status == "OK"){
-    window.location.replace("../index.html");
+    window.location.reload();
+    // window.location.replace("../index.html");
   } else {
     // show error message
   }

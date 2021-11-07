@@ -16,6 +16,8 @@ const newQuotePostDate = document.querySelector("#newQuotePostDate");
 const params = new URL(document.location).searchParams;
 const bookID = params.get("book");
 
+let author, book, quotes;
+
 async function reloadBookDetail() {
   console.log("reloading book detail");
 
@@ -26,10 +28,10 @@ async function reloadBookDetail() {
 
     // get the actual authors
     const res = await bookRaw.json();
-    const book = await res.book;
-    const author = await res.author;
+    book = await res.book;
+    author = await res.author;
     const currTime = await res.currTime;
-    const quotes = await res.quotes;
+    quotes = await res.quotes;
 
     await quotes.forEach(redrawQuotes);
 
@@ -92,11 +94,11 @@ async function redrawQuotes(q) {
 
   /* Block Quote*/
   const pText = createHTMLElement("p", "blockquote-text", q.text);
-  const footer = createHTMLElement("footer", "blockquote-footer", q.author);
+  const footer = createHTMLElement("footer", "blockquote-footer", author.name);
   blockQuote.appendChild(pText);
 
-  if (q.source.length > 0) {
-    const cite = createHTMLElement("cite", "", ", " + q.source);
+  if (book != null) {
+    const cite = createHTMLElement("cite", "", ", " + book.title);
     cite.title = "Source Title";
     footer.appendChild(cite);
   }
