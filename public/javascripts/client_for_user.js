@@ -4,6 +4,10 @@ const newQuotePostDate = document.querySelector("#newQuotePostDate");
 
 /* Username */
 const username = document.querySelector("#username");
+// const userID = document.querySelector("#login_userID");
+// const userpsw = document.querySelector("#login_userpsw");
+
+sessionStorage.setItem("currentloggedin", username.innerHTML);
 
 const loginBtn = document.querySelector("#loginBtn");
 const logoutBtn = document.querySelector("#logoutBtn");

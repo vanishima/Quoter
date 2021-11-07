@@ -41,6 +41,9 @@
                 >Home</a
               >
             </li>
+             <li class="nav-item">
+              <a id="myQuotesLink" class="nav-link" href="#">My Quotes</a>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="books.html">Books</a>
             </li>
@@ -71,7 +74,7 @@
               </button>
             </li>
             <li class="me-2">
-              <a href="user.html" class="none-style" id="username">username</a>
+              <a href="user.html" class="none-style" id="display_username">username</a>
             </li>
             <li class="me-2">
               <!-- Button trigger modal -->
@@ -244,10 +247,10 @@
                     <label class="control-label">Username</label>
                     <div>
                       <input
+                        id="uname"
                         type="text"
                         class="form-control input-lg"
                         name="name"
-                        value=""
                       />
                     </div>
                   </div>
@@ -255,6 +258,7 @@
                     <label class="control-label">Password</label>
                     <div>
                       <input
+                        id="psw"
                         type="password"
                         class="form-control input-lg"
                         name="password"
@@ -272,7 +276,7 @@
                   </div>
                   <div class="form-group">
                     <div>
-                      <button type="submit" class="btn btn-success">
+                      <button id="loginBtn" type="submit" class="btn btn-success">
                         Login
                       </button>
 
@@ -373,6 +377,7 @@
 
       <footer>Made by Shushu Chen 🌲, Zhengyuan Chen</footer>
     </div>
+    <script src="./javascripts/login.js"></script>
     <script src="./javascripts/client.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

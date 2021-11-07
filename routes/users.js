@@ -1,5 +1,5 @@
-var express = require("express");
-var router = express.Router();
+let express = require("express");
+let router = express.Router();
 
 const myDB = require("../db/myMongoDBUser.js");
 const quotesDB = require("../db/myMongoDB.js");
@@ -8,6 +8,7 @@ const { ObjectId } = require("mongodb");
 let currentUser = null;
 let loginStatus = false;
 let uid = null;
+
 /* GET users listing. */
 router.get("/", function (req, res) {
   res.send({
@@ -20,13 +21,12 @@ router.get("/", function (req, res) {
 
 /* GET A USER'S QUOTE */
 router.get("/:userID", async (req, res) => {
-  console.log("enter router /quotes");
+  console.log("enter router /user/userID");
   const userID = req.params.userID;
   try {
     console.log("MyDB", myDB);
     const quotes = await quotesDB.getQuotes({ userID: userID });
     res.send(quotes);
-    // res.send({ quotes: quotes });
   } catch (e) {
     console.log("Error", e);
     res.status(400).send({ err: e });
@@ -46,14 +46,13 @@ router.post("/register", async function (req, res) {
     console.log("dbRes", dbRes);
     if (dbRes === null) {
       res.send("User already exist");
-    }
-    else {
+    } else {
       res.redirect("/");
     }
   } catch (e) {
     console.log("Error", e);
     res.status(400).send({ err: e });
-  } 
+  }
 });
 
 /* GET login user */
@@ -71,21 +70,30 @@ router.post("/login", async function (req, res) {
       res.send("Incorrect username/password");
       //res.redirect("/");
     } else {
+      // req.session.username = user.name;
+      // req.session.userID = dbRes._id;
+      
       uid = new ObjectId(dbRes._id);
       console.log("uid", uid);
       currentUser = user.name;
       loginStatus = true;
-      res.redirect("/");
+      // res.json({ status: "OK" });
+      // res.send();
+      // res.redirect("/index");
     }
     //res.send({user: user});
   } catch (e) {
     console.log("Error", e);
-    res.send();
-  } 
+    res.status(400).send({ err: e });
+  } finally {
+    res.redirect("/");
+  }
 });
 
 router.post("/logout", (req, res) => {
   console.log("enter post for logout");
+  req.session.destroy();
+
   // res.send({title: "User logout", userID: "", username: currentUser});
   currentUser = null;
   loginStatus = false;

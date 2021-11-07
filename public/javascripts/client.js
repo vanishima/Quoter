@@ -2,12 +2,6 @@
 const quotesDiv = document.querySelector("#quotes");
 const newQuotePostDate = document.querySelector("#newQuotePostDate");
 
-/* Username */
-const username = document.querySelector("#username");
-
-const loginBtn = document.querySelector("#loginBtn");
-const logoutBtn = document.querySelector("#logoutBtn");
-
 /* Search bar */
 const searchButton = document.getElementById("search-button");
 const searchInput = document.getElementById("search-input");
@@ -172,19 +166,6 @@ async function reloadQuotes(filter) {
     const currTime = await res.currTime;
     console.log("current time", currTime);
     newQuotePostDate.value = currTime;
-    
-
-    if (user.status) {
-      console.log("username: ", user.username);
-      username.style.display = "block";
-      username.innerHTML = user.username;
-      loginBtn.style.display = "none";
-      logoutBtn.style.display = "block";
-    }
-    else {
-      loginBtn.style.display = "block";
-      logoutBtn.style.display = "none";
-    }
 
     let searchStatus = quotes.length + " results";
     if (withSearch == true) {
