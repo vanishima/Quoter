@@ -1,5 +1,3 @@
-console.log("inside authors.js");
-
 /* Username */
 const username = document.querySelector("#username");
 

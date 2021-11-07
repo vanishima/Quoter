@@ -224,8 +224,10 @@ function MyDB() {
       const col = db.collection(collection);
       console.log(`Collection ready, querying ${id} in ${collection}`);
 
-      const object = await col.findOne({ _id: ObjectId(id) });
-      // console.log("Got object", object);
+      const id_final = typeof id == ObjectId ? id : ObjectId(id);
+
+      const object = await col.findOne({ _id: id_final });
+      console.log("Got object", object);
 
       return object;
 
