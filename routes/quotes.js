@@ -16,6 +16,7 @@ router.get("/", async (req, res) => {
     res.send({ quotes: quotes, currTime: getTimeStr() });
   } catch (e) {
     console.log("Error", e);
+    // COOL use of manually sending the http status!! - Michael Chang
     res.status(400).send({ err: e });
   }
 });
